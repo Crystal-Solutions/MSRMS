@@ -19,7 +19,7 @@ class Faculty
     protected $id;
 
     /**
-     * @ORM\Column(type="decimal", scale=2)
+     * @ORM\Column(type="string", length=100)
      */
     protected $name;
 
