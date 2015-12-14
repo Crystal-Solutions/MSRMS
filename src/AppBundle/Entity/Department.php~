@@ -1,0 +1,33 @@
+<?php 
+namespace AppBundle\Entity;
+
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="department")
+ */
+class Department
+{
+	
+	 /**
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+
+    /**
+     * @ORM\Column(type="string", length=45)
+     */
+    protected $name;
+
+     /**
+     * @ORM\Column(type="integer")
+     */
+    protected $faculty_id;
+
+}
+	
+?>
