@@ -5,12 +5,12 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Sport
+ * Resource
  *
- * @ORM\Table(name="sport")
+ * @ORM\Table(name="resource")
  * @ORM\Entity
  */
-class Sport
+class Resource
 {
     /**
      * @var string
@@ -25,6 +25,20 @@ class Sport
      * @ORM\Column(name="description", type="string", length=450, nullable=true)
      */
     private $description;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="instructor_name", type="string", length=128, nullable=true)
+     */
+    private $instructorName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="location", type="string", length=128, nullable=true)
+     */
+    private $location;
 
     /**
      * @var integer

@@ -5,17 +5,17 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Sport
+ * Equipment
  *
- * @ORM\Table(name="sport")
+ * @ORM\Table(name="equipment")
  * @ORM\Entity
  */
-class Sport
+class Equipment
 {
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=45, nullable=true)
+     * @ORM\Column(name="name", type="string", length=100, nullable=true)
      */
     private $name;
 
@@ -25,6 +25,13 @@ class Sport
      * @ORM\Column(name="description", type="string", length=450, nullable=true)
      */
     private $description;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="amount", type="integer", nullable=true)
+     */
+    private $amount;
 
     /**
      * @var integer
@@ -42,7 +49,7 @@ class Sport
      *
      * @param string $name
      *
-     * @return Sport
+     * @return Equipment
      */
     public function setName($name)
     {
@@ -66,7 +73,7 @@ class Sport
      *
      * @param string $description
      *
-     * @return Sport
+     * @return Equipment
      */
     public function setDescription($description)
     {
@@ -83,6 +90,30 @@ class Sport
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * Set amount
+     *
+     * @param integer $amount
+     *
+     * @return Equipment
+     */
+    public function setAmount($amount)
+    {
+        $this->amount = $amount;
+
+        return $this;
+    }
+
+    /**
+     * Get amount
+     *
+     * @return integer
+     */
+    public function getAmount()
+    {
+        return $this->amount;
     }
 
     /**

@@ -5,19 +5,26 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Faculty
+ * AuthorizingOfficer
  *
- * @ORM\Table(name="faculty")
+ * @ORM\Table(name="authorizing_officer")
  * @ORM\Entity
  */
-class Faculty
+class AuthorizingOfficer
 {
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=45, nullable=true)
+     * @ORM\Column(name="name", type="string", length=128, nullable=true)
      */
     private $name;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="contact_nu", type="string", length=45, nullable=true)
+     */
+    private $contactNu;
 
     /**
      * @var integer

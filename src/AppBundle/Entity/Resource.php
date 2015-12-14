@@ -5,12 +5,12 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Sport
+ * Resource
  *
- * @ORM\Table(name="sport")
+ * @ORM\Table(name="resource")
  * @ORM\Entity
  */
-class Sport
+class Resource
 {
     /**
      * @var string
@@ -25,6 +25,20 @@ class Sport
      * @ORM\Column(name="description", type="string", length=450, nullable=true)
      */
     private $description;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="instructor_name", type="string", length=128, nullable=true)
+     */
+    private $instructorName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="location", type="string", length=128, nullable=true)
+     */
+    private $location;
 
     /**
      * @var integer
@@ -42,7 +56,7 @@ class Sport
      *
      * @param string $name
      *
-     * @return Sport
+     * @return Resource
      */
     public function setName($name)
     {
@@ -66,7 +80,7 @@ class Sport
      *
      * @param string $description
      *
-     * @return Sport
+     * @return Resource
      */
     public function setDescription($description)
     {
@@ -83,6 +97,54 @@ class Sport
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * Set instructorName
+     *
+     * @param string $instructorName
+     *
+     * @return Resource
+     */
+    public function setInstructorName($instructorName)
+    {
+        $this->instructorName = $instructorName;
+
+        return $this;
+    }
+
+    /**
+     * Get instructorName
+     *
+     * @return string
+     */
+    public function getInstructorName()
+    {
+        return $this->instructorName;
+    }
+
+    /**
+     * Set location
+     *
+     * @param string $location
+     *
+     * @return Resource
+     */
+    public function setLocation($location)
+    {
+        $this->location = $location;
+
+        return $this;
+    }
+
+    /**
+     * Get location
+     *
+     * @return string
+     */
+    public function getLocation()
+    {
+        return $this->location;
     }
 
     /**

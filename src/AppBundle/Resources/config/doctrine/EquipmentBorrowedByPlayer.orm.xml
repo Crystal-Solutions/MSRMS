@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="AppBundle\Entity\EquipmentBorrowedByPlayer" table="equipment_borrowed_by_player">
+    <indexes>
+      <index name="fk_equipment_has_player_player2_idx" columns="player_id"/>
+      <index name="fk_equipment_has_player_equipment2_idx" columns="equipment_id"/>
+    </indexes>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="amount" type="integer" column="amount" nullable="true">
+      <options>
+        <option name="unsigned"/>
+      </options>
+    </field>
+    <field name="borrowedTime" type="datetime" column="borrowed_time" nullable="true"/>
+    <field name="dueTime" type="datetime" column="due_time" nullable="true"/>
+    <field name="returnedTime" type="datetime" column="returned_time" nullable="true"/>
+    <field name="issueDetails" type="string" column="issue_details" length="850" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <many-to-one field="player" target-entity="Player" fetch="LAZY">
+      <join-columns>
+        <join-column name="player_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="equipment" target-entity="Equipment" fetch="LAZY">
+      <join-columns>
+        <join-column name="equipment_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

@@ -1,38 +1,34 @@
-<?php 
-namespace AppBundle\Entity;
+<?php
 
+namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * Faculty
+ *
  * @ORM\Table(name="faculty")
+ * @ORM\Entity
  */
 class Faculty
 {
-	
-	 /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
-
     /**
-     * @ORM\Column(type="string", length=100)
-     */
-    protected $name;
-
-
-    /**
-     * Get id
+     * @var string
      *
-     * @return integer
+     * @ORM\Column(name="name", type="string", length=45, nullable=true)
      */
-    public function getId()
-    {
-        return $this->id;
-    }
+    private $name;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+
 
     /**
      * Set name
@@ -56,5 +52,15 @@ class Faculty
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
     }
 }

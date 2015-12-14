@@ -5,26 +5,26 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Sport
+ * AuthorizingOfficer
  *
- * @ORM\Table(name="sport")
+ * @ORM\Table(name="authorizing_officer")
  * @ORM\Entity
  */
-class Sport
+class AuthorizingOfficer
 {
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=45, nullable=true)
+     * @ORM\Column(name="name", type="string", length=128, nullable=true)
      */
     private $name;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="string", length=450, nullable=true)
+     * @ORM\Column(name="contact_nu", type="string", length=45, nullable=true)
      */
-    private $description;
+    private $contactNu;
 
     /**
      * @var integer
@@ -42,7 +42,7 @@ class Sport
      *
      * @param string $name
      *
-     * @return Sport
+     * @return AuthorizingOfficer
      */
     public function setName($name)
     {
@@ -62,27 +62,27 @@ class Sport
     }
 
     /**
-     * Set description
+     * Set contactNu
      *
-     * @param string $description
+     * @param string $contactNu
      *
-     * @return Sport
+     * @return AuthorizingOfficer
      */
-    public function setDescription($description)
+    public function setContactNu($contactNu)
     {
-        $this->description = $description;
+        $this->contactNu = $contactNu;
 
         return $this;
     }
 
     /**
-     * Get description
+     * Get contactNu
      *
      * @return string
      */
-    public function getDescription()
+    public function getContactNu()
     {
-        return $this->description;
+        return $this->contactNu;
     }
 
     /**

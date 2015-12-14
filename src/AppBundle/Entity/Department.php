@@ -1,43 +1,44 @@
-<?php 
-namespace AppBundle\Entity;
+<?php
 
+namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * Department
+ *
+ * @ORM\Table(name="department", indexes={@ORM\Index(name="fk_department_faculty1_idx", columns={"faculty_id"})})
  * @ORM\Entity
- * @ORM\Table(name="department")
  */
 class Department
 {
-	
-	 /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
-
     /**
-     * @ORM\Column(type="string", length=45)
-     */
-    protected $name;
-
-     /**
-     * @ORM\Column(type="integer")
-     */
-    protected $faculty_id;
-
-
-    /**
-     * Get id
+     * @var string
      *
-     * @return integer
+     * @ORM\Column(name="name", type="string", length=45, nullable=true)
      */
-    public function getId()
-    {
-        return $this->id;
-    }
+    private $name;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var \AppBundle\Entity\Faculty
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Faculty")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="faculty_id", referencedColumnName="id")
+     * })
+     */
+    private $faculty;
+
+
 
     /**
      * Set name
@@ -64,26 +65,36 @@ class Department
     }
 
     /**
-     * Set facultyId
+     * Get id
      *
-     * @param integer $facultyId
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set faculty
+     *
+     * @param \AppBundle\Entity\Faculty $faculty
      *
      * @return Department
      */
-    public function setFacultyId($facultyId)
+    public function setFaculty(\AppBundle\Entity\Faculty $faculty = null)
     {
-        $this->faculty_id = $facultyId;
+        $this->faculty = $faculty;
 
         return $this;
     }
 
     /**
-     * Get facultyId
+     * Get faculty
      *
-     * @return integer
+     * @return \AppBundle\Entity\Faculty
      */
-    public function getFacultyId()
+    public function getFaculty()
     {
-        return $this->faculty_id;
+        return $this->faculty;
     }
 }

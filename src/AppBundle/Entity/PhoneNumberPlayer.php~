@@ -1,29 +1,36 @@
-<?php 
-namespace AppBundle\Entity;
+<?php
 
+namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * PhoneNumberPlayer
+ *
+ * @ORM\Table(name="phone_number_player", indexes={@ORM\Index(name="fk_phone_number_player_player1_idx", columns={"player_id"})})
  * @ORM\Entity
- * @ORM\Table(name="phone_number_player")
  */
 class PhoneNumberPlayer
 {
-	
-	 /**
-     * @ORM\Column(type="integer")
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="number", type="integer")
      * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    protected $number;
-
+    private $number;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Player", inversedBy="phoneNumbers")
-     * @ORM\JoinColumn(name="player_id", referencedColumnName="id")
+     * @var \AppBundle\Entity\Player
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Player")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="player_id", referencedColumnName="id")
+     * })
      */
-    protected $player;
+    private $player;
+
 
 }
-	
-?>
+

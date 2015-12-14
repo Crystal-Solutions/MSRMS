@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="AppBundle\Entity\PhoneNumberPlayer" table="phone_number_player">
+    <indexes>
+      <index name="fk_phone_number_player_player1_idx" columns="player_id"/>
+    </indexes>
+    <id name="number" type="integer" column="number">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <many-to-one field="player" target-entity="Player" fetch="LAZY">
+      <join-columns>
+        <join-column name="player_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

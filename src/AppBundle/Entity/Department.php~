@@ -1,33 +1,43 @@
-<?php 
-namespace AppBundle\Entity;
+<?php
 
+namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * Department
+ *
+ * @ORM\Table(name="department", indexes={@ORM\Index(name="fk_department_faculty1_idx", columns={"faculty_id"})})
  * @ORM\Entity
- * @ORM\Table(name="department")
  */
 class Department
 {
-	
-	 /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=45, nullable=true)
      */
-    protected $id;
+    private $name;
 
     /**
-     * @ORM\Column(type="string", length=45)
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    protected $name;
+    private $id;
 
-     /**
-     * @ORM\Column(type="integer")
+    /**
+     * @var \AppBundle\Entity\Faculty
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Faculty")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="faculty_id", referencedColumnName="id")
+     * })
      */
-    protected $faculty_id;
+    private $faculty;
+
 
 }
-	
-?>
+

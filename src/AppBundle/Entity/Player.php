@@ -1,84 +1,79 @@
 <?php
-namespace AppBundle\Entity;
 
+namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * Player
+ *
+ * @ORM\Table(name="player", indexes={@ORM\Index(name="fk_player_department1_idx", columns={"department_id"})})
  * @ORM\Entity
- * @ORM\Table(name="player")
  */
 class Player
 {
-	 /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-	protected $id;
-
-	/**
-     * @ORM\Column(type="string", length=140)
-     */
-    protected $name;
-
     /**
-     * @ORM\ManyToOne(targetEntity="Department", inversedBy="players")
-     * @ORM\JoinColumn(name="department_id", referencedColumnName="id")
-     */
-    protected $department;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Faculty", inversedBy="players")
-     * @ORM\JoinColumn(name="faculty_id", referencedColumnName="id")
-     */
-    protected $faculty;
-
-   	/**
-     * @ORM\Column(type="integer")
-     */
-    protected $year;
-
-       	/**
-     * @ORM\Column(type="date")
-     */
-    protected $dateOfBirth;
-
-    /**
-     * @ORM\Column(type="string", length=450)
-     */
-    protected $address;
-
-     /**
-     * @ORM\Column(type="string", length=2)
-     */
-    protected $bloodType;
-
-    /**
-     * @ORM\OneToMany(targetEntity="PhoneNumberPlayer", mappedBy="player")
-     */
-    protected $PhoneNumbers;
-
-    
-
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->PhoneNumbers = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * Get id
+     * @var string
      *
-     * @return integer
+     * @ORM\Column(name="name", type="string", length=140, nullable=true)
      */
-    public function getId()
-    {
-        return $this->id;
-    }
+    private $name;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="year", type="integer", nullable=true)
+     */
+    private $year;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date_of_birth", type="date", nullable=true)
+     */
+    private $dateOfBirth;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="address", type="string", length=256, nullable=true)
+     */
+    private $address;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="blood_type", type="string", length=3, nullable=true)
+     */
+    private $bloodType;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="playercol", type="string", length=45, nullable=true)
+     */
+    private $playercol;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var \AppBundle\Entity\Department
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Department")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="department_id", referencedColumnName="id")
+     * })
+     */
+    private $department;
+
+
 
     /**
      * Set name
@@ -201,6 +196,40 @@ class Player
     }
 
     /**
+     * Set playercol
+     *
+     * @param string $playercol
+     *
+     * @return Player
+     */
+    public function setPlayercol($playercol)
+    {
+        $this->playercol = $playercol;
+
+        return $this;
+    }
+
+    /**
+     * Get playercol
+     *
+     * @return string
+     */
+    public function getPlayercol()
+    {
+        return $this->playercol;
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
      * Set department
      *
      * @param \AppBundle\Entity\Department $department
@@ -222,63 +251,5 @@ class Player
     public function getDepartment()
     {
         return $this->department;
-    }
-
-    /**
-     * Set faculty
-     *
-     * @param \AppBundle\Entity\Faculty $faculty
-     *
-     * @return Player
-     */
-    public function setFaculty(\AppBundle\Entity\Faculty $faculty = null)
-    {
-        $this->faculty = $faculty;
-
-        return $this;
-    }
-
-    /**
-     * Get faculty
-     *
-     * @return \AppBundle\Entity\Faculty
-     */
-    public function getFaculty()
-    {
-        return $this->faculty;
-    }
-
-    /**
-     * Add phoneNumber
-     *
-     * @param \AppBundle\Entity\PhoneNumberPlayer $phoneNumber
-     *
-     * @return Player
-     */
-    public function addPhoneNumber(\AppBundle\Entity\PhoneNumberPlayer $phoneNumber)
-    {
-        $this->PhoneNumbers[] = $phoneNumber;
-
-        return $this;
-    }
-
-    /**
-     * Remove phoneNumber
-     *
-     * @param \AppBundle\Entity\PhoneNumberPlayer $phoneNumber
-     */
-    public function removePhoneNumber(\AppBundle\Entity\PhoneNumberPlayer $phoneNumber)
-    {
-        $this->PhoneNumbers->removeElement($phoneNumber);
-    }
-
-    /**
-     * Get phoneNumbers
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getPhoneNumbers()
-    {
-        return $this->PhoneNumbers;
     }
 }

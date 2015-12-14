@@ -1,67 +1,78 @@
 <?php
-namespace AppBundle\Entity;
 
+namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * Player
+ *
+ * @ORM\Table(name="player", indexes={@ORM\Index(name="fk_player_department1_idx", columns={"department_id"})})
  * @ORM\Entity
- * @ORM\Table(name="player")
  */
 class Player
 {
-	 /**
-     * @ORM\Column(type="integer")
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=140, nullable=true)
+     */
+    private $name;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="year", type="integer", nullable=true)
+     */
+    private $year;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date_of_birth", type="date", nullable=true)
+     */
+    private $dateOfBirth;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="address", type="string", length=256, nullable=true)
+     */
+    private $address;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="blood_type", type="string", length=3, nullable=true)
+     */
+    private $bloodType;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="playercol", type="string", length=45, nullable=true)
+     */
+    private $playercol;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-	protected $id;
-
-	/**
-     * @ORM\Column(type="string", length=140)
-     */
-    protected $name;
+    private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Department", inversedBy="players")
-     * @ORM\JoinColumn(name="department_id", referencedColumnName="id")
+     * @var \AppBundle\Entity\Department
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Department")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="department_id", referencedColumnName="id")
+     * })
      */
-    protected $department;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Faculty", inversedBy="players")
-     * @ORM\JoinColumn(name="faculty_id", referencedColumnName="id")
-     */
-    protected $faculty;
-
-   	/**
-     * @ORM\Column(type="integer")
-     */
-    protected $year;
-
-       	/**
-     * @ORM\Column(type="date")
-     */
-    protected $dateOfBirth;
-
-    /**
-     * @ORM\Column(type="string", length=450)
-     */
-    protected $address;
-
-     /**
-     * @ORM\Column(type="string", length=2)
-     */
-    protected $bloodType;
-
-    /**
-     * @ORM\OneToMany(targetEntity="PhoneNumberPlayer", mappedBy="player")
-     */
-    protected $PhoneNumbers;
-
-    
+    private $department;
 
 
 }
 
-?>
