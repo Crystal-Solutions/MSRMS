@@ -1,0 +1,12 @@
+<?php
+namespace AppBundle\Entity;
+
+class Player
+{
+	
+    protected $name;
+    protected $price;
+    protected $description;
+}
+
+?>
