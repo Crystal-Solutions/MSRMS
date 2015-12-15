@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Controller\Connection;
+use AppBundle\Entity\AuthorizingOfficer;
 
 /**
  * AuthorizingOfficer
@@ -38,17 +39,30 @@ class AuthorizingOfficer
 
     public function save()
     {
-        if ($id == null) {
-            # code...
+        if ($this->id == null) {
+            $con = Connection::getConnectionObject()->getConnection();
+            $stmt = $con->prepare('INSERT INTO authorizing_officer (name,contact_nu) VALUES (?,?)');  
+            $stmt->bind_param("ss",$this->name,$this->contactNu);  
+            $stmt->execute();  
+            $stmt->close();
+        }else{
+            $con = Connection::getConnectionObject()->getConnection();
+            $stmt = $con->prepare('UPDATE authorizing_officer SET (name,contact_nu) VALUES (?,?)');  
+            $stmt->bind_param("ss",$this->name,$this->contactNu);  
+            $stmt->execute();  
+            $stmt->close();
         }
-        $con = Connection::getConnectionObject()->getConnection();
-        $stmt = $con->prepare('INSERT INTO authorizing_officer (name,contact_nu) VALUES (?,?)');  
-        $stmt->bind_param("ss",$this->name,$this->contactNu);  
-        $stmt->execute();  
-        $stmt->close();
     }
 
+    public static function getOne($id){
+        $au = new AuthorizingOfficer();
+        $au->id = $this->id;
+        $au->name = $this->name;
+        $au->contactNu = $this->contactNu;
+        return $au;
+    }
 
+    
 
     /**
      * Set name
