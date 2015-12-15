@@ -5,17 +5,17 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Entity\Player;
+use AppBundle\Entity\Department;
 
 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-class PlayerController extends Controller
+class DepartmentController extends Controller
 {
     /**
-     * @Route("/players/", name="players_home")
+     * @Route("/department/", name="department_home")
      */
     public function indexAction(Request $request)
     {
@@ -27,21 +27,20 @@ class PlayerController extends Controller
 
 
     /**
-     * @Route("/players/create", name="players_home")
+     * @Route("/department/create", name="department_home")
      */
     public function createAction(Request $request)
     {
 
-        $player = new Player(); 
+        $department = new Department(); 
 
 
 
 
-        $form = $this->createFormBuilder($player)
+        $form = $this->createFormBuilder($department)
             ->add('name', TextType::class)
-            ->add('dateOfBirth', DateType::class)
-            ->add('year',TextType::class)
-            ->add('save', SubmitType::class, array('label' => 'Create Task'))
+            ->add('faculty_id', TextType::class)
+            ->add('save', SubmitType::class, array('label' => 'Create Department'))
             ->getForm();
 
         $form->handleRequest($request);
@@ -51,7 +50,7 @@ class PlayerController extends Controller
 
             $em = $this->getDoctrine()->getManager();
 
-            $em->persist($player);
+            $em->persist($department);
             $em->flush();
 
             return $this->redirectToRoute('task_success');
@@ -59,7 +58,7 @@ class PlayerController extends Controller
 
 
         // replace this example code with whatever you need
-        return $this->render('player/create.html.twig', array('form' => $form->createView()));
+        return $this->render('department/create.html.twig', array('form' => $form->createView()));
     }
  
 }

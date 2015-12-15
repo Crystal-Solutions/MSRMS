@@ -3,6 +3,8 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\EntityManager;
+
 
 /**
  * Faculty
@@ -27,6 +29,20 @@ class Faculty
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
+
+    public function save()
+    {
+        $stmt = $this->getEntityManager()  
+               ->getConnection()  
+               ->prepare('INSERT INTO Faculty (name) VALUES (?)');  
+        $stmt->bindValue('1', $name);  
+        $stmt->execute();  
+        return $stmt->fetchAll();  
+
+        //>prepare('INSERT INTO Faculty (name) VALUES (?)');
+        //>prepare('SELECT COUNT(id) AS num, foo FROM bar WHERE foobar = :foobar GROUP BY foo');
+
+    }
 
 
 

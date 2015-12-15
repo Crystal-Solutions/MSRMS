@@ -5,17 +5,17 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Entity\Player;
+use AppBundle\Entity\Faculty;
 
 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-class PlayerController extends Controller
+class FacultyController extends Controller
 {
     /**
-     * @Route("/players/", name="players_home")
+     * @Route("/faculty/", name="faculty_home")
      */
     public function indexAction(Request $request)
     {
@@ -27,21 +27,19 @@ class PlayerController extends Controller
 
 
     /**
-     * @Route("/players/create", name="players_home")
+     * @Route("/faculty/create", name="faculty_home")
      */
     public function createAction(Request $request)
     {
 
-        $player = new Player(); 
+        $faculty = new Faculty(); 
 
 
 
 
-        $form = $this->createFormBuilder($player)
+        $form = $this->createFormBuilder($faculty)
             ->add('name', TextType::class)
-            ->add('dateOfBirth', DateType::class)
-            ->add('year',TextType::class)
-            ->add('save', SubmitType::class, array('label' => 'Create Task'))
+            ->add('save', SubmitType::class, array('label' => 'Create Faculty'))
             ->getForm();
 
         $form->handleRequest($request);
@@ -49,17 +47,18 @@ class PlayerController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             // ... perform some action, such as saving the task to the database
 
-            $em = $this->getDoctrine()->getManager();
+            $faculty->save();
+            /*$em = $this->getDoctrine()->getManager();
 
-            $em->persist($player);
-            $em->flush();
+            $em->persist($faculty);
+            $em->flush();*/
 
             return $this->redirectToRoute('task_success');
         }
 
 
         // replace this example code with whatever you need
-        return $this->render('player/create.html.twig', array('form' => $form->createView()));
+        return $this->render('faculty/create.html.twig', array('form' => $form->createView()));
     }
  
 }
