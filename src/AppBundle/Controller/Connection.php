@@ -23,7 +23,7 @@ final class Connection
     {
         $servername = "localhost";
         $username = "root";
-        $password = null;
+        $password = 711246252;
         $dbname = "msrms";
 
         // Create connection
