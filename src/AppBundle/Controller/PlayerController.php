@@ -57,5 +57,17 @@ class PlayerController extends Controller
         // replace this example code with whatever you need
         return $this->render('player/create.html.twig', array('form' => $form->createView()));
     }
+
+    /**
+     * @Route("/players/view/{id}", name="player_view")
+     */
+    public function viewAction($id, Request $request)
+    {
+        $player =  Player::getOne($id);
+        return $this->render('player/view.html.twig', array('player' =>$player));
+    }
+
+
+
  
 }

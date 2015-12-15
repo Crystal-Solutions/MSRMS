@@ -55,15 +55,29 @@ class Player
 
     public static function getOne($id)
     {
+
+        $con = Connection::getConnectionObject()->getConnection();
         $player = new Player();
-        $player->setName($name=$con->prepare('SELECT name FROM player WHERE player.id=id'));
-        $player->setYear($year=$con->prepare('SELECT year FROM player WHERE player.id=id'));
-        $player->setDateOfBirth($date_of_birth=$con->prepare('SELECT datae_of_birth FROM player WHERE player.id=id'));
-        $player->setAddress($address=$con->prepare('SELECT address FROM player WHERE player.id=id'));
-        $player->setYear($year=$con->prepare('SELECT year FROM player WHERE player.id=id'));
-        $player->setBloodType($blood_type=$con->prepare('SELECT blood_type FROM player WHERE player.id=id'));
-        $player->departmentId=$departmentId;
-    }
+        if (mysqli_connect_errno())
+            {
+              echo "Failed to connect to MySQL: " . mysqli_connect_error();
+            }
+
+            $sql="SELECT * FROM PLAYER WHERE player.id=id";
+
+            if ($result=mysqli_query($con,$sql))
+            {
+              while ($obj=mysqli_fetch_object($result))
+                {
+                //printf("%s (%s)\n"$obj->name,$obj->dateOfBirth,$obj->year,$obj->bloodType,$obj->departmentId,$obj->address);
+               $obj->name,$obj->dat_of_birth,$obj->year,$obj->blood_type,$obj->department_id,$obj->address;
+                }
+              // Free result set
+              mysqli_free_result($result);
+            }
+
+            mysqli_close($con);
+                }
 
 
 
