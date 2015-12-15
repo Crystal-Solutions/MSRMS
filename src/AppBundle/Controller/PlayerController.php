@@ -49,10 +49,7 @@ class PlayerController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             // ... perform some action, such as saving the task to the database
 
-            $em = $this->getDoctrine()->getManager();
-
-            $em->persist($player);
-            $em->flush();
+            $player->save();
 
             return $this->redirectToRoute('task_success');
         }

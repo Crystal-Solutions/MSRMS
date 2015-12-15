@@ -3,74 +3,31 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use AppBundle\Controller\Connection;
 
-/**
- * Player
- *
- * @ORM\Table(name="player", indexes={@ORM\Index(name="fk_player_department1_idx", columns={"department_id"})})
- * @ORM\Entity
- */
+
 class Player
 {
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=140, nullable=true)
-     */
+
     private $name;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="year", type="integer", nullable=true)
-     */
+
     private $year;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="date_of_birth", type="date", nullable=true)
-     */
+
     private $dateOfBirth;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="address", type="string", length=256, nullable=true)
-     */
+
     private $address;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="blood_type", type="string", length=3, nullable=true)
-     */
+
     private $bloodType;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="playercol", type="string", length=45, nullable=true)
-     */
-    private $playercol;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+
     private $id;
 
-    /**
-     * @var \AppBundle\Entity\Department
-     *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Department")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="department_id", referencedColumnName="id")
-     * })
-     */
+  
     private $department;
 
     //Manually added
@@ -78,21 +35,35 @@ class Player
 
     public function save()
     {
-
-        $stmt = $this->getEntityManager()  
-        ->getConnection()  
-        ->prepare('INSERT INTO `player` (`name`, `date_of_birth`, `year`, `department_id`, `address`, `blood_type`) VALUES (?,?,?,?,?,?)');  
-        $stmt->bindValue(1,$name);
-        $stmt->bindValue(2,$dateOfBirth);
-        $stmt->bindValue(3,$year);
-        $stmt->bindValue(4,$departmentId);
-        $stmt->bindValue(5,$address);
-        $stmt->bindValue(6,$bloodType);
+        if($this->id ==null)
+        {
+        $con = Connection::getConnectionObject()->getConnection();
+        $stmt = $con->prepare('INSERT INTO `player` (`name`, `date_of_birth`, `year`, `department_id`, `address`, `blood_type`) VALUES (?,?,?,?,?,?)');  
+        $stmt->bind_param("ssiiss",$this->name,$this->date_of_birth,$this->year,$this->departmentId,$this->address,$this->blood_type);  
         $stmt->execute();  
-          return $stmt->fetchAll();  
+        $stmt->close();
+        }
+        else
+        {
+        $con = Connection::getConnectionObject()->getConnection();
+        $stmt = $con->prepare('UPDATE player SET name =?,date_of_birth=?,year=?,department_id=?,address=?,blood_type=? WHERE player.id = id');  
+        $stmt->bind_param("ssiiss",$this->name,$this->date_of_birth,$this->year,$this->departmentId,$this->address,$this->blood_type);  
+        $stmt->execute();  
+        $stmt->close();   
+        }
     }
 
-
+    public static function getOne($id)
+    {
+        $player = new Player();
+        $player->setName($name=$con->prepare('SELECT name FROM player WHERE player.id=id'));
+        $player->setYear($year=$con->prepare('SELECT year FROM player WHERE player.id=id'));
+        $player->setDateOfBirth($date_of_birth=$con->prepare('SELECT datae_of_birth FROM player WHERE player.id=id'));
+        $player->setAddress($address=$con->prepare('SELECT address FROM player WHERE player.id=id'));
+        $player->setYear($year=$con->prepare('SELECT year FROM player WHERE player.id=id'));
+        $player->setBloodType($blood_type=$con->prepare('SELECT blood_type FROM player WHERE player.id=id'));
+        $player->departmentId=$departmentId;
+    }
 
 
 
@@ -216,29 +187,6 @@ class Player
         return $this->bloodType;
     }
 
-    /**
-     * Set playercol
-     *
-     * @param string $playercol
-     *
-     * @return Player
-     */
-    public function setPlayercol($playercol)
-    {
-        $this->playercol = $playercol;
-
-        return $this;
-    }
-
-    /**
-     * Get playercol
-     *
-     * @return string
-     */
-    public function getPlayercol()
-    {
-        return $this->playercol;
-    }
 
     /**
      * Get id
