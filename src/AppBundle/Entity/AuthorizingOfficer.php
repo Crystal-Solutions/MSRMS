@@ -35,6 +35,17 @@ class AuthorizingOfficer
      */
     private $id;
 
+    public function save()
+    {
+        $stmt = $this->getEntityManager()  
+                   ->getConnection()  
+                   ->prepare('INSERT INTO authorizing_officer ('name','contact_nu') VALUES (?,?) ');  
+        $stmt->bindValue(1, $name);  
+        $stmt->bindValue(2, $contactNu);  
+        $stmt->execute();  
+        return $stmt->fetchAll();  
+    }
+
 
 
     /**
