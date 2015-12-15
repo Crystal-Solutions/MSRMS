@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use AppBundle\Controller\Connection;
 
 /**
  * Department
@@ -38,7 +39,53 @@ class Department
      */
     private $faculty;
 
+    public $faculty_id;
 
+    public function save()
+    {
+        if ($this->id == null)
+        {
+            $con = Connection::getConnectionObject()->getConnection();
+            $stmt = $con->prepare('INSERT INTO Department (name,faculty_id) VALUES (?,?)');  
+            $stmt->bind_param("si",$this->name,$this->faculty_id);  
+            $stmt->execute();  
+            $stmt->close();
+        }
+        
+        else
+        {
+            $con = Connection::getConnectionObject()->getConnection();
+            $stmt = $con->prepare('UPDATE Department SET name = ? , faculty_id = ? WHERE name = ?');  
+            $stmt->bind_param("sii",$this->name,$this->faculty_id,$this->name);  
+            $stmt->execute();  
+            $stmt->close();
+        }
+    }
+
+    public static getDepartment($id)
+    {
+        $con = Connection::getConnectionObject()->getConnection();
+        // Check connection
+        if (mysqli_connect_errno())
+          {
+          echo "Failed to connect to MySQL: " . mysqli_connect_error();
+          }
+
+        $sql="SELECT Lastname,Age FROM Persons ORDER BY Lastname";
+
+        if ($result=mysqli_query($con,$sql))
+          {
+          while ($obj=mysqli_fetch_object($result))
+            {
+            printf("%s (%s)\n",$obj->Lastname,$obj->Age);
+            }
+          // Free result set
+          mysqli_free_result($result);
+        }
+
+        mysqli_close($con);
+
+    }
 
     /**
      * Set name
