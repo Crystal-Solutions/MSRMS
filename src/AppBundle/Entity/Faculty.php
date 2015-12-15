@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\EntityManager;
+use AppBundle\Controller\Connection;
 
 
 /**
@@ -32,13 +33,11 @@ class Faculty
 
     public function save()
     {
-        $stmt = $this->getEntityManager()  
-               ->getConnection()  
-               ->prepare('INSERT INTO Faculty (name) VALUES (?)');  
-        $stmt->bindValue('1', $name);  
+        $con = Connection::getConnectionObject()->getConnection();
+        $stmt = $con->prepare('INSERT INTO Faculty (name) VALUES (?)');  
+        $stmt->bind_param("s",$this->name);  
         $stmt->execute();  
-        return $stmt->fetchAll();  
-
+        $stmt->close();
         //>prepare('INSERT INTO Faculty (name) VALUES (?)');
         //>prepare('SELECT COUNT(id) AS num, foo FROM bar WHERE foobar = :foobar GROUP BY foo');
 

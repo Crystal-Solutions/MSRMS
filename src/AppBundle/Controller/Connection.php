@@ -6,7 +6,7 @@ use mysqli;
  * Singleton class
  *
  */
-final class connection
+final class Connection
 {
     private $con;
     public static function getConnectionObject()
@@ -24,7 +24,7 @@ final class connection
         $servername = "localhost";
         $username = "root";
         $password = null;
-        $dbname = "moraspirit";
+        $dbname = "msrms";
 
         // Create connection
         $conn = new mysqli($servername, $username, $password, $dbname);
