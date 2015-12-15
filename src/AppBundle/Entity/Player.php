@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use AppBundle\Controller\Connection;
 
 /**
  * Player
@@ -47,12 +48,6 @@ class Player
      */
     private $bloodType;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="playercol", type="string", length=45, nullable=true)
-     */
-    private $playercol;
 
     /**
      * @var integer
@@ -79,17 +74,11 @@ class Player
     public function save()
     {
 
-        $stmt = $this->getEntityManager()  
-        ->getConnection()  
-        ->prepare('INSERT INTO `player` (`name`, `date_of_birth`, `year`, `department_id`, `address`, `blood_type`) VALUES (?,?,?,?,?,?)');  
-        $stmt->bindValue(1,$name);
-        $stmt->bindValue(2,$dateOfBirth);
-        $stmt->bindValue(3,$year);
-        $stmt->bindValue(4,$departmentId);
-        $stmt->bindValue(5,$address);
-        $stmt->bindValue(6,$bloodType);
+            $con = Connection::getConnectionObject()->getConnection();
+        $stmt = $con->prepare('INSERT INTO `player` (`name`, `date_of_birth`, `year`, `department_id`, `address`, `blood_type`) VALUES (?,?,?,?,?,?)');  
+        $stmt->bind_param("ssiiss",$this->name,$this->date_of_birth,$this->year,$this->department_id,$this->address,$this->blood_type);  
         $stmt->execute();  
-          return $stmt->fetchAll();  
+        $stmt->close();
     }
 
 
@@ -216,29 +205,6 @@ class Player
         return $this->bloodType;
     }
 
-    /**
-     * Set playercol
-     *
-     * @param string $playercol
-     *
-     * @return Player
-     */
-    public function setPlayercol($playercol)
-    {
-        $this->playercol = $playercol;
-
-        return $this;
-    }
-
-    /**
-     * Get playercol
-     *
-     * @return string
-     */
-    public function getPlayercol()
-    {
-        return $this->playercol;
-    }
 
     /**
      * Get id
