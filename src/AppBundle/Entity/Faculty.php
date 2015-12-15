@@ -38,9 +38,7 @@ class Faculty
         $stmt->bind_param("s",$this->name);  
         $stmt->execute();  
         $stmt->close();
-        //>prepare('INSERT INTO Faculty (name) VALUES (?)');
-        //>prepare('SELECT COUNT(id) AS num, foo FROM bar WHERE foobar = :foobar GROUP BY foo');
-
+        
     }
 
 

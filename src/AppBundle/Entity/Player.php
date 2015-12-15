@@ -55,14 +55,32 @@ class Player
 
     public static function getOne($id)
     {
+        $con = Connection::getConnectionObject()->getConnection();
+        // Check connection
+        if (mysqli_connect_errno())
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
+
         $player = new Player();
-        $player->setName($name=$con->prepare('SELECT name FROM player WHERE player.id=id'));
-        $player->setYear($year=$con->prepare('SELECT year FROM player WHERE player.id=id'));
-        $player->setDateOfBirth($date_of_birth=$con->prepare('SELECT datae_of_birth FROM player WHERE player.id=id'));
-        $player->setAddress($address=$con->prepare('SELECT address FROM player WHERE player.id=id'));
-        $player->setYear($year=$con->prepare('SELECT year FROM player WHERE player.id=id'));
-        $player->setBloodType($blood_type=$con->prepare('SELECT blood_type FROM player WHERE player.id=id'));
-        $player->departmentId=$departmentId;
+        $stmt = $con->prepare('SELECT name,year,date_of_birth,address,blood_type,department_id FROM player WHERE id=?');
+        $stmt->bind_param("s",$id);
+        $stmt->execute();
+
+        $stmt->bind_result($player->name,$player->year,$player->date_of_birth,$player->blood_type,$player->department_id);
+        $stmt->fetch();
+        $stmt->close();
+        return $player;
+    }
+        public static function getAll($id)
+    {
+        $con = Connection::getConnectionObject()->getConnection();
+        // Check connection
+        if (mysqli_connect_errno())
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
+
     }
 
 

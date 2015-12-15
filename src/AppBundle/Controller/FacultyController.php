@@ -53,7 +53,7 @@ class FacultyController extends Controller
             $em->persist($faculty);
             $em->flush();*/
 
-            return $this->redirectToRoute("sdfas");
+            return $this->redirectToRoute("task_success");
         }
 
 
