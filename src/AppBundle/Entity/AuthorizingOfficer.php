@@ -64,18 +64,36 @@ class AuthorizingOfficer
         }
 
         $au = new AuthorizingOfficer();
+        $au->id = $id;
+
         $stmt = $con->prepare('SELECT name,contact_nu FROM authorizing_officer WHERE id=?');
         $stmt->bind_param("s",$id);
         $stmt->execute();
 
-        $stmt->bind_result($au->name,$au->contactNu);
+        $stmt->bind_result($au->name, $au->contactNu );
         $stmt->fetch();
         $stmt->close();
         return $au;
     }
 
     public static function getAll(){
+        $con = Connection::getConnectionObject()->getConnection();
+        // Check connection
+        if (mysqli_connect_errno())
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
 
+        $officers = array();
+                
+        $stmt = $con->prepare('SELECT name,contact_nu FROM authorizing_officer');
+    
+        $stmt->execute();
+
+        $stmt->bind_result($officers);
+        $stmt->fetch();
+        $stmt->close();
+        return $officers;
     }
 
     /**
