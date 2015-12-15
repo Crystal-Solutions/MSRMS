@@ -1,0 +1,81 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * EquipmentBorrowedByPlayer
+ *
+ * @ORM\Table(name="equipment_borrowed_by_player", indexes={@ORM\Index(name="fk_equipment_has_player_player2_idx", columns={"player_id"}), @ORM\Index(name="fk_equipment_has_player_equipment2_idx", columns={"equipment_id"})})
+ * @ORM\Entity
+ */
+class EquipmentBorrowedByPlayer
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="amount", type="integer", nullable=true)
+     */
+    private $amount;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="borrowed_time", type="datetime", nullable=true)
+     */
+    private $borrowedTime;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="due_time", type="datetime", nullable=true)
+     */
+    private $dueTime;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="returned_time", type="datetime", nullable=true)
+     */
+    private $returnedTime;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="issue_details", type="string", length=850, nullable=true)
+     */
+    private $issueDetails;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var \AppBundle\Entity\Player
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Player")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="player_id", referencedColumnName="id")
+     * })
+     */
+    private $player;
+
+    /**
+     * @var \AppBundle\Entity\Equipment
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Equipment")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="equipment_id", referencedColumnName="id")
+     * })
+     */
+    private $equipment;
+
+
+}
+
