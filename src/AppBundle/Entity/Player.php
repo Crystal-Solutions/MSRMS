@@ -73,6 +73,27 @@ class Player
      */
     private $department;
 
+    //Manually added
+    public $departmentId;
+
+    public function save()
+    {
+
+        $stmt = $this->getEntityManager()  
+        ->getConnection()  
+        ->prepare('INSERT INTO `player` (`name`, `date_of_birth`, `year`, `department_id`, `address`, `blood_type`) VALUES (?,?,?,?,?,?)');  
+        $stmt->bindValue(1,$name);
+        $stmt->bindValue(2,$dateOfBirth);
+        $stmt->bindValue(3,$year);
+        $stmt->bindValue(4,$departmentId);
+        $stmt->bindValue(5,$address);
+        $stmt->bindValue(6,$bloodType);
+        $stmt->execute();  
+          return $stmt->fetchAll();  
+    }
+
+
+
 
 
     /**

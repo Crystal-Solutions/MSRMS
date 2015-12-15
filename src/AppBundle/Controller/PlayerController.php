@@ -34,13 +34,13 @@ class PlayerController extends Controller
 
         $player = new Player(); 
 
-
-
-
         $form = $this->createFormBuilder($player)
             ->add('name', TextType::class)
             ->add('dateOfBirth', DateType::class)
             ->add('year',TextType::class)
+            ->add('departmentId',TextType::class)
+            ->add('address',TextType::class)
+            ->add('bloodType',TextType::class)
             ->add('save', SubmitType::class, array('label' => 'Create Task'))
             ->getForm();
 
@@ -49,14 +49,13 @@ class PlayerController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             // ... perform some action, such as saving the task to the database
 
-             $em = $this->getDoctrine()->getManager();
+            $em = $this->getDoctrine()->getManager();
 
             $em->persist($player);
             $em->flush();
 
             return $this->redirectToRoute('task_success');
         }
-
 
         // replace this example code with whatever you need
         return $this->render('player/create.html.twig', array('form' => $form->createView()));
