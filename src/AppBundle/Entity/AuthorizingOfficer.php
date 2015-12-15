@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use AppBundle\Controller\Connection;
 
 /**
  * AuthorizingOfficer
@@ -37,13 +38,14 @@ class AuthorizingOfficer
 
     public function save()
     {
-        $stmt = $this->getEntityManager()  
-                   ->getConnection()  
-                   ->prepare('INSERT INTO authorizing_officer ('name','contact_nu') VALUES (?,?) ');  
-        $stmt->bindValue(1, $name);  
-        $stmt->bindValue(2, $contactNu);  
+        if ($id == null) {
+            # code...
+        }
+        $con = Connection::getConnectionObject()->getConnection();
+        $stmt = $con->prepare('INSERT INTO authorizing_officer (name,contact_nu) VALUES (?,?)');  
+        $stmt->bind_param("ss",$this->name,$this->contactNu);  
         $stmt->execute();  
-        return $stmt->fetchAll();  
+        $stmt->close();
     }
 
 

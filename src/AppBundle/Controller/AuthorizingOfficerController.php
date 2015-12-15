@@ -4,6 +4,11 @@ namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Entity\AuthorizingOfficer;
+
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class AuthorizingOfficerController extends Controller{
 
@@ -28,7 +33,7 @@ class AuthorizingOfficerController extends Controller{
 
         $form = $this->createFormBuilder($authorizingOfficer)
             ->add('name', TextType::class)
-            ->add('contactNu', IntegerType::class)
+            ->add('contactNu', TextType::class)
             ->add('save', SubmitType::class, array('label' => 'Create Authorizing Officer'))
             ->getForm();
 
@@ -37,10 +42,7 @@ class AuthorizingOfficerController extends Controller{
         if ($form->isSubmitted() && $form->isValid()) {
             // ... perform some action, such as saving the task to the database
 
-            $em = $this->getDoctrine()->getManager();
-
-            $em->persist($player);
-            $em->flush();
+            $authorizingOfficer->save();
 
             return $this->redirectToRoute('task_success');
         }
