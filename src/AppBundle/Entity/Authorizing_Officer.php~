@@ -6,9 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="faculty")
+ * @ORM\Table(name="authorizing_officer")
  */
-class Faculty
+class Authorizing_Officer
 {
     
      /**
@@ -19,14 +19,14 @@ class Faculty
     protected $id;
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="string", length=128)
      */
     protected $name;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Department", mappedBy="faculty")
+     /**
+     * @ORM\Column(type="string", length=45)
      */
-    protected $Departments;
+    protected $contact_Nu;
 
 }
     

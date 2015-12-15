@@ -6,9 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="faculty")
+ * @ORM\Table(name="equipment")
  */
-class Faculty
+class Equipment
 {
     
      /**
@@ -24,10 +24,14 @@ class Faculty
     protected $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="Department", mappedBy="faculty")
+     * @ORM\Column(type="text")
      */
-    protected $Departments;
+    protected $description;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    protected $amount;
 }
     
 ?>

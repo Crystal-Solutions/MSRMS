@@ -10,8 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Department
 {
-	
-	 /**
+    
+     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -23,11 +23,12 @@ class Department
      */
     protected $name;
 
-     /**
-     * @ORM\Column(type="integer")
+    /**
+     * @ORM\ManyToOne(targetEntity="Faculty", inversedBy="departments")
+     * @ORM\JoinColumn(name="faculty_id", referencedColumnName="id")
      */
-    protected $faculty_id;
+    protected $faculty;
 
 }
-	
+    
 ?>

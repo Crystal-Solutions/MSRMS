@@ -6,9 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="faculty")
+ * @ORM\Table(name="equipment")
  */
-class Faculty
+class Equipment
 {
     
      /**
@@ -24,17 +24,14 @@ class Faculty
     protected $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="Department", mappedBy="faculty")
+     * @ORM\Column(type="text")
      */
-    protected $Departments;
+    protected $description;
 
     /**
-     * Constructor
+     * @ORM\Column(type="integer")
      */
-    public function __construct()
-    {
-        $this->Departments = new \Doctrine\Common\Collections\ArrayCollection();
-    }
+    protected $amount;
 
     /**
      * Get id
@@ -51,7 +48,7 @@ class Faculty
      *
      * @param string $name
      *
-     * @return Faculty
+     * @return Equipment
      */
     public function setName($name)
     {
@@ -71,36 +68,50 @@ class Faculty
     }
 
     /**
-     * Add department
+     * Set description
      *
-     * @param \AppBundle\Entity\Department $department
+     * @param string $description
      *
-     * @return Faculty
+     * @return Equipment
      */
-    public function addDepartment(\AppBundle\Entity\Department $department)
+    public function setDescription($description)
     {
-        $this->Departments[] = $department;
+        $this->description = $description;
 
         return $this;
     }
 
     /**
-     * Remove department
+     * Get description
      *
-     * @param \AppBundle\Entity\Department $department
+     * @return string
      */
-    public function removeDepartment(\AppBundle\Entity\Department $department)
+    public function getDescription()
     {
-        $this->Departments->removeElement($department);
+        return $this->description;
     }
 
     /**
-     * Get departments
+     * Set amount
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @param integer $amount
+     *
+     * @return Equipment
      */
-    public function getDepartments()
+    public function setAmount($amount)
     {
-        return $this->Departments;
+        $this->amount = $amount;
+
+        return $this;
+    }
+
+    /**
+     * Get amount
+     *
+     * @return integer
+     */
+    public function getAmount()
+    {
+        return $this->amount;
     }
 }

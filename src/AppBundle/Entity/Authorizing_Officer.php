@@ -6,9 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="department")
+ * @ORM\Table(name="authorizing_officer")
  */
-class Department
+class Authorizing_Officer
 {
     
      /**
@@ -19,15 +19,14 @@ class Department
     protected $id;
 
     /**
-     * @ORM\Column(type="string", length=45)
+     * @ORM\Column(type="string", length=128)
      */
     protected $name;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Faculty", inversedBy="departments")
-     * @ORM\JoinColumn(name="faculty_id", referencedColumnName="id")
+     /**
+     * @ORM\Column(type="string", length=45)
      */
-    protected $faculty;
+    protected $contact_Nu;
 
 
     /**
@@ -45,7 +44,7 @@ class Department
      *
      * @param string $name
      *
-     * @return Department
+     * @return Authorizing_Officer
      */
     public function setName($name)
     {
@@ -65,26 +64,26 @@ class Department
     }
 
     /**
-     * Set faculty
+     * Set contactNu
      *
-     * @param \AppBundle\Entity\Faculty $faculty
+     * @param string $contactNu
      *
-     * @return Department
+     * @return Authorizing_Officer
      */
-    public function setFaculty(\AppBundle\Entity\Faculty $faculty = null)
+    public function setContactNu($contactNu)
     {
-        $this->faculty = $faculty;
+        $this->contact_Nu = $contactNu;
 
         return $this;
     }
 
     /**
-     * Get faculty
+     * Get contactNu
      *
-     * @return \AppBundle\Entity\Faculty
+     * @return string
      */
-    public function getFaculty()
+    public function getContactNu()
     {
-        return $this->faculty;
+        return $this->contact_Nu;
     }
 }
