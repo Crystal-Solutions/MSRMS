@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use AppBundle\Controller\Connection;
 
 /**
  * AuthorizingOfficer
@@ -34,6 +35,18 @@ class AuthorizingOfficer
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
+
+    public function save()
+    {
+        if ($id == null) {
+            # code...
+        }
+        $con = Connection::getConnectionObject()->getConnection();
+        $stmt = $con->prepare('INSERT INTO authorizing_officer (name,contact_nu) VALUES (?,?)');  
+        $stmt->bind_param("ss",$this->name,$this->contactNu);  
+        $stmt->execute();  
+        $stmt->close();
+    }
 
 
 
