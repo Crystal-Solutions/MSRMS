@@ -34,13 +34,13 @@ class PlayerController extends Controller
 
         $player = new Player(); 
 
-
-
-
         $form = $this->createFormBuilder($player)
             ->add('name', TextType::class)
             ->add('dateOfBirth', DateType::class)
             ->add('year',TextType::class)
+            ->add('departmentId',TextType::class)
+            ->add('address',TextType::class)
+            ->add('bloodType',TextType::class)
             ->add('save', SubmitType::class, array('label' => 'Create Task'))
             ->getForm();
 
@@ -56,7 +56,6 @@ class PlayerController extends Controller
 
             return $this->redirectToRoute('task_success');
         }
-
 
         // replace this example code with whatever you need
         return $this->render('player/create.html.twig', array('form' => $form->createView()));
