@@ -49,10 +49,7 @@ class PlayerController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             // ... perform some action, such as saving the task to the database
 
-            $em = $this->getDoctrine()->getManager();
-
-            $em->persist($player);
-            $em->flush();
+            $player->save();
 
             return $this->redirectToRoute('task_success');
         }
@@ -60,5 +57,17 @@ class PlayerController extends Controller
         // replace this example code with whatever you need
         return $this->render('player/create.html.twig', array('form' => $form->createView()));
     }
+
+    /**
+     * @Route("/players/view/{id}", name="player_view")
+     */
+    public function viewAction($id, Request $request)
+    {
+        $player =  Player::getOne($id);
+        return $this->render('player/view.html.twig', array('player' =>$player));
+    }
+
+
+
  
 }
