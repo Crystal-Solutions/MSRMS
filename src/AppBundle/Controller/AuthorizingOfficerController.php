@@ -51,4 +51,15 @@ class AuthorizingOfficerController extends Controller{
         // replace this example code with whatever you need
         return $this->render('authorizingOfficer/create.html.twig', array('form' => $form->createView()));
     }
+
+    /**
+     * @Route("/authorizingOfficer/view", name="authOfficer_view")
+     */
+    public function viewAction(Request $request)
+    {
+        $au = AuthorizingOfficer::getOne(1);
+        //die($au->getName().$au->getContactNu());
+        return $this->render('authorizingOfficer/view.html.twig', array('office' => $au));
+
+    }
 }
