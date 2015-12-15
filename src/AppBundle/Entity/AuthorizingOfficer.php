@@ -56,9 +56,13 @@ class AuthorizingOfficer
 
     public static function getOne($id){
         $au = new AuthorizingOfficer();
-
+        $au->id = $this->id;
+        $au->name = $this->name;
+        $au->contactNu = $this->contactNu;
         return $au;
     }
+
+    
 
     /**
      * Set name
