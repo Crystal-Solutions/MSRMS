@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 15, 2015 at 03:21 PM
+-- Generation Time: Dec 15, 2015 at 04:45 PM
 -- Server version: 5.6.21
 -- PHP Version: 5.5.19
 
@@ -27,7 +27,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `achievement` (
-  `id` int(11) NOT NULL,
+`id` int(11) NOT NULL,
   `title` varchar(140) DEFAULT NULL,
   `description` varchar(850) DEFAULT NULL,
   `achieved_date` date DEFAULT NULL,
@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS `achievement` (
 --
 
 CREATE TABLE IF NOT EXISTS `authorizing_officer` (
-  `id` int(11) NOT NULL,
+`id` int(11) NOT NULL,
   `name` varchar(128) DEFAULT NULL,
   `contact_nu` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS `authorizing_officer` (
 --
 
 CREATE TABLE IF NOT EXISTS `department` (
-  `id` int(11) NOT NULL,
+`id` int(11) NOT NULL,
   `name` varchar(45) DEFAULT NULL,
   `faculty_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `department` (
 --
 
 CREATE TABLE IF NOT EXISTS `equipment` (
-  `id` int(11) NOT NULL,
+`id` int(11) NOT NULL,
   `name` varchar(100) DEFAULT NULL,
   `description` varchar(450) DEFAULT NULL,
   `amount` int(11) DEFAULT NULL
@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS `equipment_borrowed_by_player` (
   `due_time` datetime DEFAULT NULL,
   `returned_time` datetime DEFAULT NULL,
   `issue_details` varchar(850) DEFAULT NULL,
-  `id` int(11) NOT NULL
+`id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -101,7 +101,7 @@ CREATE TABLE IF NOT EXISTS `equipment_reserved_by_player` (
   `end` datetime DEFAULT NULL,
   `amount` int(11) DEFAULT NULL,
   `authorizing_officer_id` int(11) NOT NULL,
-  `id` int(11) NOT NULL
+`id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -111,7 +111,7 @@ CREATE TABLE IF NOT EXISTS `equipment_reserved_by_player` (
 --
 
 CREATE TABLE IF NOT EXISTS `faculty` (
-  `id` int(11) NOT NULL,
+`id` int(11) NOT NULL,
   `name` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -122,7 +122,7 @@ CREATE TABLE IF NOT EXISTS `faculty` (
 --
 
 CREATE TABLE IF NOT EXISTS `phone_number_auth_officer` (
-  `number` int(11) NOT NULL,
+`number` int(11) NOT NULL,
   `authorizing_officer_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -133,7 +133,7 @@ CREATE TABLE IF NOT EXISTS `phone_number_auth_officer` (
 --
 
 CREATE TABLE IF NOT EXISTS `phone_number_player` (
-  `number` int(11) NOT NULL,
+`number` int(11) NOT NULL,
   `player_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -144,14 +144,13 @@ CREATE TABLE IF NOT EXISTS `phone_number_player` (
 --
 
 CREATE TABLE IF NOT EXISTS `player` (
-  `id` int(11) NOT NULL,
+`id` int(11) NOT NULL,
   `name` varchar(140) DEFAULT NULL,
   `department_id` int(11) NOT NULL,
   `year` int(11) DEFAULT NULL,
   `date_of_birth` date DEFAULT NULL,
   `address` varchar(256) DEFAULT NULL,
-  `blood_type` varchar(3) DEFAULT NULL,
-  `playercol` varchar(45) DEFAULT NULL
+  `blood_type` varchar(3) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -166,7 +165,7 @@ CREATE TABLE IF NOT EXISTS `player_involved_in_sport` (
   `started_date` date NOT NULL,
   `end_date` date DEFAULT NULL,
   `position` varchar(45) DEFAULT NULL,
-  `id` int(11) NOT NULL
+`id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -176,7 +175,7 @@ CREATE TABLE IF NOT EXISTS `player_involved_in_sport` (
 --
 
 CREATE TABLE IF NOT EXISTS `resource` (
-  `id` int(11) NOT NULL,
+`id` int(11) NOT NULL,
   `name` varchar(45) DEFAULT NULL,
   `description` varchar(450) DEFAULT NULL,
   `instructor_name` varchar(128) DEFAULT NULL,
@@ -190,7 +189,7 @@ CREATE TABLE IF NOT EXISTS `resource` (
 --
 
 CREATE TABLE IF NOT EXISTS `sport` (
-  `id` int(11) NOT NULL,
+`id` int(11) NOT NULL,
   `name` varchar(45) DEFAULT NULL,
   `description` varchar(450) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -205,7 +204,7 @@ CREATE TABLE IF NOT EXISTS `sport_has_equipment` (
   `equipment_id` int(11) NOT NULL,
   `sport_id` int(11) NOT NULL,
   `authorizing_officer_id` int(11) NOT NULL,
-  `id` int(11) NOT NULL
+`id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -218,7 +217,7 @@ CREATE TABLE IF NOT EXISTS `sport_has_resource` (
   `sport_id` int(11) NOT NULL,
   `resource_id` int(11) NOT NULL,
   `authorizing_officer_id` int(11) NOT NULL,
-  `id` int(11) NOT NULL
+`id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -228,7 +227,7 @@ CREATE TABLE IF NOT EXISTS `sport_has_resource` (
 --
 
 CREATE TABLE IF NOT EXISTS `time_slot_equipment` (
-  `id` int(11) NOT NULL,
+`id` int(11) NOT NULL,
   `start_time` time DEFAULT NULL,
   `end_time` time DEFAULT NULL,
   `sport_has_equipment_id` int(11) NOT NULL,
@@ -242,7 +241,7 @@ CREATE TABLE IF NOT EXISTS `time_slot_equipment` (
 --
 
 CREATE TABLE IF NOT EXISTS `time_slot_resource` (
-  `id` int(11) NOT NULL,
+`id` int(11) NOT NULL,
   `start_time` time DEFAULT NULL,
   `end_time` time DEFAULT NULL,
   `day` varchar(25) DEFAULT NULL,
@@ -355,6 +354,95 @@ ALTER TABLE `time_slot_equipment`
 ALTER TABLE `time_slot_resource`
  ADD PRIMARY KEY (`id`), ADD KEY `fk_time_slot_resource_sport_has_resource1_idx` (`sport_has_resource_id`);
 
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `achievement`
+--
+ALTER TABLE `achievement`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `authorizing_officer`
+--
+ALTER TABLE `authorizing_officer`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `department`
+--
+ALTER TABLE `department`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `equipment`
+--
+ALTER TABLE `equipment`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `equipment_borrowed_by_player`
+--
+ALTER TABLE `equipment_borrowed_by_player`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `equipment_reserved_by_player`
+--
+ALTER TABLE `equipment_reserved_by_player`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `faculty`
+--
+ALTER TABLE `faculty`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `phone_number_auth_officer`
+--
+ALTER TABLE `phone_number_auth_officer`
+MODIFY `number` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `phone_number_player`
+--
+ALTER TABLE `phone_number_player`
+MODIFY `number` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `player`
+--
+ALTER TABLE `player`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `player_involved_in_sport`
+--
+ALTER TABLE `player_involved_in_sport`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `resource`
+--
+ALTER TABLE `resource`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `sport`
+--
+ALTER TABLE `sport`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `sport_has_equipment`
+--
+ALTER TABLE `sport_has_equipment`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `sport_has_resource`
+--
+ALTER TABLE `sport_has_resource`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `time_slot_equipment`
+--
+ALTER TABLE `time_slot_equipment`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `time_slot_resource`
+--
+ALTER TABLE `time_slot_resource`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- Constraints for dumped tables
 --
