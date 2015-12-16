@@ -67,11 +67,11 @@ class Player
         }
 
         $player = new Player();
-        $stmt = $con->prepare('SELECT name,year,date_of_birth,address,blood_type,department_id FROM player WHERE id=?');
+        $stmt = $con->prepare('SELECT id,name,year,date_of_birth,address,blood_type,department_id FROM player WHERE id=?');
         $stmt->bind_param("s",$id);
         $stmt->execute();
 
-        $stmt->bind_result($player->name,$player->year,$player->date_of_birth,$player->address,$player->blood_type,$player->department_id);
+        $stmt->bind_result($player->id,$player->name,$player->year,$player->date_of_birth,$player->address,$player->blood_type,$player->department_id);
         $stmt->fetch();
         $stmt->close();
         return $player;
@@ -86,12 +86,13 @@ class Player
         }
 
          $players = array(); //Make an empty array
-        $stmt = $con->prepare('SELECT name,year,date_of_birth,address,blood_type,department_id FROM player');
+        $stmt = $con->prepare('SELECT id,name,year,date_of_birth,address,blood_type,department_id FROM player');
         $stmt->execute();
-        $stmt->bind_result($name,$year,$dateOfBirth,$address,$bloodType,$departmentId);
+        $stmt->bind_result($id,$name,$year,$dateOfBirth,$address,$bloodType,$departmentId);
         while($stmt->fetch())
         {
             $player = new Player();
+            $player->setId($id);
             $player->setName($name);
             $player->setYear($year);
             $player->setDateOfBirth($dateOfBirth);
