@@ -42,6 +42,29 @@ class Equipment
      */
     private $id;
 
+    public function save()
+    {
+
+      
+
+        if($this->id ==null)
+        {
+           
+        $con = Connection::getConnectionObject()->getConnection();
+        $stmt = $con->prepare('INSERT INTO `equipment` (`name`, `description`, `amount`) VALUES (?,?,?)');  
+        $stmt->bind_param("ssi",$this->name,$this->description,$this->amount);  
+        $stmt->execute();  
+        $stmt->close();
+        }
+        else
+        {
+        $con = Connection::getConnectionObject()->getConnection();
+        $stmt = $con->prepare('UPDATE player SET name =?,description=?,amount=? WHERE equipment.id = id');  
+        $stmt->bind_param("ssi",$this->name,$this->description,$this->amount);    
+        $stmt->execute();  
+        $stmt->close();   
+        }
+    }
 
 
     /**
