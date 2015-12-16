@@ -63,13 +63,26 @@ class SportController extends Controller
     }
 
     /**
-     * @Route("/sport/view", name="sport_view")
+     * @Route("/sport/view/{id}", name="sport_view")
      */
-    public function viewAction(Request $request)
+    public function viewAction($id, Request $request)
     {
-        $sport = Sport::getOne(1);
+        $sport = Sport::getOne($id);
         //die($au->getName().$au->getContactNu());
         return $this->render('sport/view.html.twig', array('sport' => $sport));
         //return $this->render('sport/viewall.html.twig', array('depts' => $depts));
     }
+
+    /**
+     * @Route("/sport/view", name="sport_viewall")
+     */
+    public function viewallAction(Request $request)
+    {
+        $sports = Sport::getAll();
+        //die($au->getName().$au->getContactNu());
+        return $this->render('sport/viewall.html.twig', array('sports' => $sports));
+        //return $this->render('sport/viewall.html.twig', array('depts' => $depts));
+    }
+
+
 }

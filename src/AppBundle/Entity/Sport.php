@@ -71,10 +71,39 @@ use AppBundle\Controller\Connection;
         $stmt->bind_param("s",$id);
         $stmt->execute();
 
-        $stmt->bind_result($sport->name,$sport->faculty_id);
+        $stmt->bind_result($sport->name,$sport->description);
         $stmt->fetch();
         $stmt->close();
         return $sport;
+    }
+
+    public static function getAll()
+    {
+        $con = Connection::getConnectionObject()->getConnection();
+        // Check connection
+        if (mysqli_connect_errno())
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
+
+        $stmt = $con->prepare('SELECT name,description FROM sport');
+        $sports = array();
+
+        if ($stmt->execute()) {
+            $stmt->bind_result($name,$sport);
+            
+            while ( $stmt->fetch() ) {
+                $sprt = new Sport();
+                $sprt->name = $name;
+                $sprt->description = $sport;
+                $sports[] = $sprt;
+            }
+            $stmt->close();
+            return $sports;  
+            
+        }
+        $stmt->close();
+        return false;     
     }
 
     /**
