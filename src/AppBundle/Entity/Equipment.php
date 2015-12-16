@@ -96,7 +96,7 @@ class Equipment
             echo "Failed to connect to MySQL: " . mysqli_connect_error();
         }
 
-         $players = array(); //Make an empty array
+         $equipments = array(); //Make an empty array
         $stmt = $con->prepare('SELECT name,description,amount FROM equipment');
         $stmt->execute();
         $stmt->bind_result($name,$description,$amount);

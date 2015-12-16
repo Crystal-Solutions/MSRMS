@@ -69,6 +69,7 @@ class EquipmentController extends Controller
     public function viewallAction( Request $request)
     {
        
+       	$equipments =  Equipment::getAll();
         return $this->render('equipment/viewall.html.twig', array('equipments' => $equipments));
 
     }
