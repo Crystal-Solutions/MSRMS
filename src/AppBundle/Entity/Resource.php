@@ -3,6 +3,8 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use AppBundle\Controller\Connection;
+use AppBundle\Entity\Resource;
 
 /**
  * Resource
@@ -54,13 +56,13 @@ class Resource
         if ($this->id == null) {
             $con = Connection::getConnectionObject()->getConnection();
             $stmt = $con->prepare('INSERT INTO resource (name,description,instructor_name,location) VALUES (?,?,?,?)');  
-            $stmt->bind_param("ssss",$this->name,$this->description,$this->instructor_name,$this->location);  
+            $stmt->bind_param("ssss",$this->name,$this->description,$this->instructorName,$this->location);  
             $stmt->execute();  
             $stmt->close();
         }else{
             $con = Connection::getConnectionObject()->getConnection();
             $stmt = $con->prepare('UPDATE resource SET (name,description,instructor_name,location) VALUES (?,?,?,?)');  
-            $stmt->bind_param("ssss",$this->name,$this->description,$this->instructor_name,$this->location);  
+            $stmt->bind_param("ssss",$this->name,$this->description,$this->instructorName,$this->location);  
             $stmt->execute();  
             $stmt->close();
         }
@@ -82,7 +84,7 @@ class Resource
         $stmt->bind_param("s",$id);
         $stmt->execute();
 
-        $stmt->bind_result($res->name, $res->description,$res->instructor_name,$res->location );
+        $stmt->bind_result($res->name, $res->description,$res->instructorName,$res->location );
         $stmt->fetch();
         $stmt->close();
         return $res;
@@ -100,14 +102,14 @@ class Resource
         $rss = array();
 
         if ($stmt->execute()) {
-            $stmt->bind_result($name,$description,$instructor_name,$location);
+            $stmt->bind_result($id,$name,$description,$instructor_name,$location);
             
             while ( $stmt->fetch() ) {
                 $res = new Resource();
                 $res->id = $id;
                 $res->name = $name;
                 $res->description = $description;
-                $res->instructor_name = $instructor_name;
+                $res->instructorName = $instructor_name;
                 $res->location = $location;
                 $rss[] = $res;
             }

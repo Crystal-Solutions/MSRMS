@@ -58,7 +58,7 @@ class ResourceController extends Controller{
         //give the id of the person we need to view
         $res = Resource::getOne($id);
 
-        return $this->render('resource/view.html.twig', array('resourse' => $res));
+        return $this->render('resource/view.html.twig', array('resource' => $res));
     }
 
     /**
