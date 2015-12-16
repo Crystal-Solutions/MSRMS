@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use AppBundle\Controller\Connection;
 
 /**
  * Sport
@@ -10,8 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="sport")
  * @ORM\Entity
  */
-class Sport
-{
+    class Sport
+    {
     /**
      * @var string
      *
@@ -35,7 +36,46 @@ class Sport
      */
     private $id;
 
+    public function save()
+    {
+        if ($this->id == null)
+        {
+            $con = Connection::getConnectionObject()->getConnection();
+            $stmt = $con->prepare('INSERT INTO Sport (name,description) VALUES (?,?)');  
+            $stmt->bind_param("si",$this->name,$this->description);  
+            $stmt->execute();  
+            $stmt->close();
+        }
+        
+        else
+        {
+            $con = Connection::getConnectionObject()->getConnection();
+            $stmt = $con->prepare('UPDATE Sport SET name = ? , description = ? WHERE name = ?');  
+            $stmt->bind_param("sii",$this->name,$this->description,$this->name);  
+            $stmt->execute();  
+            $stmt->close();
+        }
+    }
 
+    public static function getOne($id)
+    {
+        $con = Connection::getConnectionObject()->getConnection();
+        // Check connection
+        if (mysqli_connect_errno())
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
+
+        $sport = new Sport();
+        $stmt = $con->prepare('SELECT name,description FROM sport WHERE id=?');
+        $stmt->bind_param("s",$id);
+        $stmt->execute();
+
+        $stmt->bind_result($sport->name,$sport->faculty_id);
+        $stmt->fetch();
+        $stmt->close();
+        return $sport;
+    }
 
     /**
      * Set name
