@@ -59,7 +59,7 @@ class EquipmentController extends Controller
      */
     public function viewAction($id, Request $request)
     {
-        $player =  Equipment::getOne($id);
+        $equipment =  Equipment::getOne($id);
         return $this->render('equipment/view.html.twig', array('equipment' =>$equipment));  
     }
 
