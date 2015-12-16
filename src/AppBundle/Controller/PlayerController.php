@@ -20,14 +20,12 @@ class PlayerController extends Controller
     public function indexAction(Request $request)
     {
         // replace this example code with whatever you need
-        return $this->render('default/index.html.twig', array(
-            'base_dir' => realpath($this->container->getParameter('kernel.root_dir').'/..'),
-        ));
+        return $this->redirectToRoute('player_viewAll');
     }
 
 
     /**
-     * @Route("/player/create", name="players_home")
+     * @Route("/player/create", name="player_create")
      */
     public function createAction(Request $request)
     {
@@ -67,7 +65,7 @@ class PlayerController extends Controller
     }
 
     /**
-     * @Route("/player/view", name="player_viewall")
+     * @Route("/player/view", name="player_viewAll")
      */
     public function viewallAction( Request $request)
     {

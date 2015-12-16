@@ -5,17 +5,17 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Entity\Equipment;
+use AppBundle\Entity\Sport;
 
 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-class EquipmentController extends Controller
+class SportController extends Controller
 {
     /**
-     * @Route("/equipment/", name="equipment_home")
+     * @Route("/sport/", name="sport_home")
      */
     public function indexAction(Request $request)
     {
@@ -27,52 +27,62 @@ class EquipmentController extends Controller
 
 
     /**
-     * @Route("/equipment/create", name="equipment_create")
+     * @Route("/sport/create", name="sport_create")
      */
     public function createAction(Request $request)
     {
 
-        $equipment = new Equipment(); 
+        $sport = new Sport(); 
 
-        $form = $this->createFormBuilder($equipment)
+
+
+
+        $form = $this->createFormBuilder($sport)
             ->add('name', TextType::class)
             ->add('description', TextType::class)
-            ->add('amount',TextType::class)
-            ->add('save', SubmitType::class, array('label' => 'Create Equipment'))
+            ->add('save', SubmitType::class, array('label' => 'Create Sport'))
             ->getForm();
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             // ... perform some action, such as saving the task to the database
-            $equipment->save();
+
+            $sport->save();
+            /*$em = $this->getDoctrine()->getManager();
+
+            $em->persist($sport);
+            $em->flush();*/
 
             return $this->redirectToRoute('task_success');
         }
 
+
         // replace this example code with whatever you need
-        return $this->render('equipment/create.html.twig', array('form' => $form->createView()));
+        return $this->render('sport/create.html.twig', array('form' => $form->createView()));
     }
 
     /**
-     * @Route("/equipment/view/{id}", name="equipment_view")
+     * @Route("/sport/view/{id}", name="sport_view")
      */
     public function viewAction($id, Request $request)
     {
-        $equipment =  Equipment::getOne($id);
-        return $this->render('equipment/view.html.twig', array('equipment' =>$equipment));  
+        $sport = Sport::getOne($id);
+        //die($au->getName().$au->getContactNu());
+        return $this->render('sport/view.html.twig', array('sport' => $sport));
+        //return $this->render('sport/viewall.html.twig', array('depts' => $depts));
     }
 
     /**
-     * @Route("/equipment/view", name="equipment_viewall")
+     * @Route("/sport/view", name="sport_viewall")
      */
-    public function viewallAction( Request $request)
+    public function viewallAction(Request $request)
     {
-       
-       	$equipments =  Equipment::getAll();
-        return $this->render('equipment/viewall.html.twig', array('equipments' => $equipments));
-
+        $sports = Sport::getAll();
+        //die($au->getName().$au->getContactNu());
+        return $this->render('sport/viewall.html.twig', array('sports' => $sports));
+        //return $this->render('sport/viewall.html.twig', array('depts' => $depts));
     }
 
- 
+
 }

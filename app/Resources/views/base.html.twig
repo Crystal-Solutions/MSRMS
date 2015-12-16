@@ -7,22 +7,23 @@
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
         <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" />
         <link rel="stylesheet" href="{{ asset('css/navbar.css') }}" />
+        <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
     </head>
     <body>
 
-    
+<!-- Navbar -->
 <div id='cssmenu'>
 <ul>
    <li ><a href='#'><span>Home</span></a></li>
-   <li><a href='#'><span>Players</span></a></li>
+   <li><a href='{{url('player_home')}}'><span>Players</span></a></li>
    <li><a href='#'><span>Resources</span></a></li>
-   <li><a href='#'><span>Equipments</span></a></li>
+   <li><a href='{{url('equipment_home')}}'><span>Equipments</span></a></li>
    <li><a href='#'><span>Reserve</span></a></li>
    <!-- <li class='last'><a href='#'><span>Contact</span></a></li> -->
 </ul>
 </div>
 
-
+<!-- Content -->
 <div class="panel panel-default">
   <div class="panel-heading">{{ block('title') }}</div>
   <div class="panel-body">
