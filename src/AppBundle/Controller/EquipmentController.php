@@ -15,7 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 class EquipmentController extends Controller
 {
     /**
-     * @Route("/equipment/", name="equipments_home")
+     * @Route("/equipment/", name="equipment_home")
      */
     public function indexAction(Request $request)
     {

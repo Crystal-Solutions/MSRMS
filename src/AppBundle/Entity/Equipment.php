@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use AppBundle\Controller\Connection;
 
 /**
  * Equipment
@@ -67,7 +68,7 @@ class Equipment
     }
 
 
- /*   public static function getOne($id)
+    public static function getOne($id)
     {
         $con = Connection::getConnectionObject()->getConnection();
         // Check connection
@@ -77,14 +78,14 @@ class Equipment
         }
 
         $equipment = new Equipment();
-        $stmt = $con->prepare('SELECT name,year,date_of_birth,address,blood_type,department_id FROM player WHERE id=?');
+        $stmt = $con->prepare('SELECT name,descripton,amount FROM equipment WHERE id=?');
         $stmt->bind_param("s",$id);
         $stmt->execute();
 
-        $stmt->bind_result($player->name,$player->year,$player->date_of_birth,$player->address,$player->blood_type,$player->department_id);
+        $stmt->bind_result($equipment->name,$equipment->description,$equipment->amount);
         $stmt->fetch();
         $stmt->close();
-        return $player;
+        return $equipment;
     }
         public static function getAll()
     {
@@ -115,7 +116,7 @@ class Equipment
         
         return $players;
 
-    }*/
+    }
 
 
     /**
