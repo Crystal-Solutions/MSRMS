@@ -34,7 +34,7 @@ class PlayerController extends Controller
 
         $form = $this->createFormBuilder($player)
             ->add('name', TextType::class)
-            ->add('dateOfBirth', DateType::class)
+            ->add('dateOfBirth', DateType::class,array('years'=>range(1940,2005))   )
             ->add('year',TextType::class)
             ->add('departmentId',TextType::class)
             ->add('address',TextType::class)
