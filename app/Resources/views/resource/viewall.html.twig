@@ -6,10 +6,9 @@ Authorizing Officers
 {% endblock %}
 
 {% block body %}
-<h1>Officers</h1>
 <ul>
-	{% for res in rss %}
-        <li>{{ res.name|e }} - {{ res.description|e }} - {{ res.instructor_name|e }} - {{ res.location|e }}</li>
+	{% for res in resources %}
+        <li>{{ res.name|e }} - {{ res.description|e }} - {{ res.instructorName|e }} - {{ res.location|e }}</li>
     {% endfor %}
 </ul>
 {% endblock %}

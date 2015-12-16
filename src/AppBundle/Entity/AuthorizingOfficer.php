@@ -88,7 +88,7 @@ class AuthorizingOfficer
         $officers = array();
 
         if ($stmt->execute()) {
-            $stmt->bind_result($name,$number);
+            $stmt->bind_result($id,$name,$number);
             
             while ( $stmt->fetch() ) {
                 $au = new AuthorizingOfficer();
