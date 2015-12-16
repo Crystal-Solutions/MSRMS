@@ -49,7 +49,75 @@ class Resource
      */
     private $id;
 
+    public function save()
+    {
+        if ($this->id == null) {
+            $con = Connection::getConnectionObject()->getConnection();
+            $stmt = $con->prepare('INSERT INTO resource (name,description,instructor_name,location) VALUES (?,?,?,?)');  
+            $stmt->bind_param("ssss",$this->name,$this->description,$this->instructor_name,$this->location);  
+            $stmt->execute();  
+            $stmt->close();
+        }else{
+            $con = Connection::getConnectionObject()->getConnection();
+            $stmt = $con->prepare('UPDATE resource SET (name,description,instructor_name,location) VALUES (?,?,?,?)');  
+            $stmt->bind_param("ssss",$this->name,$this->description,$this->instructor_name,$this->location);  
+            $stmt->execute();  
+            $stmt->close();
+        }
+    }
 
+    public static function getOne($id){
+
+        $con = Connection::getConnectionObject()->getConnection();
+        // Check connection
+        if (mysqli_connect_errno())
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
+
+        $res = new Resource();
+        $res->id = $id;
+
+        $stmt = $con->prepare('SELECT name,description,instructor_name,location FROM resource WHERE id=?');
+        $stmt->bind_param("s",$id);
+        $stmt->execute();
+
+        $stmt->bind_result($res->name, $res->description,$res->instructor_name,$res->location );
+        $stmt->fetch();
+        $stmt->close();
+        return $res;
+    }
+
+    public static function getAll(){
+        $con = Connection::getConnectionObject()->getConnection();
+        // Check connection
+        if (mysqli_connect_errno())
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
+
+        $stmt = $con->prepare('SELECT id,name,description,instructor_name,location FROM resource');
+        $rss = array();
+
+        if ($stmt->execute()) {
+            $stmt->bind_result($name,$description,$instructor_name,$location);
+            
+            while ( $stmt->fetch() ) {
+                $res = new Resource();
+                $res->id = $id;
+                $res->name = $name;
+                $res->description = $description;
+                $res->instructor_name = $instructor_name;
+                $res->location = $location;
+                $rss[] = $res;
+            }
+            $stmt->close();
+            return $rss;  
+            
+        }
+        $stmt->close();
+        return false;     
+    }
 
     /**
      * Set name

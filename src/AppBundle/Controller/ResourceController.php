@@ -5,36 +5,37 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Entity\AuthorizingOfficer;
+use AppBundle\Entity\Resource;
 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-class AuthorizingOfficerController extends Controller{
+class ResourceController extends Controller{
 
     /**
-     * @Route("/authorizingofficer/", name="authOfficer_home")
+     * @Route("/resource/", name="resource_home")
      */
     public function indexAction(Request $request)
     {
         // replace this example code with whatever you need
-        return $this->render('authorizingOfficer/create.html.twig', array(
+        return $this->render('resource/create.html.twig', array(
             'base_dir' => realpath($this->container->getParameter('kernel.root_dir').'/..'),
         ));
     }
 
     /**
-     * @Route("/authorizingofficer/create", name="authOfficer_create")
+     * @Route("/resource/create", name="resource_create")
      */
     public function createAction(Request $request)
     {
+        $resource = new Resource();
 
-        $authorizingOfficer = new AuthorizingOfficer();
-
-        $form = $this->createFormBuilder($authorizingOfficer)
+        $form = $this->createFormBuilder($resource)
             ->add('name', TextType::class)
-            ->add('contactNu', TextType::class)
-            ->add('save', SubmitType::class, array('label' => 'Create Authorizing Officer'))
+            ->add('description', TextType::class)
+            ->add('instructorName', TextType::class)
+            ->add('location', TextType::class)
+            ->add('save', SubmitType::class, array('label' => 'Create Resource'))
             ->getForm();
 
         $form->handleRequest($request);
@@ -42,34 +43,33 @@ class AuthorizingOfficerController extends Controller{
         if ($form->isSubmitted() && $form->isValid()) {
             // ... perform some action, such as saving the task to the database
 
-            $authorizingOfficer->save();
+            $resource->save();
 
             return $this->redirectToRoute('task_success');
         }
 
-
         // replace this example code with whatever you need
-        return $this->render('authorizingOfficer/create.html.twig', array('form' => $form->createView()));
+        return $this->render('resource/create.html.twig', array('form' => $form->createView()));
     }
 
     /**
-     * @Route("/authorizingofficer/view/{id}", name="authOfficer_view")
+     * @Route("/resource/view/{id}", name="resource_view")
      */
     public function viewAction($id,Request $request)
     {
         //give the id of the person we need to view
-        $au = AuthorizingOfficer::getOne($id);
+        $res = Resource::getOne($id);
 
-        return $this->render('authorizingOfficer/view.html.twig', array('officer' => $au));
+        return $this->render('resource/view.html.twig', array('resourse' => $res));
     }
 
     /**
-     * @Route("/authorizingofficer/view", name="authOfficer_viewAll")
+     * @Route("/resource/view", name="resource_viewAll")
      */
     public function viewAllAction(Request $request)
     {
-        $officers = AuthorizingOfficer::getAll();
+        $rss = Resource::getAll();
 
-        return $this->render('authorizingOfficer/viewall.html.twig', array('officers' => $officers));
+        return $this->render('resource/viewall.html.twig', array('resources' => $rss));
     }
 }

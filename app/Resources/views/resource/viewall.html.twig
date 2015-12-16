@@ -1,0 +1,16 @@
+{# app/Resources/views/resource/viewall.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}
+Authorizing Officers
+{% endblock %}
+
+{% block body %}
+<h1>Officers</h1>
+<ul>
+	{% for res in rss %}
+        <li>{{ res.name|e }} - {{ res.description|e }} - {{ res.instructor_name|e }} - {{ res.location|e }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}
+
