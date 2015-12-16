@@ -57,9 +57,14 @@ class AuthorizingOfficerController extends Controller{
      */
     public function viewAction(Request $request)
     {
-        $au = AuthorizingOfficer::getOne(1);
+        //give the id of the person we need to view
+        //$au = AuthorizingOfficer::getOne(1);
+
+        $officers = AuthorizingOfficer::getAll();
         //die($au->getName().$au->getContactNu());
-        return $this->render('authorizingOfficer/view.html.twig', array('office' => $au));
+        //return $this->render('authorizingOfficer/view.html.twig', array('officer' => $au));
+
+        return $this->render('authorizingOfficer/viewall.html.twig', array('officers' => $officers));
 
     }
 }

@@ -1,2 +1,10 @@
-{{office.name}}<br>
-{{office.contactNu}}
+{# app/Resources/views/authorizingOfficer/view.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+{{officers[1].name}}<br>
+{{officers[1].contactNu}}<br>  
+
+{{officer.name}}<br>
+{{officer.contactNu}}<br>  
+{% endblock %}

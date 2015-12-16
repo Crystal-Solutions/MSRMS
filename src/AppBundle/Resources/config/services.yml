@@ -1,0 +1,4 @@
+services:
+    connection:
+        class:  AppBundle\Controller\Connection
+        arguments: ["@doctrine.orm.entity_manager"]
