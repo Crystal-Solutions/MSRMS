@@ -67,7 +67,7 @@ class Player
         $stmt->bind_param("s",$id);
         $stmt->execute();
 
-        $stmt->bind_result($player->name,$player->year,$player->date_of_birth,$player->blood_type,$player->department_id);
+        $stmt->bind_result($player->name,$player->year,$player->date_of_birth,$player->address,$player->blood_type,$player->department_id);
         $stmt->fetch();
         $stmt->close();
         return $player;
