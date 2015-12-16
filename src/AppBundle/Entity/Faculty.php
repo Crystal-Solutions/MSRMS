@@ -38,7 +38,27 @@ class Faculty
         $stmt->bind_param("s",$this->name);  
         $stmt->execute();  
         $stmt->close();
-        
+
+    }
+
+    public static function getOne($id){
+
+        $con = Connection::getConnectionObject()->getConnection();
+        // Check connection
+        if (mysqli_connect_errno())
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
+
+        $fac = new Faculty();
+        $stmt = $con->prepare('SELECT name FROM faculty WHERE id=?');
+        $stmt->bind_param("s",$id);
+        $stmt->execute();
+
+        $stmt->bind_result($fac->name);
+        $stmt->fetch();
+        $stmt->close();
+        return $fac;
     }
 
 

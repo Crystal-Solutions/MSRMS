@@ -62,4 +62,10 @@ class DepartmentController extends Controller
         return $this->render('department/create.html.twig', array('form' => $form->createView()));
     }
  
+    public function viewAction(Request $request)
+        {
+            $dept = Department::getOne(1);
+            //die($au->getName().$au->getContactNu());
+            return $this->render('department/view.html.twig', array('dept' => $dept));
+        }
 }
