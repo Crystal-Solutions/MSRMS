@@ -92,7 +92,7 @@ class Player
         while($stmt->fetch())
         {
             $player = new Player();
-            $player->setId($id);
+            $player->id=$id;
             $player->setName($name);
             $player->setYear($year);
             $player->setDateOfBirth($dateOfBirth);
