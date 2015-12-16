@@ -5,17 +5,17 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Entity\Department;
+use AppBundle\Entity\Sport;
 
 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-class DepartmentController extends Controller
+class SportController extends Controller
 {
     /**
-     * @Route("/department/", name="department_home")
+     * @Route("/sport/", name="sport_home")
      */
     public function indexAction(Request $request)
     {
@@ -27,20 +27,20 @@ class DepartmentController extends Controller
 
 
     /**
-     * @Route("/department/create", name="department_create")
+     * @Route("/sport/create", name="sport_create")
      */
     public function createAction(Request $request)
     {
 
-        $department = new Department(); 
+        $sport = new Sport(); 
 
 
 
 
-        $form = $this->createFormBuilder($department)
+        $form = $this->createFormBuilder($sport)
             ->add('name', TextType::class)
-            ->add('faculty_id', TextType::class)
-            ->add('save', SubmitType::class, array('label' => 'Create Department'))
+            ->add('description', TextType::class)
+            ->add('save', SubmitType::class, array('label' => 'Create Sport'))
             ->getForm();
 
         $form->handleRequest($request);
@@ -48,10 +48,10 @@ class DepartmentController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             // ... perform some action, such as saving the task to the database
 
-            $department->save();
+            $sport->save();
             /*$em = $this->getDoctrine()->getManager();
 
-            $em->persist($department);
+            $em->persist($sport);
             $em->flush();*/
 
             return $this->redirectToRoute('task_success');
@@ -59,24 +59,30 @@ class DepartmentController extends Controller
 
 
         // replace this example code with whatever you need
-        return $this->render('department/create.html.twig', array('form' => $form->createView()));
+        return $this->render('sport/create.html.twig', array('form' => $form->createView()));
     }
 
     /**
-     * @Route("/department/view/{id}", name="department_view")
+     * @Route("/sport/view/{id}", name="sport_view")
      */
     public function viewAction($id, Request $request)
     {
-        $dept = Department::getOne($id);
-        return $this->render('department/view.html.twig', array('dept' => $dept));
+        $sport = Sport::getOne($id);
+        //die($au->getName().$au->getContactNu());
+        return $this->render('sport/view.html.twig', array('sport' => $sport));
+        //return $this->render('sport/viewall.html.twig', array('depts' => $depts));
     }
 
     /**
-     * @Route("/department/view", name="department_viewall")
+     * @Route("/sport/view", name="sport_viewall")
      */
     public function viewallAction(Request $request)
     {
-        $depts = Department::getAll();
-        return $this->render('department/viewall.html.twig', array('depts' => $depts));
+        $sports = Sport::getAll();
+        //die($au->getName().$au->getContactNu());
+        return $this->render('sport/viewall.html.twig', array('sports' => $sports));
+        //return $this->render('sport/viewall.html.twig', array('depts' => $depts));
     }
+
+
 }

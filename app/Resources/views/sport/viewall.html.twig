@@ -1,0 +1,6 @@
+<h1>Sports</h1>
+<ul>
+    {% for user in sports %}
+        <li>{{ user.name|e }} - {{ user.description|e }}</li>
+    {% endfor %}
+</ul>
