@@ -42,7 +42,7 @@ use AppBundle\Controller\Connection;
         {
             $con = Connection::getConnectionObject()->getConnection();
             $stmt = $con->prepare('INSERT INTO Sport (name,description) VALUES (?,?)');  
-            $stmt->bind_param("si",$this->name,$this->description);  
+            $stmt->bind_param("ss",$this->name,$this->description);  
             $stmt->execute();  
             $stmt->close();
         }
