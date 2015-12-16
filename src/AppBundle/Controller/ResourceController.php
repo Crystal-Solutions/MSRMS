@@ -24,7 +24,7 @@ class ResourceController extends Controller{
     }
 
     /**
-     * @Route("/resource/create", name="resource_home")
+     * @Route("/resource/create", name="resource_create")
      */
     public function createAction(Request $request)
     {
@@ -53,23 +53,23 @@ class ResourceController extends Controller{
     }
 
     /**
-     * @Route("/resource/view", name="resource_view")
+     * @Route("/resource/view/{id}", name="resource_view")
      */
-    public function viewAction(Request $request)
+    public function viewAction($id,Request $request)
     {
         //give the id of the person we need to view
-        $au = AuthorizingOfficer::getOne(1);
+        $res = Resource::getOne($id);
 
-        return $this->render('authorizingOfficer/view.html.twig', array('officer' => $au));
+        return $this->render('resource/view.html.twig', array('resourse' => $res));
     }
 
     /**
-     * @Route("/resource/viewAll", name="resource_viewAll")
+     * @Route("/resource/view", name="resource_viewAll")
      */
-    public function viewAction(Request $request)
+    public function viewAllAction(Request $request)
     {
-        $officers = AuthorizingOfficer::getAll();
+        $rss = Resource::getAll();
 
-        return $this->render('authorizingOfficer/viewall.html.twig', array('officers' => $officers));
+        return $this->render('resource/viewall.html.twig', array('resources' => $rss));
     }
 }

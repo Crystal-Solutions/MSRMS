@@ -2,8 +2,22 @@
 
 {% extends 'base.html.twig' %}
 
+{% block title %}
+Create Authorizing Officer
+{% endblock %}
+
 {% block body %}
 {{ form_start(form) }}
-{{ form_widget(form) }}
+
+
+<b>Name</b>
+{{ form_widget(form.name) }}
+{{ form_errors(form.name) }}
+<br>
+
+<b>Contact Numeber</b>
+{{ form_widget(form.contactNu) }}
+{{ form_errors(form.contactNu) }}
+
 {{ form_end(form) }}    
 {% endblock %}
