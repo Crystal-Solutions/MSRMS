@@ -74,11 +74,11 @@ class Equipment
         // Check connection
         if (mysqli_connect_errno())
         {
-            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+            die("Failed to connect to MySQL: " . mysqli_connect_error());
         }
 
         $equipment = new Equipment();
-        $stmt = $con->prepare('SELECT name,descripton,amount FROM equipment WHERE id=?');
+        $stmt = $con->prepare('SELECT name,description,amount FROM equipment WHERE equipment.id=?');
         $stmt->bind_param("s",$id);
         $stmt->execute();
 
@@ -97,24 +97,22 @@ class Equipment
         }
 
          $players = array(); //Make an empty array
-        $stmt = $con->prepare('SELECT name,year,date_of_birth,address,blood_type,department_id FROM player');
+        $stmt = $con->prepare('SELECT name,description,amount FROM equipment');
         $stmt->execute();
-        $stmt->bind_result($name,$year,$dateOfBirth,$address,$bloodType,$departmentId);
+        $stmt->bind_result($name,$description,$amount);
         while($stmt->fetch())
         {
-            $player = new Player();
-            $player->setName($name);
-            $player->setYear($year);
-            $player->setDateOfBirth($dateOfBirth);
-            $player->setAddress($address);
-            $player->setBloodType($bloodType);
-            $player->setDepartmentId($departmentId);
+            $equipment = new Equipment();
+            $equipment->setName($name);
+            $equipment->setDescription($description);
+            $equipment->setAmount($amount);
+           
 
-            array_push($players,$player); //Push one by one
+            array_push($equipments,$equipment); //Push one by one
         }
         $stmt->close();
         
-        return $players;
+        return $equipments;
 
     }
 

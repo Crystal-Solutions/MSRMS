@@ -27,7 +27,7 @@ class DepartmentController extends Controller
 
 
     /**
-     * @Route("/department/create", name="department_home")
+     * @Route("/department/create", name="department_create")
      */
     public function createAction(Request $request)
     {
@@ -63,13 +63,20 @@ class DepartmentController extends Controller
     }
 
     /**
-     * @Route("/department/view", name="department_view")
+     * @Route("/department/view/{id}", name="department_view")
      */
-    public function viewAction(Request $request)
+    public function viewAction($id, Request $request)
     {
-        $depts = Department::getall();
-        //die($au->getName().$au->getContactNu());
-        //return $this->render('department/view.html.twig', array('dept' => $dept));
+        $dept = Department::getOne($id);
+        return $this->render('department/view.html.twig', array('dept' => $dept));
+    }
+
+    /**
+     * @Route("/department/view", name="department_viewall")
+     */
+    public function viewallAction(Request $request)
+    {
+        $depts = Department::getAll();
         return $this->render('department/viewall.html.twig', array('depts' => $depts));
     }
 }
