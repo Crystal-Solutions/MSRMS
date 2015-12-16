@@ -96,6 +96,7 @@ class AuthorizingOfficer
 			array_push($officers,$off); //Push one by one
 		}
         $stmt->close();
+		
         return $officers;
     }
 

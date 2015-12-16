@@ -32,7 +32,7 @@ final class Connection extends Controller
 
         $servername = "localhost";
         $username = "root";
-        $password = 711246252;
+        $password = null;
         $dbname = "msrms";
 
         // Create connection

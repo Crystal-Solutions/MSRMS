@@ -1,0 +1,6 @@
+<h1>Officers</h1>
+<ul>
+    {% for user in officers %}
+        <li>{{ user.name|e }} - {{ user.contactNu|e }}</li>
+    {% endfor %}
+</ul>
