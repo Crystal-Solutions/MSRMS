@@ -1,0 +1,13 @@
+{# app/Resources/views/default/new.html.twig #}
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+<h1>Players</h1>
+<ul>
+    {% for user in players %}
+        <li>{{ user.name|e }} - {{ user.year|e }}- {{ user.dateOfBirth|e }}- {{ user.bloodType|e }}- {{ user.address|e }}</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

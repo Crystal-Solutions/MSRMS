@@ -62,29 +62,53 @@ class Department
         }
     }
 
-    public static getDepartment($id)
+    public static function getOne($id)
     {
         $con = Connection::getConnectionObject()->getConnection();
         // Check connection
         if (mysqli_connect_errno())
-          {
-          echo "Failed to connect to MySQL: " . mysqli_connect_error();
-          }
-
-        $sql="SELECT Lastname,Age FROM Persons ORDER BY Lastname";
-
-        if ($result=mysqli_query($con,$sql))
-          {
-          while ($obj=mysqli_fetch_object($result))
-            {
-            printf("%s (%s)\n",$obj->Lastname,$obj->Age);
-            }
-          // Free result set
-          mysqli_free_result($result);
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
         }
 
-        mysqli_close($con);
+        $dept = new Department();
+        $stmt = $con->prepare('SELECT name,faculty_id FROM department WHERE id=?');
+        $stmt->bind_param("s",$id);
+        $stmt->execute();
 
+        $stmt->bind_result($dept->name,$dept->faculty_id);
+        $stmt->fetch();
+        $stmt->close();
+        return $dept;
+    }
+
+    public static function getAll()
+    {
+        $con = Connection::getConnectionObject()->getConnection();
+        // Check connection
+        if (mysqli_connect_errno())
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
+
+        $stmt = $con->prepare('SELECT name,faculty_id FROM department');
+        $depts = array();
+
+        if ($stmt->execute()) {
+            $stmt->bind_result($name,$faculty_id);
+            
+            while ( $stmt->fetch() ) {
+                $dp = new Department();
+                $dp->name = $name;
+                $dp->faculty_id = $faculty_id;
+                $depts[] = $dp;
+            }
+            $stmt->close();
+            return $depts;  
+            
+        }
+        $stmt->close();
+        return false;     
     }
 
     /**

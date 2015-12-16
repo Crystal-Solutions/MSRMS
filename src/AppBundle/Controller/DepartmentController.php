@@ -61,5 +61,15 @@ class DepartmentController extends Controller
         // replace this example code with whatever you need
         return $this->render('department/create.html.twig', array('form' => $form->createView()));
     }
- 
+
+    /**
+     * @Route("/department/view", name="department_view")
+     */
+    public function viewAction(Request $request)
+    {
+        $depts = Department::getall();
+        //die($au->getName().$au->getContactNu());
+        //return $this->render('department/view.html.twig', array('dept' => $dept));
+        return $this->render('department/viewall.html.twig', array('depts' => $depts));
+    }
 }

@@ -84,20 +84,24 @@ class AuthorizingOfficer
             echo "Failed to connect to MySQL: " . mysqli_connect_error();
         }
 
-        $officers = array(); //Make an empty array
         $stmt = $con->prepare('SELECT name,contact_nu FROM authorizing_officer');
-        $stmt->execute();
-        $stmt->bind_result($name,$contactNu);
-		while($stmt->fetch())
-		{
-			$off = new AuthorizingOfficer();
-			$off->setName($name);
-			$off->setContactNu($contactNu);
-			array_push($officers,$off); //Push one by one
-		}
+        $officers = array();
+
+        if ($stmt->execute()) {
+            $stmt->bind_result($name,$number);
+            
+            while ( $stmt->fetch() ) {
+                $au = new AuthorizingOfficer();
+                $au->name = $name;
+                $au->contactNu = $number;
+                $officers[] = $au;
+            }
+            $stmt->close();
+            return $officers;  
+            
+        }
         $stmt->close();
-		
-        return $officers;
+        return false;     
     }
 
     /**

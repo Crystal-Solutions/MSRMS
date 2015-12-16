@@ -35,11 +35,15 @@ class Player
 
     public function save()
     {
+
+        $this->dateOfBirth = $this->dateOfBirth->format('Y-m-d');
+
         if($this->id ==null)
         {
+           
         $con = Connection::getConnectionObject()->getConnection();
         $stmt = $con->prepare('INSERT INTO `player` (`name`, `date_of_birth`, `year`, `department_id`, `address`, `blood_type`) VALUES (?,?,?,?,?,?)');  
-        $stmt->bind_param("ssiiss",$this->name,$this->date_of_birth,$this->year,$this->departmentId,$this->address,$this->blood_type);  
+        $stmt->bind_param("ssiiss",$this->name,$this->dateOfBirth,$this->year,$this->departmentId,$this->address,$this->bloodType);  
         $stmt->execute();  
         $stmt->close();
         }
@@ -47,7 +51,7 @@ class Player
         {
         $con = Connection::getConnectionObject()->getConnection();
         $stmt = $con->prepare('UPDATE player SET name =?,date_of_birth=?,year=?,department_id=?,address=?,blood_type=? WHERE player.id = id');  
-        $stmt->bind_param("ssiiss",$this->name,$this->date_of_birth,$this->year,$this->departmentId,$this->address,$this->blood_type);  
+        $stmt->bind_param("ssiiss",$this->name,$this->dateOfBirth,$this->year,$this->departmentId,$this->address,$this->bloodType);  
         $stmt->execute();  
         $stmt->close();   
         }
@@ -67,12 +71,12 @@ class Player
         $stmt->bind_param("s",$id);
         $stmt->execute();
 
-        $stmt->bind_result($player->name,$player->year,$player->date_of_birth,$player->blood_type,$player->department_id);
+        $stmt->bind_result($player->name,$player->year,$player->date_of_birth,$player->address,$player->blood_type,$player->department_id);
         $stmt->fetch();
         $stmt->close();
         return $player;
     }
-        public static function getAll($id)
+        public static function getAll()
     {
         $con = Connection::getConnectionObject()->getConnection();
         // Check connection
@@ -80,6 +84,26 @@ class Player
         {
             echo "Failed to connect to MySQL: " . mysqli_connect_error();
         }
+
+         $players = array(); //Make an empty array
+        $stmt = $con->prepare('SELECT name,year,date_of_birth,address,blood_type,department_id FROM player');
+        $stmt->execute();
+        $stmt->bind_result($name,$year,$dateOfBirth,$address,$bloodType,$departmentId);
+        while($stmt->fetch())
+        {
+            $player = new Player();
+            $player->setName($name);
+            $player->setYear($year);
+            $player->setDateOfBirth($dateOfBirth);
+            $player->setAddress($address);
+            $player->setBloodType($bloodType);
+            $player->setDepartmentId($departmentId);
+
+            array_push($players,$player); //Push one by one
+        }
+        $stmt->close();
+        
+        return $players;
 
     }
 
@@ -239,4 +263,22 @@ class Player
     {
         return $this->department;
     }
+
+        public function setDepartmentId($departmentId)
+    {
+        $this->departmentId = $departmentId;
+
+        return $this;
+    }
+
+    /**
+     * Get bloodType
+     *
+     * @return string
+     */
+    public function getDepartmentId()
+    {
+        return $this->departmentId;
+    }
+
 }
