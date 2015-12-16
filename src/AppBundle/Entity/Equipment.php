@@ -66,8 +66,8 @@ class Equipment
         }
     }
 
-    
-    public static function getOne($id)
+
+ /*   public static function getOne($id)
     {
         $con = Connection::getConnectionObject()->getConnection();
         // Check connection
@@ -76,7 +76,7 @@ class Equipment
             echo "Failed to connect to MySQL: " . mysqli_connect_error();
         }
 
-        $player = new Player();
+        $equipment = new Equipment();
         $stmt = $con->prepare('SELECT name,year,date_of_birth,address,blood_type,department_id FROM player WHERE id=?');
         $stmt->bind_param("s",$id);
         $stmt->execute();
@@ -115,7 +115,7 @@ class Equipment
         
         return $players;
 
-    }
+    }*/
 
 
     /**
