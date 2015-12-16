@@ -36,7 +36,7 @@ class EquipmentController extends Controller
 
         $form = $this->createFormBuilder($equipment)
             ->add('name', TextType::class)
-            ->add('description', DateType::class)
+            ->add('description', TextType::class)
             ->add('amount',TextType::class)
             ->add('save', SubmitType::class, array('label' => 'Create Equipment'))
             ->getForm();
