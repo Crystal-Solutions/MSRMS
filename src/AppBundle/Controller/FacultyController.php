@@ -60,5 +60,16 @@ class FacultyController extends Controller
         // replace this example code with whatever you need
         return $this->render('faculty/create.html.twig', array('form' => $form->createView()));
     }
+
+    /**
+     * @Route("/faculty/view", name="faculty_view")
+     */
+    public function viewAction(Request $request)
+    {
+        $faculties = Faculty::getall();
+        //die($au->getName().$au->getContactNu());
+        //return $this->render('department/view.html.twig', array('dept' => $dept));
+        return $this->render('faculty/viewall.html.twig', array('faculties' => $faculties));
+    }
  
 }

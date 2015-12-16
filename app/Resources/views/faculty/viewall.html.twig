@@ -1,0 +1,6 @@
+<h1>Faculties</h1>
+<ul>
+    {% for user in faculties %}
+        <li>{{ user.name|e }}</li>
+    {% endfor %}
+</ul>

@@ -1,0 +1,6 @@
+<h1>Departmemts</h1>
+<ul>
+    {% for user in depts %}
+        <li>{{ user.name|e }} - {{ user.faculty_id|e }}</li>
+    {% endfor %}
+</ul>

@@ -91,15 +91,24 @@ class Department
             echo "Failed to connect to MySQL: " . mysqli_connect_error();
         }
 
-        $dept = new Department();
-        $stmt = $con->prepare('SELECT name,faculty_id FROM department WHERE id=?');
-        $stmt->bind_param("s",$id);
-        $stmt->execute();
+        $stmt = $con->prepare('SELECT name,faculty_id FROM department');
+        $depts = array();
 
-        $stmt->bind_result($dept->name,$dept->faculty_id);
-        $stmt->fetch();
+        if ($stmt->execute()) {
+            $stmt->bind_result($name,$faculty_id);
+            
+            while ( $stmt->fetch() ) {
+                $dp = new Department();
+                $dp->name = $name;
+                $dp->faculty_id = $faculty_id;
+                $depts[] = $dp;
+            }
+            $stmt->close();
+            return $depts;  
+            
+        }
         $stmt->close();
-        return $dept;
+        return false;     
     }
 
     /**
