@@ -15,7 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 class EquipmentController extends Controller
 {
     /**
-     * @Route("/equipment/", name="equipments_home")
+     * @Route("/equipment/", name="equipment_home")
      */
     public function indexAction(Request $request)
     {
@@ -36,7 +36,7 @@ class EquipmentController extends Controller
 
         $form = $this->createFormBuilder($equipment)
             ->add('name', TextType::class)
-            ->add('description', DateType::class)
+            ->add('description', TextType::class)
             ->add('amount',TextType::class)
             ->add('save', SubmitType::class, array('label' => 'Create Equipment'))
             ->getForm();
@@ -59,7 +59,7 @@ class EquipmentController extends Controller
      */
     public function viewAction($id, Request $request)
     {
-        $player =  Equipment::getOne($id);
+        $equipment =  Equipment::getOne($id);
         return $this->render('equipment/view.html.twig', array('equipment' =>$equipment));  
     }
 

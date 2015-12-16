@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use AppBundle\Controller\Connection;
 
 /**
  * Equipment
@@ -64,6 +65,55 @@ class Equipment
         $stmt->execute();  
         $stmt->close();   
         }
+    }
+
+
+    public static function getOne($id)
+    {
+        $con = Connection::getConnectionObject()->getConnection();
+        // Check connection
+        if (mysqli_connect_errno())
+        {
+            die("Failed to connect to MySQL: " . mysqli_connect_error());
+        }
+
+        $equipment = new Equipment();
+        $stmt = $con->prepare('SELECT name,description,amount FROM equipment WHERE equipment.id=?');
+        $stmt->bind_param("s",$id);
+        $stmt->execute();
+
+        $stmt->bind_result($equipment->name,$equipment->description,$equipment->amount);
+        $stmt->fetch();
+        $stmt->close();
+        return $equipment;
+    }
+        public static function getAll()
+    {
+        $con = Connection::getConnectionObject()->getConnection();
+        // Check connection
+        if (mysqli_connect_errno())
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
+
+         $players = array(); //Make an empty array
+        $stmt = $con->prepare('SELECT name,description,amount FROM equipment');
+        $stmt->execute();
+        $stmt->bind_result($name,$description,$amount);
+        while($stmt->fetch())
+        {
+            $equipment = new Equipment();
+            $equipment->setName($name);
+            $equipment->setDescription($description);
+            $equipment->setAmount($amount);
+           
+
+            array_push($equipments,$equipment); //Push one by one
+        }
+        $stmt->close();
+        
+        return $equipments;
+
     }
 
 
