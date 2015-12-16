@@ -64,7 +64,7 @@ class AuthorizingOfficerController extends Controller{
         //die($au->getName().$au->getContactNu());
         //return $this->render('authorizingOfficer/view.html.twig', array('officer' => $au));
 
-        return $this->render('authorizingOfficer/view.html.twig', array('officers' => $officers));
+        return $this->render('authorizingOfficer/viewall.html.twig', array('officers' => $officers));
 
     }
 }
