@@ -25,7 +25,7 @@
 
 <!-- Content -->
 <div class="panel panel-default">
-  <div class="panel-heading">{{ block('title') }}</div>
+  <div class="panel-heading">{{ block('title') }}<div class="pull-right">{% block links %}{% endblock %}</div></div>
   <div class="panel-body">
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}

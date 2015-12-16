@@ -5,10 +5,19 @@
 All Players
 {% endblock %}
 
+{% block links %}
+    <div class="btn-group" >
+       <a href="{{url('player_create')}}"> <button type="button" class="btn btn-xs btn-success">Create Player</button></a>
+    </div>
+{% endblock %}
+
+
 {% block body %}
 <ul>
     {% for user in players %}
-        <li>{{ user.name|e }} - {{ user.year|e }}- {{ user.dateOfBirth|e }}- {{ user.bloodType|e }}- {{ user.address|e }}</li>
+        <li>
+        	<a href="{{url('player_view',{'id':user.id})}}">{{ user.name|e }} - {{ user.year|e }}- {{ user.dateOfBirth|e }}- {{ user.bloodType|e }}- {{ user.address|e }}</a>
+        </li>
     {% endfor %}
 </ul>
 
