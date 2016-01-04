@@ -9,6 +9,7 @@ use AppBundle\Entity\Player;
 
 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
@@ -36,10 +37,11 @@ class PlayerController extends Controller
             ->add('name', TextType::class)
             ->add('dateOfBirth', DateType::class,array('years'=>range(1940,2005))   )
             ->add('year',TextType::class)
-            ->add('departmentId',TextType::class)
+           // ->add('departmentId',TextType::class)
+            ->add('departmentId',ChoiceType::class,array('choices' => array('CSE'=>"3",'ENTC'=>"4") ))
             ->add('address',TextType::class)
             ->add('bloodType',TextType::class)
-            ->add('save', SubmitType::class, array('label' => 'Create Task'))
+            ->add('save', SubmitType::class, array('label' => 'Create Player'))
             ->getForm();
 
         $form->handleRequest($request);
@@ -48,7 +50,7 @@ class PlayerController extends Controller
             // ... perform some action, such as saving the task to the database
             $player->save();
 
-            return $this->redirectToRoute('task_success');
+            return $this->redirectToRoute('player_viewAll');
         }
 
         // replace this example code with whatever you need
