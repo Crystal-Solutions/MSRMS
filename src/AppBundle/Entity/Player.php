@@ -11,6 +11,8 @@ class Player
 
     private $name;
 
+    private $indexNumber;
+
 
     private $year;
 
@@ -42,16 +44,16 @@ class Player
         {
            
         $con = Connection::getConnectionObject()->getConnection();
-        $stmt = $con->prepare('INSERT INTO `player` (`name`, `date_of_birth`, `year`, `department_id`, `address`, `blood_type`) VALUES (?,?,?,?,?,?)');  
-        $stmt->bind_param("ssiiss",$this->name,$this->dateOfBirth,$this->year,$this->departmentId,$this->address,$this->bloodType);  
+        $stmt = $con->prepare('INSERT INTO `player` (`name`,index_number, `date_of_birth`, `year`, `department_id`, `address`, `blood_type`) VALUES (?,?,   ?,?,?,?,?)');  
+        $stmt->bind_param("sssiiss",$this->name,$this->indexNumber,$this->dateOfBirth,$this->year,$this->departmentId,$this->address,$this->bloodType);  
         $stmt->execute();  
         $stmt->close();
         }
         else
         {
         $con = Connection::getConnectionObject()->getConnection();
-        $stmt = $con->prepare('UPDATE player SET name =?,date_of_birth=?,year=?,department_id=?,address=?,blood_type=? WHERE player.id = id');  
-        $stmt->bind_param("ssiiss",$this->name,$this->dateOfBirth,$this->year,$this->departmentId,$this->address,$this->bloodType);  
+        $stmt = $con->prepare('UPDATE player SET name =?,index_number,date_of_birth=?,year=?,department_id=?,address=?,blood_type=? WHERE player.id = id');  
+        $stmt->bind_param("ssiiss",$this->name,$this->indexNumber,$this->dateOfBirth,$this->year,$this->departmentId,$this->address,$this->bloodType);  
         $stmt->execute();  
         $stmt->close();   
         }
@@ -67,11 +69,11 @@ class Player
         }
 
         $player = new Player();
-        $stmt = $con->prepare('SELECT id,name,year,date_of_birth,address,blood_type,department_id FROM player WHERE id=?');
+        $stmt = $con->prepare('SELECT id,name,index_number,year,date_of_birth,address,blood_type,department_id FROM player WHERE id=?');
         $stmt->bind_param("s",$id);
         $stmt->execute();
 
-        $stmt->bind_result($player->id,$player->name,$player->year,$player->date_of_birth,$player->address,$player->blood_type,$player->department_id);
+        $stmt->bind_result($player->id,$player->name,$player->index_number,$player->year,$player->date_of_birth,$player->address,$player->blood_type,$player->department_id);
         $stmt->fetch();
         $stmt->close();
         return $player;
@@ -86,14 +88,15 @@ class Player
         }
 
          $players = array(); //Make an empty array
-        $stmt = $con->prepare('SELECT id,name,year,date_of_birth,address,blood_type,department_id FROM player');
+        $stmt = $con->prepare('SELECT id,name,index_number,year,date_of_birth,address,blood_type,department_id FROM player');
         $stmt->execute();
-        $stmt->bind_result($id,$name,$year,$dateOfBirth,$address,$bloodType,$departmentId);
+        $stmt->bind_result($id,$name,$indexNumber,$year,$dateOfBirth,$address,$bloodType,$departmentId);
         while($stmt->fetch())
         {
             $player = new Player();
             $player->id=$id;
             $player->setName($name);
+            $player->setIndexNumber($indexNumber);
             $player->setYear($year);
             $player->setDateOfBirth($dateOfBirth);
             $player->setAddress($address);
@@ -132,6 +135,30 @@ class Player
     public function getName()
     {
         return $this->name;
+    }
+
+      /**
+     * Set indexNumber
+     *
+     * @param string $indexNumber
+     *
+     * @return Player
+     */
+          public function setIndexNumber($indexNumber)
+    {
+        $this->indexNumber = $indexNumber;
+
+        return $this;
+    }
+
+    /**
+     * Get indexNumber
+     *
+     * @return string
+     */
+    public function getIndexNumber()
+    {
+        return $this->indexNumber;
     }
 
     /**

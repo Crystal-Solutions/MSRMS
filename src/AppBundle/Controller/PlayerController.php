@@ -33,6 +33,7 @@ class PlayerController extends Controller
         $player = new Player(); 
 
         $form = $this->createFormBuilder($player)
+            ->add('indexNumber',TextType::class)
             ->add('name', TextType::class)
             ->add('dateOfBirth', DateType::class)
             ->add('year',TextType::class)
