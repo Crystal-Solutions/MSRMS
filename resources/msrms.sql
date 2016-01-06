@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 15, 2015 at 04:45 PM
+-- Generation Time: Jan 06, 2016 at 07:27 PM
 -- Server version: 5.6.21
 -- PHP Version: 5.5.19
 
@@ -56,7 +56,14 @@ CREATE TABLE IF NOT EXISTS `department` (
 `id` int(11) NOT NULL,
   `name` varchar(45) DEFAULT NULL,
   `faculty_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `department`
+--
+
+INSERT INTO `department` (`id`, `name`, `faculty_id`) VALUES
+(2, 'CSE', 1);
 
 -- --------------------------------------------------------
 
@@ -113,7 +120,14 @@ CREATE TABLE IF NOT EXISTS `equipment_reserved_by_player` (
 CREATE TABLE IF NOT EXISTS `faculty` (
 `id` int(11) NOT NULL,
   `name` varchar(45) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `faculty`
+--
+
+INSERT INTO `faculty` (`id`, `name`) VALUES
+(1, 'Eng');
 
 -- --------------------------------------------------------
 
@@ -150,8 +164,16 @@ CREATE TABLE IF NOT EXISTS `player` (
   `year` int(11) DEFAULT NULL,
   `date_of_birth` date DEFAULT NULL,
   `address` varchar(256) DEFAULT NULL,
-  `blood_type` varchar(3) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `blood_type` varchar(3) DEFAULT NULL,
+  `index_number` varchar(7) DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `player`
+--
+
+INSERT INTO `player` (`id`, `name`, `department_id`, `year`, `date_of_birth`, `address`, `blood_type`, `index_number`) VALUES
+(3, 'Haha', 2, 12, '2011-01-01', 'asda', 'b+', '123dj');
 
 -- --------------------------------------------------------
 
@@ -372,7 +394,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `department`
 --
 ALTER TABLE `department`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `equipment`
 --
@@ -392,7 +414,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `faculty`
 --
 ALTER TABLE `faculty`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `phone_number_auth_officer`
 --
@@ -407,7 +429,7 @@ MODIFY `number` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `player`
 --
 ALTER TABLE `player`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `player_involved_in_sport`
 --

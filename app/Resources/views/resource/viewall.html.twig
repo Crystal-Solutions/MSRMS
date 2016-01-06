@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {# app/Resources/views/resource/viewall.html.twig #}
 {% extends 'base.html.twig' %}
 
@@ -13,3 +14,20 @@ Resources
 </ul>
 {% endblock %}
 
+=======
+{# app/Resources/views/resource/viewall.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}
+Authorizing Officers
+{% endblock %}
+
+{% block body %}
+<ul>
+	{% for res in resources %}
+        <li>{{ res.name|e }} - {{ res.description|e }} - {{ res.instructorName|e }} - {{ res.location|e }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}
+
+>>>>>>> parent of f36fbe8... small bug fixed-S

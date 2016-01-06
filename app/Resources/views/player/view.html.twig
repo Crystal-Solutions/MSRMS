@@ -1,3 +1,4 @@
+
 {# app/Resources/views/default/new.html.twig #}
 {% extends 'base.html.twig' %}
 
@@ -6,10 +7,11 @@ Player Details
 {% endblock %}
 
 {% block body %}
+{{player.indexNumber}}<br>
 {{player.name}}<br>
 {{player.dateOfBirth}}<br>
 {{player.year}}<br>
 {{player.departmentId}}<br>
 {{player.address}}<br>
 {{player.bloodType}}<br>
-{% endblock %}
+
