@@ -1,0 +1,15 @@
+{# app/Resources/views/resource/viewall.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}
+Resources
+{% endblock %}
+
+{% block body %}
+<ul>
+	{% for res in resources %}
+        <li>{{ res.name|e }} - {{ res.description|e }} - {{ res.instructorName|e }} - {{ res.location|e }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}
+

@@ -13,7 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 class AuthorizingOfficerController extends Controller{
 
     /**
-     * @Route("/authorizingOfficer/", name="authOfficer_home")
+     * @Route("/authorizingofficer/", name="authOfficer_home")
      */
     public function indexAction(Request $request)
     {
@@ -24,7 +24,7 @@ class AuthorizingOfficerController extends Controller{
     }
 
     /**
-     * @Route("/authorizingOfficer/create", name="authOfficer_home")
+     * @Route("/authorizingofficer/create", name="authOfficer_create")
      */
     public function createAction(Request $request)
     {
@@ -53,18 +53,23 @@ class AuthorizingOfficerController extends Controller{
     }
 
     /**
-     * @Route("/authorizingOfficer/view", name="authOfficer_view")
+     * @Route("/authorizingofficer/view/{id}", name="authOfficer_view")
      */
-    public function viewAction(Request $request)
+    public function viewAction($id,Request $request)
     {
         //give the id of the person we need to view
-        //$au = AuthorizingOfficer::getOne(1);
+        $au = AuthorizingOfficer::getOne($id);
 
+        return $this->render('authorizingOfficer/view.html.twig', array('officer' => $au));
+    }
+
+    /**
+     * @Route("/authorizingofficer/view", name="authOfficer_viewAll")
+     */
+    public function viewAllAction(Request $request)
+    {
         $officers = AuthorizingOfficer::getAll();
-        //die($au->getName().$au->getContactNu());
-        //return $this->render('authorizingOfficer/view.html.twig', array('officer' => $au));
 
         return $this->render('authorizingOfficer/viewall.html.twig', array('officers' => $officers));
-
     }
 }

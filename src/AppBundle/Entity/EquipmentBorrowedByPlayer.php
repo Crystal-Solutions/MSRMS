@@ -76,7 +76,83 @@ class EquipmentBorrowedByPlayer
      */
     private $equipment;
 
+ public function save()
+    {
 
+        $this->borrowedTime = $this->borrowedTime->format('Y-m-d H-i-s');
+        $this->dueTime = $this->dueTime->format('Y-m-d H-i-s');
+        $this->returnedTime = $this->returnedTime->format('Y-m-d H-i-s');
+
+        if($this->id ==null)
+        {
+           
+        $con = Connection::getConnectionObject()->getConnection();
+        $stmt = $con->prepare('INSERT INTO `equipment_borrowed_by_player` (`equipment_id`,`player_id`,`amount`, `borrowed_time`, `due_time`, `returned_time`, `issue_details`) VALUES (?,?,?,?,?,?,?)');  
+        $stmt->bind_param("iiissss",$this->equipment,$this->playerId,$this->amount,$this->borrowedTime,$this->dueTime,$this->returnedTime,$this->issueDetails);  
+        $stmt->execute();  
+        $stmt->close();
+        }
+        else
+        {
+        $con = Connection::getConnectionObject()->getConnection();
+        $stmt = $con->prepare('UPDATE EquipmentBorrowedByPlayer SET equipment_id =?,player_id=?,amount=?,borrowed_time=?,due_time=?,returned_time=?,issue_details=? WHERE player.id = id');  
+        $stmt->bind_param("iiissss",$this->equipment,$this->playerId,$this->amount,$this->borrowedTime,$this->dueTime,$this->returnedTime,$this->issueDetails);  
+        $stmt->execute();  
+        $stmt->close();   
+        }
+    }
+
+        public static function getOne($id)
+    {
+        $con = Connection::getConnectionObject()->getConnection();
+        // Check connection
+        if (mysqli_connect_errno())
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
+
+        $equipmentBorrowedByPlayer = new EquipmentBorrowedByPlayer();
+        $stmt = $con->prepare('SELECT id,equipment_id,player_id,amount,borrowed_time,due_time,returned_time,issue_details FROM player WHERE id=?');
+        $stmt->bind_param("s",$id);
+        $stmt->execute();
+
+        $stmt->bind_result($equipmentBorrowedByPlayer->id,$equipmentBorrowedByPlayer->equipment_id,$equipmentBorrowedByPlayer->player_id,$equipmentBorrowedByPlayer->amount,$equipmentBorrowedByPlayer->borrowed_time,$equipmentBorrowedByPlayer->due_time,$equipmentBorrowedByPlayer->returned_time,$equipmentBorrowedByPlayer->issue_details);
+        $stmt->fetch();
+        $stmt->close();
+        return $equipmentBorrowedByPlayer;
+    }
+        public static function getAll()
+    {
+        $con = Connection::getConnectionObject()->getConnection();
+        // Check connection
+        if (mysqli_connect_errno())
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
+
+        $equipmentBorrowedByPlayers = array(); //Make an empty array
+        $stmt = $con->prepare('SELECT id,equipment_id,player_id,amount,borrowed_time,due_time,returned_time,issue_details FROM equipmentBorrowedByPlayer');
+        $stmt->execute();
+        $stmt->bind_result($id,$equipment,$playerId,$amount,$borrowedTime,$dueTime,$returnedTime,$issueDetails);
+        while($stmt->fetch())
+        {
+            $player = new Player();
+            $player->id=$id;
+           // $equipmentBorrowedByPlayer->setEquipment($equipmentId);
+            $equipmentBorrowedByPlayer->setPlayer($player);
+            $equipmentBorrowedByPlayer->setAmount($amount);
+            $equipmentBorrowedByPlayer->setBorrowedTime($borrowedTime);
+            $equipmentBorrowedByPlayer->setDueTime($dueTime);
+            $equipmentBorrowedByPlayer->setReturnedTime($returnedTime);
+            $equipmentBorrowedByPlayer->setIssueDetails($issueDetails);
+
+            array_push($equipmentBorrowedByPlayers,$equipmentBorrowedByPlayer); //Push one by one
+        }
+        $stmt->close();
+        
+        return $equipmentBorrowedByPlayers;
+
+    }
 
     /**
      * Set amount

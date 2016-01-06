@@ -1,0 +1,11 @@
+{# app/Resources/views/resource/view.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}
+Resources
+{% endblock %}
+
+{% block body %}
+{{ resource.name|e }} - {{ resource.description|e }} - {{ resource.instructorName|e }} - {{ resource.location|e }}
+{% endblock %}
+

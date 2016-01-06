@@ -44,7 +44,7 @@ class Player
         {
            
         $con = Connection::getConnectionObject()->getConnection();
-        $stmt = $con->prepare('INSERT INTO `player` (`name`,index_number, `date_of_birth`, `year`, `department_id`, `address`, `blood_type`) VALUES (?,?,   ?,?,?,?,?)');  
+        $stmt = $con->prepare('INSERT INTO `player` (`name`,index_number `date_of_birth`, `year`, `department_id`, `address`, `blood_type`) VALUES (?,?,   ?,?,?,?,?)');  
         $stmt->bind_param("sssiiss",$this->name,$this->indexNumber,$this->dateOfBirth,$this->year,$this->departmentId,$this->address,$this->bloodType);  
         $stmt->execute();  
         $stmt->close();
@@ -52,8 +52,8 @@ class Player
         else
         {
         $con = Connection::getConnectionObject()->getConnection();
-        $stmt = $con->prepare('UPDATE player SET name =?,index_number,date_of_birth=?,year=?,department_id=?,address=?,blood_type=? WHERE player.id = id');  
-        $stmt->bind_param("ssiiss",$this->name,$this->indexNumber,$this->dateOfBirth,$this->year,$this->departmentId,$this->address,$this->bloodType);  
+        $stmt = $con->prepare('UPDATE player SET name =?,index_number=?,date_of_birth=?,year=?,department_id=?,address=?,blood_type=? WHERE player.id = id');  
+        $stmt->bind_param("sssiiss",$this->name,$this->indexNumber,$this->dateOfBirth,$this->year,$this->departmentId,$this->address,$this->bloodType);  
         $stmt->execute();  
         $stmt->close();   
         }
@@ -310,3 +310,5 @@ class Player
     }
 
 }
+
+

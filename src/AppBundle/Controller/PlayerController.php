@@ -5,7 +5,7 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Entity\Player;
+use AppBundle\Entity\Player;    
 
 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -49,7 +49,7 @@ class PlayerController extends Controller
             // ... perform some action, such as saving the task to the database
             $player->save();
 
-            return $this->redirectToRoute('task_success');
+            return $this->redirectToRoute('player_viewAll');
         }
 
         // replace this example code with whatever you need
@@ -80,3 +80,6 @@ class PlayerController extends Controller
 
  
 }
+
+
+
