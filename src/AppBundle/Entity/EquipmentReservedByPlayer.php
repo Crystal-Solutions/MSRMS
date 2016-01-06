@@ -42,6 +42,74 @@ class EquipmentReservedByPlayer
      */
     private $id;
 
+    public function save()
+    {
+        if ($this->id == null) {
+            $con = Connection::getConnectionObject()->getConnection();
+            $stmt = $con->prepare('INSERT INTO authorizing_officer (name,contact_nu) VALUES (?,?)');  
+            $stmt->bind_param("ss",$this->name,$this->contactNu);  
+            $stmt->execute();  
+            $stmt->close();
+        }else{
+            $con = Connection::getConnectionObject()->getConnection();
+            $stmt = $con->prepare('UPDATE authorizing_officer SET (name,contact_nu) VALUES (?,?)');  
+            $stmt->bind_param("ss",$this->name,$this->contactNu);  
+            $stmt->execute();  
+            $stmt->close();
+        }
+    }
+
+    public static function getOne($id){
+
+        $con = Connection::getConnectionObject()->getConnection();
+        // Check connection
+        if (mysqli_connect_errno())
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
+
+        $au = new AuthorizingOfficer();
+        $au->id = $id;
+
+        $stmt = $con->prepare('SELECT name,contact_nu FROM authorizing_officer WHERE id=?');
+        $stmt->bind_param("s",$id);
+        $stmt->execute();
+
+        $stmt->bind_result($au->name, $au->contactNu );
+        $stmt->fetch();
+        $stmt->close();
+        return $au;
+    }
+
+    public static function getAll(){
+        $con = Connection::getConnectionObject()->getConnection();
+        // Check connection
+        if (mysqli_connect_errno())
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
+
+        $stmt = $con->prepare('SELECT id,name,contact_nu FROM authorizing_officer');
+        $officers = array();
+
+        if ($stmt->execute()) {
+            $stmt->bind_result($id,$name,$number);
+            
+            while ( $stmt->fetch() ) {
+                $au = new AuthorizingOfficer();
+                $au->id = $id;
+                $au->name = $name;
+                $au->contactNu = $number;
+                $officers[] = $au;
+            }
+            $stmt->close();
+            return $officers;  
+            
+        }
+        $stmt->close();
+        return false;     
+    }
+
     /**
      * @var \AppBundle\Entity\AuthorizingOfficer
      *
