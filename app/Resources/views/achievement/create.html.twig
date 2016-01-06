@@ -1,0 +1,29 @@
+{# app/Resources/views/achievement/create.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}
+Create Achievement
+{% endblock %}
+
+{% block body %}
+{{ form_start(form) }}
+
+
+<b>Title</b>
+{{ form_widget(form.title) }}
+{{ form_errors(form.title) }}
+<br>
+
+<b>Description</b>
+{{ form_widget(form.description) }}
+{{ form_errors(form.description) }}
+<br>
+
+<b>Achieved Date</b>
+{{ form_widget(form.achievedDate) }}
+{{ form_errors(form.achievedDate) }}
+<br>
+
+{{ form_end(form) }}    
+{% endblock %}

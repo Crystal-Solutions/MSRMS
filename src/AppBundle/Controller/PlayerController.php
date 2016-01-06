@@ -5,11 +5,10 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Entity\Player;
+use AppBundle\Entity\Player;    
 
 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
@@ -34,14 +33,14 @@ class PlayerController extends Controller
         $player = new Player(); 
 
         $form = $this->createFormBuilder($player)
+            ->add('indexNumber',TextType::class)
             ->add('name', TextType::class)
-            ->add('dateOfBirth', DateType::class,array('years'=>range(1940,2005))   )
+            ->add('dateOfBirth', DateType::class)
             ->add('year',TextType::class)
-           // ->add('departmentId',TextType::class)
-            ->add('departmentId',ChoiceType::class,array('choices' => array('CSE'=>"3",'ENTC'=>"4") ))
+            ->add('departmentId',TextType::class)
             ->add('address',TextType::class)
             ->add('bloodType',TextType::class)
-            ->add('save', SubmitType::class, array('label' => 'Create Player'))
+            ->add('save', SubmitType::class, array('label' => 'Create Task'))
             ->getForm();
 
         $form->handleRequest($request);
@@ -81,3 +80,6 @@ class PlayerController extends Controller
 
  
 }
+
+
+
