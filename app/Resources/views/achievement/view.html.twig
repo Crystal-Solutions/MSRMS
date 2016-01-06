@@ -1,0 +1,10 @@
+{# app/Resources/views/achievement/view.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}
+Achievement
+{% endblock %}
+
+{% block body %}
+{{ achievement.title|e }} - {{ achievement.description|e }} - {{ achievement.achievedDate|e }}
+{% endblock %}

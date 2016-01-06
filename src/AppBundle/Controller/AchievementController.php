@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Achievement;
 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class AchievementController extends Controller{
@@ -71,6 +72,6 @@ class AchievementController extends Controller{
     {
         $achievements = Achievement::getAll();
 
-        return $this->render('achievement/viewall.html.twig', array('achievements' => $officers));
+        return $this->render('achievement/viewall.html.twig', array('achievements' => $achievements));
     }
 }
