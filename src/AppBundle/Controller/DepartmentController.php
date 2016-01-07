@@ -34,9 +34,6 @@ class DepartmentController extends Controller
 
         $department = new Department(); 
 
-
-
-
         $form = $this->createFormBuilder($department)
             ->add('name', TextType::class)
             ->add('faculty_id', TextType::class)
