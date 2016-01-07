@@ -98,8 +98,8 @@ class EquipmentBorrowedByPlayer
         else
         {
         $con = Connection::getConnectionObject()->getConnection();
-        $stmt = $con->prepare('UPDATE EquipmentBorrowedByPlayer SET equipment_id =?,player_id=?,amount=?,borrowed_time=?,due_time=?,returned_time=?,issue_details=? WHERE player.id = id');  
-        $stmt->bind_param("iiissss",$this->equipment_id,$this->player_id,$this->amount,$this->borrowedTime,$this->dueTime,$this->returnedTime,$this->issueDetails);  
+        $stmt = $con->prepare('UPDATE equipment_borrowed_by_player SET equipment_id =?,player_id=?,amount=?,borrowed_time=?,due_time=?,returned_time=?,issue_details=? WHERE id = ?');  
+        $stmt->bind_param("iiissss",$this->equipment_id,$this->player_id,$this->amount,$this->borrowedTime,$this->dueTime,$this->returnedTime,$this->issueDetails,$this->id);  
         $stmt->execute();  
         $stmt->close();   
         }

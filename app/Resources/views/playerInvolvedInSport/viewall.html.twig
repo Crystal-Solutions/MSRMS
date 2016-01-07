@@ -1,0 +1,16 @@
+{# app/Resources/views/default/new.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}
+All Involved Players in Sports
+{% endblock %}
+{% block body %}
+<ul>
+    {% for user in playerInvolvedInSport %}
+        <li>
+        	<a href="{{url('player_view',{'id':user.id})}}">{{ user.playerID|e }} - {{ user.sportId|e }}- {{ user.startedDate|e }}- {{ user.endDate|e }}- {{ user.position|e }}</a>
+        </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

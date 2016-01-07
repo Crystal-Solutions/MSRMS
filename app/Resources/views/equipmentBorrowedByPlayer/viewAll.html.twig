@@ -8,7 +8,7 @@ All Borrowed Equipments
 <ul>
     {% for user in equipmentBorrowedByPlayer %}
         <li>
-        	<a href="{{url('player_view',{'id':user.player_id})}}">{{ user.equipment_id|e }} - {{ user.borrowedTime|e }}- {{ user.dueTime|e }}- {{ user.returnedTime|e }}- {{ user.issueDetails|e }}</a>
+        	<a href="{{url('player_view',{'id':user.id})}}">{{ user.equipment_id|e }} - {{ user.borrowedTime|e }}- {{ user.dueTime|e }}- {{ user.returnedTime|e }}- {{ user.issueDetails|e }}</a>
         </li>
     {% endfor %}
 </ul>
