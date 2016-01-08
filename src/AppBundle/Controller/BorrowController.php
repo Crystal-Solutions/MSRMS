@@ -27,7 +27,7 @@ class BorrowController extends Controller
     {
         $equipmentBorrowedByPlayer = new EquipmentBorrowedByPlayer(); 
 
-        //Generate required data for the form
+        //Generate required data for the form ----------------------- For choices
         $players =  Player::getAll();
         $playerIds = array();
         foreach ($players as $player) {
@@ -39,8 +39,10 @@ class BorrowController extends Controller
         foreach ($equipments as $eq) {
             $equipmentIds[$eq->getName()] = $eq->getId();
         }
-
+        //------------------------------------------------------------------------
         
+        //Set the default borrowed time to current time
+        $equipmentBorrowedByPlayer->setBorrowedTime(new \DateTime('now'));
 
         $form = $this->createFormBuilder($equipmentBorrowedByPlayer)
             ->add('player_id',ChoiceType::class, array(
