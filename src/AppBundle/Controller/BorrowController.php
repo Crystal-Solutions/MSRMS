@@ -40,6 +40,7 @@ class BorrowController extends Controller
             $equipmentIds[$eq->getName()] = $eq->getId();
         }
 
+        
 
         $form = $this->createFormBuilder($equipmentBorrowedByPlayer)
             ->add('player_id',ChoiceType::class, array(
@@ -56,7 +57,7 @@ class BorrowController extends Controller
             ->add('amount',IntegerType::class)
             ->add('borrowedTime',DateTimeType::class)
             ->add('dueTime',DateTimeType::class)
-            ->add('save', SubmitType::class, array('label' => 'Reserve Equipment'))
+            ->add('save', SubmitType::class, array('label' => 'Borrow Equipment'))
             ->getForm();
 
         $form->handleRequest($request);
