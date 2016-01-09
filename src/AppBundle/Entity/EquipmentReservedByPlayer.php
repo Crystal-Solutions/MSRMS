@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Entity;
+use AppBundle\Controller\Connection;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -42,74 +43,6 @@ class EquipmentReservedByPlayer
      */
     private $id;
 
-    public function save()
-    {
-        if ($this->id == null) {
-            $con = Connection::getConnectionObject()->getConnection();
-            $stmt = $con->prepare('INSERT INTO authorizing_officer (name,contact_nu) VALUES (?,?)');  
-            $stmt->bind_param("ss",$this->name,$this->contactNu);  
-            $stmt->execute();  
-            $stmt->close();
-        }else{
-            $con = Connection::getConnectionObject()->getConnection();
-            $stmt = $con->prepare('UPDATE authorizing_officer SET (name,contact_nu) VALUES (?,?)');  
-            $stmt->bind_param("ss",$this->name,$this->contactNu);  
-            $stmt->execute();  
-            $stmt->close();
-        }
-    }
-
-    public static function getOne($id){
-
-        $con = Connection::getConnectionObject()->getConnection();
-        // Check connection
-        if (mysqli_connect_errno())
-        {
-            echo "Failed to connect to MySQL: " . mysqli_connect_error();
-        }
-
-        $au = new AuthorizingOfficer();
-        $au->id = $id;
-
-        $stmt = $con->prepare('SELECT name,contact_nu FROM authorizing_officer WHERE id=?');
-        $stmt->bind_param("s",$id);
-        $stmt->execute();
-
-        $stmt->bind_result($au->name, $au->contactNu );
-        $stmt->fetch();
-        $stmt->close();
-        return $au;
-    }
-
-    public static function getAll(){
-        $con = Connection::getConnectionObject()->getConnection();
-        // Check connection
-        if (mysqli_connect_errno())
-        {
-            echo "Failed to connect to MySQL: " . mysqli_connect_error();
-        }
-
-        $stmt = $con->prepare('SELECT id,name,contact_nu FROM authorizing_officer');
-        $officers = array();
-
-        if ($stmt->execute()) {
-            $stmt->bind_result($id,$name,$number);
-            
-            while ( $stmt->fetch() ) {
-                $au = new AuthorizingOfficer();
-                $au->id = $id;
-                $au->name = $name;
-                $au->contactNu = $number;
-                $officers[] = $au;
-            }
-            $stmt->close();
-            return $officers;  
-            
-        }
-        $stmt->close();
-        return false;     
-    }
-
     /**
      * @var \AppBundle\Entity\AuthorizingOfficer
      *
@@ -140,6 +73,83 @@ class EquipmentReservedByPlayer
      */
     private $equipment;
 
+    public $authorizing_officer_id;
+
+    public $equipment_id;
+
+    public $player_id;
+
+    public function save()
+    {
+        if ($this->id == null) {
+            $con = Connection::getConnectionObject()->getConnection();
+            $stmt = $con->prepare('INSERT INTO equipment_reserved_by_player (equipment_id,player_id,start,end,amount,authorizing_officer_id) VALUES (?,?,?,?,?,?)');  
+            $stmt->bind_param("ssssss",$this->equipment_id,$this->player_id,$this->start,$this->end,$this->amount,$this->authorizing_officer_id);  
+            $stmt->execute();  
+            $stmt->close();
+        }else{
+            $con = Connection::getConnectionObject()->getConnection();
+            $stmt = $con->prepare('UPDATE equipment_reserved_by_player SET (equipment_id,player_id,start,end,amount,authorizing_officer_id) VALUES (?,?,?,?,?,?)');  
+            $stmt->bind_param("ssssss",$this->equipment_id,$this->player_id,$this->start,$this->end,$this->amount,$this->authorizing_officer_id);  
+            $stmt->execute();  
+            $stmt->close();
+        }
+    }
+
+    public static function getOne($id){
+
+        $con = Connection::getConnectionObject()->getConnection();
+        // Check connection
+        if (mysqli_connect_errno())
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
+
+        $eq = new EquipmentReservedByPlayer();
+        $eq->id = $id;
+
+        $stmt = $con->prepare('SELECT equipment_id,player_id,start,end,amount,authorizing_officer_id FROM equipment_reserved_by_player WHERE id=?');
+        $stmt->bind_param("s",$id);
+        $stmt->execute();
+
+        $stmt->bind_result($eq->equipment_id,$eq->player_id,$eq->start, $eq->end, $eq->amount,$eq->authorizing_officer_id);
+        $stmt->fetch();
+        $stmt->close();
+        return $eq;
+    }
+
+    public static function getAll(){
+        $con = Connection::getConnectionObject()->getConnection();
+        // Check connection
+        if (mysqli_connect_errno())
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
+
+        $stmt = $con->prepare('SELECT equipment_id,player_id,start,end,amount,authorizing_officer_id,id FROM equipment_reserved_by_player');
+        $equipment = array();
+
+        if ($stmt->execute()) {
+            $stmt->bind_result($equipment_id,$player_id,$start,$end,$amount,$authorizing_officer_id,$id);
+            
+            while ( $stmt->fetch() ) {
+                $eq = new EquipmentReservedByPlayer();
+                $eq->id = $id;
+                $eq->equipment_id = $equipment_id;
+                $eq->player_id = $player_id;
+                $eq->start = $start;
+                $eq->end = $end;
+                $eq->amount = $amount;
+                $eq->authorizing_officer_id = $authorizing_officer_id;
+                $equipment[] = $eq;
+            }
+            $stmt->close();
+            return $equipment;  
+            
+        }
+        $stmt->close();
+        return false;     
+    }
 
 
     /**
