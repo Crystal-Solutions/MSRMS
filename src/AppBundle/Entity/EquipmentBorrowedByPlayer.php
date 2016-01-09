@@ -82,9 +82,10 @@ class EquipmentBorrowedByPlayer
     public function save()
     {
 
-        $this->borrowedTime = $this->borrowedTime->format('Y-m-d H-i-s');
-        $this->dueTime = $this->dueTime->format('Y-m-d H-i-s');
-        $this->returnedTime = $this->returnedTime->format('Y-m-d H-i-s');
+
+        $this->borrowedTime = $this->borrowedTime?$this->borrowedTime->format('Y-m-d H-i-s'):null;
+        $this->dueTime = $this->dueTime?$this->dueTime->format('Y-m-d H-i-s'):null;
+        $this->returnedTime = $this->returnedTime?$this->returnedTime->format('Y-m-d H-i-s'):null;
 
         if($this->id ==null)
         {
