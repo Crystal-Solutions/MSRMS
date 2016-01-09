@@ -53,6 +53,74 @@ class TimeSlotResource
     private $sportHasResource;
 
 
+    public function save()
+    {
+        $con = Connection::getConnectionObject()->getConnection();
+        if ($this->id == null) {
+            $stmt = $con->prepare('INSERT INTO time_slot_resource (title,description,achieved_date) VALUES (?,?,?)');  
+            $stmt->bind_param("sss",$this->title,$this->description,$this->achievedDate);  
+            $stmt->execute();  
+            $stmt->close();
+        }else{
+            $stmt = $con->prepare('UPDATE time_slot_resource SET (title,description,achieved_date) VALUES (?,?,?)');  
+            $stmt->bind_param("sss",$this->title,$this->description,$this->achievedDate);  
+            $stmt->execute();  
+            $stmt->close();
+        }
+        $con->close();
+    }
+
+    public static function getOne($id){
+
+        $con = Connection::getConnectionObject()->getConnection();
+        // Check connection
+        if (mysqli_connect_errno())
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
+
+        $ach = new Achievement();
+        $ach->id = $id;
+
+        $stmt = $con->prepare('SELECT title,description,achieved_date FROM time_slot_resource WHERE id=?');
+        $stmt->bind_param("s",$id);
+        $stmt->execute();
+
+        $stmt->bind_result($ach->title,$ach->description,$ach->achievedDate);
+        $stmt->fetch();
+        $stmt->close();
+        return $ach;
+    }
+
+    public static function getAll(){
+        $con = Connection::getConnectionObject()->getConnection();
+        // Check connection
+        if (mysqli_connect_errno())
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
+
+        $stmt = $con->prepare('SELECT id,title,description,achieved_date FROM time_slot_resource');
+        $achievements = array();
+
+        if ($stmt->execute()) {
+            $stmt->bind_result($id,$title,$description,$date);
+            
+            while ( $stmt->fetch() ) {
+                $ach = new Achievement();
+                $ach->id = $id;
+                $ach->title = $title;
+                $ach->description = $description;
+                $ach->achievedDate = $date;
+                $achievements[] = $ach;
+            }
+            $stmt->close();
+            return $achievements;  
+            
+        }
+        $stmt->close();
+        return false;     
+    }
 
     /**
      * Set startTime
