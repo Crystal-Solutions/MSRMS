@@ -70,10 +70,10 @@ class PlayerInvolvedInSport
     {
 
         $this->startedDate = $this->startedDate->format('Y-m-d');
-        $this->endDate = $this->endDate->format('Y-m-d');
+        $this->endDate = $this->endDate?$this->endDate->format('Y-m-d'):null;
     
 
-        if($this->id ==null)
+        if($this->id==null)
         {
            
         $con = Connection::getConnectionObject()->getConnection();

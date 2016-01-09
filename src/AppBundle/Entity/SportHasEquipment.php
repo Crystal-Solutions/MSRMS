@@ -50,8 +50,77 @@ class SportHasEquipment
      * })
      */
     private $equipment;
+    public $equipment_id;
+    public $sport_id;
+    public $authorizing_officer_id;
 
+    public function save()
+    {
+        if ($this->id == null) {
+            $con = Connection::getConnectionObject()->getConnection();
+            $stmt = $con->prepare('INSERT INTO sport_has_equipment (equipment_id,sport_id,authorizing_officer_id) VALUES (?,?,?)');  
+            $stmt->bind_param("sss",$this->equipment_id,$this->sport_id,$this->authorizing_officer_id);
+            $stmt->execute();  
+            $stmt->close();
+        }else{
+            $con = Connection::getConnectionObject()->getConnection();
+            $stmt = $con->prepare('UPDATE sport_has_equipment SET (equipment_id,sport_id,authorizing_officer_id) VALUES (?,?,?)');
+            $stmt->bind_param("sss",$this->equipment_id,$this->sport_id,$this->authorizing_officer_id);
+            $stmt->execute();  
+            $stmt->close();
+        }
+    }
 
+    public static function getOne($id){
+
+        $con = Connection::getConnectionObject()->getConnection();
+        // Check connection
+        if (mysqli_connect_errno())
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
+
+        $eq = new SportHasEquipment();
+        $eq->id = $id;
+
+        $stmt = $con->prepare('SELECT equipment_id,sport_id,authorizing_officer_id FROM sport_has_equipment WHERE id=?');
+        $stmt->bind_param("s",$id);
+        $stmt->execute();
+
+        $stmt->bind_result($eq->equipment_id,$eq->sport_id,$eq->authorizing_officer_id);
+        $stmt->fetch();
+        $stmt->close();
+        return $eq;
+    }
+
+    public static function getAll(){
+        $con = Connection::getConnectionObject()->getConnection();
+        // Check connection
+        if (mysqli_connect_errno())
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
+
+        $stmt = $con->prepare('SELECT equipment_id,sport_id,authorizing_officer_id,id FROM equipment_reserved_by_player');
+        $equipment = array();
+
+        if ($stmt->execute()) {
+            $stmt->bind_result($equipment_id,$sport_id,$authorizing_officer_id,$id);
+            
+            while ( $stmt->fetch() ) {
+                $eq = new SportHasEquipment();
+                $eq->id = $id;
+                $eq->equipment_id = $equipment_id;
+                $eq->sport_id = $sport_id;
+                $eq->authorizing_officer_id = $authorizing_officer_id;
+                $equipment[] = $eq;
+            }
+            $stmt->close();
+            return $equipment;  
+        }
+        $stmt->close();
+        return false;     
+    }
 
     /**
      * Get id
