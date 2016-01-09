@@ -7,7 +7,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\EquipmentBorrowedByPlayer;
 use AppBundle\Entity\Player;    
-use AppBundle\Entity\Equipment;    
+use AppBundle\Entity\Equipment;
+  
 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
