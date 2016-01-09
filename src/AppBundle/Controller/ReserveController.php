@@ -5,9 +5,10 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Entity\EquipmentBorrowedByPlayer;
+use AppBundle\Entity\EquipmentReservedByPlayer;
 use AppBundle\Entity\Player;    
 use AppBundle\Entity\Equipment;
+use AppBundle\Entity\AuthorizingOfficer;
   
 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -19,14 +20,14 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 
 
-class BorrowController extends Controller
+class ReserveController extends Controller
 {
     /**
-     * @Route("/borrow/", name="borrow_home")
+     * @Route("/reserve/", name="reserve_home")
      */
     public function indexAction(Request $request)
     {
-        $equipmentBorrowedByPlayer = new EquipmentBorrowedByPlayer(); 
+        $equipmentReservedByPlayer = new EquipmentReservedByPlayer(); 
 
         //Generate required data for the form ----------------------- For choices
         $players =  Player::getAll();
@@ -41,34 +42,48 @@ class BorrowController extends Controller
             $equipmentIds[$eq->getName()] = $eq->getId();
         }
 
+        $authOfficers =  AuthorizingOfficer::getAll();
+        $authIds = array();
+        foreach ($authOfficers as $au) {
+            $authIds[$au->getName()] = $au->getId();
+        }
+
         //------------------------------------------------------------------------
         
         //Set the default borrowed time to current time
-        $equipmentBorrowedByPlayer->setBorrowedTime(new \DateTime('now'));
+        $equipmentReservedByPlayer->SetStart(new \DateTime('now'));
 
-        $form = $this->createFormBuilder($equipmentBorrowedByPlayer)
+        $form = $this->createFormBuilder($equipmentReservedByPlayer)
+            ->add('equipment_id',ChoiceType::class, array(
+            'choices'  => $equipmentIds,
+            'choices_as_values' => true,
+            'label'=>'Equipment'
+                ))
+
             ->add('player_id',ChoiceType::class, array(
             'choices'  => $playerIds,
             'choices_as_values' => true,
             'label'=>'Index Number of the Player'
                 ))
-            ->add('equipment_id',ChoiceType::class, array(
-            'choices'  => $equipmentIds,
-            'choices_as_values' => true,
-            'label'=>'Equipment'
-                ))   
 
+            ->add('start',DateTimeType::class)
+            ->add('end',DateTimeType::class)
             ->add('amount',IntegerType::class)
-            ->add('borrowedTime',DateTimeType::class)
-            ->add('dueTime',DateTimeType::class)
-            ->add('save', SubmitType::class, array('label' => 'Borrow Equipment'))
+
+            ->add('authorizing_officer_id',ChoiceType::class, array(
+            'choices'  => $authIds,
+            'choices_as_values' => true,
+            'label'=>'Authorizing Officer'
+                ))
+
+            ->add('save', SubmitType::class, array('label' => 'Reserve Equipment'))
             ->getForm();
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             // ... perform some action, such as saving the task to the database
-            $equipmentBorrowedByPlayer->save();
+            $equipmentReservedByPlayer->save();
 
             return $this->redirectToRoute('task_success');
         }
