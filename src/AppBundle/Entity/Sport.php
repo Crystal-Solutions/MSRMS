@@ -86,14 +86,15 @@ use AppBundle\Controller\Connection;
             echo "Failed to connect to MySQL: " . mysqli_connect_error();
         }
 
-        $stmt = $con->prepare('SELECT name,description FROM sport');
+        $stmt = $con->prepare('SELECT id,name,description FROM sport');
         $sports = array();
 
         if ($stmt->execute()) {
-            $stmt->bind_result($name,$sport);
+            $stmt->bind_result($id,$name,$sport);
             
             while ( $stmt->fetch() ) {
                 $sprt = new Sport();
+                $sprt->id=$id;
                 $sprt->name = $name;
                 $sprt->description = $sport;
                 $sports[] = $sprt;

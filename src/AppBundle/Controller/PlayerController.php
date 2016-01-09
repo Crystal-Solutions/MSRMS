@@ -40,7 +40,7 @@ class PlayerController extends Controller
             ->add('departmentId',TextType::class)
             ->add('address',TextType::class)
             ->add('bloodType',TextType::class)
-            ->add('save', SubmitType::class, array('label' => 'Create Task'))
+            ->add('save', SubmitType::class, array('label' => 'Create Player'))
             ->getForm();
 
         $form->handleRequest($request);

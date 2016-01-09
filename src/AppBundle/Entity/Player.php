@@ -300,7 +300,7 @@ class Player
     }
 
     /**
-     * Get bloodType
+     * Get departmentId
      *
      * @return string
      */

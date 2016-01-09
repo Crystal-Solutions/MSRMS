@@ -3,7 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use AppBundle\Controller\Connection;
 /**
  * PlayerInvolvedInSport
  *
@@ -62,7 +62,90 @@ class PlayerInvolvedInSport
      */
     private $player;
 
+    private $playerId;
+    private $sportId;
 
+
+    public function save()
+    {
+
+        $this->startedDate = $this->startedDate->format('Y-m-d');
+        $this->endDate = $this->endDate?$this->endDate->format('Y-m-d'):null;
+    
+
+        if($this->id==null)
+        {
+           
+        $con = Connection::getConnectionObject()->getConnection();
+        $stmt = $con->prepare('INSERT INTO `player_involved_in_sport` (`player_id`,`sport_id`,`started_date`, `end_date`, `position`) VALUES (?,?,?,?,?)');  
+        $stmt->bind_param("iisss",$this->playerId,$this->sportId,$this->startedDate,$this->endDate,$this->position);  
+        $stmt->execute();  
+        $stmt->close();
+        }
+        else
+        {
+        $con = Connection::getConnectionObject()->getConnection();
+        $stmt = $con->prepare('UPDATE player_involved_in_sport SET player_id =?,sport_id=?,started_date=?,end_date=?,position=? WHERE id=?');  
+        $stmt->bind_param("iisssi",$this->player_id,$this->sport_id,$this->startedDate,$this->endDate,$this->position,$this->id);  
+        $stmt->execute();  
+        $stmt->close();   
+        }
+    }
+
+    
+    public static function getOne($id)
+    {
+        $con = Connection::getConnectionObject()->getConnection();
+        // Check connection
+        if (mysqli_connect_errno())
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
+
+        $playerInvolvedInSport = new PlayerInvolvedInSport();
+        $stmt = $con->prepare('SELECT id,player_id,sport_id,started_date,end_date,position FROM player_involved_in_sport WHERE id=?');
+        $stmt->bind_param("s",$id);
+        $stmt->execute();
+
+        $stmt->bind_result($playerInvolvedInSport->id,$playerInvolvedInSport->player_id,$playerInvolvedInSport->sport_id,$playerInvolvedInSport->startedDate,$playerInvolvedInSport->endDate,$playerInvolvedInSport->position);
+        $stmt->fetch();
+        $stmt->close();
+        return $playerInvolvedInSport;
+    }
+
+
+    public static function getAll()
+    {
+        $con = Connection::getConnectionObject()->getConnection();
+        // Check connection
+        if (mysqli_connect_errno())
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
+
+        $playerInvolvedInSports = array(); //Make an empty array - don't mind the name
+        $stmt = $con->prepare('SELECT id,player_id,sport_id,started_date,end_date,position FROM player_involved_in_sport');
+        $stmt->execute();
+        $stmt->bind_result($id,$playerId,$sportId,$startedDate,$endDate,$position);
+        while($stmt->fetch())
+        {
+            $playerInvolvedInSport = new PlayerInvolvedInSport();
+            $playerInvolvedInSport->id=$id;
+            //check here k
+            $playerInvolvedInSport->setPlayerId($playerId);
+            $playerInvolvedInSport->setSportId($sportId);
+            $playerInvolvedInSport->setStartedDate($startedDate);
+            $playerInvolvedInSport->setEndDate($endDate);
+            $playerInvolvedInSport->setPosition($position);
+     
+
+            array_push($playerInvolvedInSports,$playerInvolvedInSport); //Push one by one
+        }
+        $stmt->close();
+        
+        return $playerInvolvedInSports;
+
+    }
 
     /**
      * Set startedDate
@@ -193,4 +276,35 @@ class PlayerInvolvedInSport
     {
         return $this->player;
     }
+
+//manually added
+
+    public function setPlayerId($playerId)
+    {
+        $this->playerId = $playerId;
+
+        return $this;
+    }
+
+  /* add if u want  -r/**
+     * Get playerId
+     *
+     * @return integer
+     */
+    public function getPlayerId()
+    {
+        return $this->playerId;
+    }   
+
+        public function setSportId($sportId)
+    {
+        $this->sportId = $sportId;
+
+        return $this;
+    }
+
+    public function getSportId()
+    {
+        return $this->sportId;
+    }  
 }

@@ -1,0 +1,16 @@
+{# app/Resources/views/default/new.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}
+All Borrowed Equipments
+{% endblock %}
+{% block body %}
+<ul>
+    {% for user in equipmentBorrowedByPlayer %}
+        <li>
+        	<a href="{{url('player_view',{'id':user.id})}}">{{ user.equipment_id|e }} - {{ user.borrowedTime|e }}- {{ user.dueTime|e }}- {{ user.returnedTime|e }}- {{ user.issueDetails|e }}</a>
+        </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}
