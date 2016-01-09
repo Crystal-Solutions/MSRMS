@@ -3,7 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use AppBundle\Controller\Connection;
 /**
  * SportHasResource
  *
@@ -51,7 +51,88 @@ class SportHasResource
      */
     private $authorizingOfficer;
 
+    private $authorizingOfficerId;
 
+    private $resourceId;
+
+    private $sportId;
+
+
+ public function save()
+    {
+
+
+        if($this->id ==null)
+        {
+           
+        $con = Connection::getConnectionObject()->getConnection();
+        $stmt = $con->prepare('INSERT INTO `sport_has_resource` (`sport_id`,`resource_id`,`authorizing_officer_id`) VALUES (?,?,?)');  
+        $stmt->bind_param("iii",$this->sportId,$this->resourceId,$this->authorizingOfficerId);  
+        $stmt->execute();  
+        $stmt->close();
+        }
+        else
+        {
+        $con = Connection::getConnectionObject()->getConnection();
+        $stmt = $con->prepare('UPDATE sport_has_resource SET sport_id =?,resource_id=?,authorizing_officer_id=? WHERE id=?');  
+        $stmt->bind_param("iiii",$this->sportId,$this->resourceId,$this->authorizingOfficerId,$this->id);  
+        $stmt->execute();  
+        $stmt->close();   
+        }
+    }
+
+ public static function getOne($id)
+    {
+        $con = Connection::getConnectionObject()->getConnection();
+        // Check connection
+        if (mysqli_connect_errno())
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
+
+        $sportHasResource = new SportHasResource();
+        $stmt = $con->prepare('SELECT id,sport_id,resource_id,authorizing_officer_id FROM authorizing_officer_id WHERE id=?');
+        $stmt->bind_param("s",$id);
+        $stmt->execute();
+
+        $stmt->bind_result($sportHasResource->id,$sportHasResource->sport_id,$sportHasResource->resource_id,$sportHasResource->authorizingOfficerId);
+        $stmt->fetch();
+        $stmt->close();
+        return $sportHasResource;
+    }
+
+
+   public static function getAll()
+    {
+        $con = Connection::getConnectionObject()->getConnection();
+        // Check connection
+        if (mysqli_connect_errno())
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
+
+        $sportHasResources = array(); //Make an empty array - don't mind the name
+        $stmt = $con->prepare('SELECT id,sport_id,resource_id,authorizing_officer_id FROM sport_has_resource');
+        $stmt->execute();
+        $stmt->bind_result($id,$sportId,$resourceId,$authorizingOfficerId);
+        while($stmt->fetch())
+        {
+            $sportHasResource = new SportHasResource ();
+            $sportHasResource ->id=$id;
+            //check here k
+            $sportHasResource ->setSportId($sportId);
+            $sportHasResource ->setResourceId($resourceId);
+            $sportHasResource ->setAuthorizingOfficerId($authorizingOfficerId);
+
+     
+
+            array_push($sportHasResources,$sportHasResource); //Push one by one
+        }
+        $stmt->close();
+        
+        return $sportHasResources;
+
+    }
 
     /**
      * Get id
@@ -134,4 +215,47 @@ class SportHasResource
     {
         return $this->authorizingOfficer;
     }
+
+
+//authorizing officer id
+    public function setAuthorizingOfficerId($authorizingOfficerId)
+    {
+        $this->authorizingOfficerId = $authorizingOfficerId;
+
+        return $this;
+    }
+
+    public function getAuthorizingOfficerId()
+    {
+        return $this->authorizingOfficerId;
+    }  
+
+
+//resource id
+    public function setResourceId($resourceId)
+    {
+        $this->resourceId = $resourceId;
+
+        return $this;
+    }
+
+     public function getResourceId()
+    {
+        return $this->resourceId;
+    } 
+
+//sportId
+
+    public function setSportId($sportId)
+    {
+        $this->sportId = $sportId;
+
+        return $this;
+    }
+
+    public function getSportId()
+    {
+        return $this->sportId;
+    } 
+
 }

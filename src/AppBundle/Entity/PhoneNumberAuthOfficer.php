@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use AppBundle\Controller\Connection;
 
 /**
  * PhoneNumberAuthOfficer
@@ -31,6 +32,93 @@ class PhoneNumberAuthOfficer
      */
     private $authorizingOfficer;
 
+    private $authorizingOfficerId;
+
+
+ public function save()
+    {
+
+   
+        if($this->authorizingOfficerId ==null)
+        {
+           
+        $con = Connection::getConnectionObject()->getConnection();
+        $stmt = $con->prepare('INSERT INTO `phone_number_auth_officer` (`number`,`authorizing_officer_id`) VALUES (?,?)');  
+        $stmt->bind_param("ii",$this->number,$this->authorizingOfficerId);  
+        $stmt->execute();  
+        $stmt->close();
+        }
+        else
+        {
+        $con = Connection::getConnectionObject()->getConnection();
+        $stmt = $con->prepare('UPDATE phone_number_auth_officer SET `number` =?,authorizing_officer_id=? WHERE id=?');  
+        $stmt->bind_param("iii",$this->number,$this->authorizingOfficerId,$this->id);  
+        $stmt->execute();  
+        $stmt->close();   
+        }
+    }
+
+
+    public static function getOne($id)
+    {
+        $con = Connection::getConnectionObject()->getConnection();
+        // Check connection
+        if (mysqli_connect_errno())
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
+
+        $phoneNumberAuthOfficer = new PhoneNumberAuthOfficer();
+        $stmt = $con->prepare('SELECT id,`number`,authorizing_officer_id FROM phone_number_auth_officer WHERE id=?');
+        $stmt->bind_param("s",$id);
+        $stmt->execute();
+
+        $stmt->bind_result($phoneNumberAuthOfficer->id,$phoneNumberAuthOfficer->number,$phoneNumberAuthOfficer->authorizingOfficerId);
+        $stmt->fetch();
+        $stmt->close();
+        return $phoneNumberAuthOfficer;
+    }
+
+
+    public static function getAll()
+    {
+        $con = Connection::getConnectionObject()->getConnection();
+        // Check connection
+        if (mysqli_connect_errno())
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
+
+        $phoneNumberAuthOfficers = array(); //Make an empty array - don't mind the name
+        $stmt = $con->prepare('SELECT id,`number`,authorizing_officer_id FROM phone_number_auth_officer');
+        $stmt->execute();
+        $stmt->bind_result($id,$number,$authorizingOfficerId);
+        while($stmt->fetch())
+        {
+            $phoneNumberAuthOfficer = new PhoneNumberAuthOfficer();
+            $phoneNumberAuthOfficer->id=$id;
+            //check here k
+            //there is no setNumber functio ?? what to do, check
+            $phoneNumberAuthOfficer->setPlayerId($playerId);
+            $phoneNumberAuthOfficer->setSportId($sportId);
+          
+     
+
+            array_push($playerInvolvedInSports,$playerInvolvedInSport); //Push one by one
+        }
+        $stmt->close();
+        
+        return $playerInvolvedInSports;
+
+    }
+
+
+    public function setNumber($number)
+    {
+        $this->number = $number;
+
+        return $this;
+    }
 
 
     /**
@@ -66,4 +154,17 @@ class PhoneNumberAuthOfficer
     {
         return $this->authorizingOfficer;
     }
+
+
+    public function setAuthorizingOfficerId($authorizingOfficerId)
+    {
+        $this->authorizingOfficerId = $authorizingOfficerId;
+
+        return $this;
+    }
+
+    public function getAuthorizingOfficerId()
+    {
+        return $this->authorizingOfficerId;
+    }  
 }
