@@ -11,6 +11,7 @@ use AppBundle\Entity\Player;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormError;
 
 class PlayerController extends Controller
 {
@@ -32,10 +33,14 @@ class PlayerController extends Controller
 
         $player = new Player(); 
 
+
+
         $form = $this->createFormBuilder($player)
             ->add('indexNumber',TextType::class)
             ->add('name', TextType::class)
-            ->add('dateOfBirth', DateType::class)
+            ->add('dateOfBirth', DateType::class, array(
+                    'years' => range(date('Y') - 100, date('Y') - 20)
+                   ))
             ->add('year',TextType::class)
             ->add('departmentId',TextType::class)
             ->add('address',TextType::class)
@@ -45,15 +50,16 @@ class PlayerController extends Controller
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid() && $player->validate()) {
             // ... perform some action, such as saving the task to the database
+
             $player->save();
 
             return $this->redirectToRoute('player_viewAll');
         }
 
         // replace this example code with whatever you need
-        return $this->render('player/create.html.twig', array('form' => $form->createView()));
+        return $this->render('player/create.html.twig', array('form' => $form->createView(), 'form_error'=>$player->getError()));
     }
 
     /**

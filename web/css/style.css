@@ -2,3 +2,8 @@
 {
 	margin: 20px;
 }
+.error_message
+{
+	color: red;
+	padding: 10px;
+}
