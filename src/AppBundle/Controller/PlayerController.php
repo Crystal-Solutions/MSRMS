@@ -6,11 +6,14 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Player;    
+use AppBundle\Entity\Department;    
+
 
 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormError;
 
 class PlayerController extends Controller
@@ -33,6 +36,11 @@ class PlayerController extends Controller
 
         $player = new Player(); 
 
+        $departments =  Department::getAll();
+        $departmentIds = array();
+        foreach ($departments as $d) {
+            $departmentIds[$d->getName()] = $d->getId();
+        }
 
 
         $form = $this->createFormBuilder($player)
@@ -42,7 +50,12 @@ class PlayerController extends Controller
                     'years' => range(date('Y') - 100, date('Y') - 20)
                    ))
             ->add('year',TextType::class)
-            ->add('departmentId',TextType::class)
+
+            ->add('departmentId',ChoiceType::class, array(
+            'choices'  => $departmentIds,
+            'label'=>'Department',
+                ))
+
             ->add('address',TextType::class)
             ->add('bloodType',TextType::class)
             ->add('save', SubmitType::class, array('label' => 'Create Player'))
@@ -50,7 +63,7 @@ class PlayerController extends Controller
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid() && $player->validate()) {
+        if ($form->isSubmitted() &&  $player->validate()) {
             // ... perform some action, such as saving the task to the database
 
             $player->save();
