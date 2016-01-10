@@ -16,6 +16,7 @@ All Players
 <table width="100%">
 	<tr>
 		<th>Name</th>
+		<th>Department</th>
 		<th>Year</th>
 		<th>Date of Birth</th>
 		<th>Bllod Type</th>
@@ -28,6 +29,8 @@ All Players
         <a href="{{url('player_view',{'id':user.id})}}">{{ user.name|e }}</a>
         </td>
 
+		<td>{{ user.departmentName|e }}
+        </td>
         <td>{{ user.year|e }}
         </td>
 
