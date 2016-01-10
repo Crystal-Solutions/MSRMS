@@ -55,15 +55,18 @@ class TimeSlotResource
 
     public function save()
     {
+        $this->startTime = $this->startTime?$this->startTime->format('H-i'):null;
+        $this->endTime = $this->endTime?$this->endTime->format('H-i'):null;
+
         $con = Connection::getConnectionObject()->getConnection();
         if ($this->id == null) {
-            $stmt = $con->prepare('INSERT INTO time_slot_resource (title,description,achieved_date) VALUES (?,?,?)');  
-            $stmt->bind_param("sss",$this->title,$this->description,$this->achievedDate);  
+            $stmt = $con->prepare('INSERT INTO time_slot_resource (sport_has_resource_id,start_time,end_time,day) VALUES (?,?,?.?)');  
+            $stmt->bind_param("isss",$this->sportHasResource,$this->startTime,$this->endTime,$this->day);  
             $stmt->execute();  
             $stmt->close();
         }else{
-            $stmt = $con->prepare('UPDATE time_slot_resource SET (title,description,achieved_date) VALUES (?,?,?)');  
-            $stmt->bind_param("sss",$this->title,$this->description,$this->achievedDate);  
+            $stmt = $con->prepare('UPDATE time_slot_resource SET (sport_has_resource_id,start_time,end_time,day) VALUES (?,?,?.?)');  
+            $stmt->bind_param("isss",$this->sportHasResource,$this->startTime,$this->endTime,$this->day);  
             $stmt->execute();  
             $stmt->close();
         }
@@ -79,17 +82,17 @@ class TimeSlotResource
             echo "Failed to connect to MySQL: " . mysqli_connect_error();
         }
 
-        $ach = new Achievement();
-        $ach->id = $id;
+        $slot = new TimeSlotResource();
+        $slot->id = $id;
 
-        $stmt = $con->prepare('SELECT title,description,achieved_date FROM time_slot_resource WHERE id=?');
+        $stmt = $con->prepare('SELECT sport_has_resource_id,start_time,end_time,day FROM time_slot_resource WHERE id=?');
         $stmt->bind_param("s",$id);
         $stmt->execute();
 
-        $stmt->bind_result($ach->title,$ach->description,$ach->achievedDate);
+        $stmt->bind_result($this->sportHasResource,$this->startTime,$this->endTime,$this->day);
         $stmt->fetch();
         $stmt->close();
-        return $ach;
+        return $slot;
     }
 
     public static function getAll(){
@@ -100,22 +103,23 @@ class TimeSlotResource
             echo "Failed to connect to MySQL: " . mysqli_connect_error();
         }
 
-        $stmt = $con->prepare('SELECT id,title,description,achieved_date FROM time_slot_resource');
-        $achievements = array();
+        $stmt = $con->prepare('SELECT id,sport_has_resource_id,start_time,end_time,day FROM time_slot_resource');
+        $slots = array();
 
         if ($stmt->execute()) {
-            $stmt->bind_result($id,$title,$description,$date);
+            $stmt->bind_result($id,$sportHasResource,$startTime,$endTime,$day);
             
             while ( $stmt->fetch() ) {
-                $ach = new Achievement();
-                $ach->id = $id;
-                $ach->title = $title;
-                $ach->description = $description;
-                $ach->achievedDate = $date;
-                $achievements[] = $ach;
+                $slot = new TimeSlotResource();
+                $slot->id = $id;
+                $slot->sportHasResource = $sportHasResource;
+                $slot->startTime = $startTime;
+                $slot->endTime = $endTime;
+                $slot->day = $day;
+                $slots[] = $slot;
             }
             $stmt->close();
-            return $achievements;  
+            return $slots;  
             
         }
         $stmt->close();
