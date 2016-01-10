@@ -138,6 +138,13 @@ class Player
 
     }
 
+    //Newly added
+    public function getDepartmentName()
+    {
+        
+        return Department::getOne($this->departmentId)->getName();
+    }
+
 
 
     /**
