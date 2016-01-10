@@ -81,16 +81,19 @@ class EquipmentReservedByPlayer
 
     public function save()
     {
+        $this->start = $this->start?$this->start->format('Y-m-d H-i-s'):null;
+        $this->end = $this->end?$this->end->format('Y-m-d H-i-s'):null;
+    
         if ($this->id == null) {
             $con = Connection::getConnectionObject()->getConnection();
             $stmt = $con->prepare('INSERT INTO equipment_reserved_by_player (equipment_id,player_id,start,end,amount,authorizing_officer_id) VALUES (?,?,?,?,?,?)');  
-            $stmt->bind_param("ssssss",$this->equipment_id,$this->player_id,$this->start,$this->end,$this->amount,$this->authorizing_officer_id);  
+            $stmt->bind_param("iissii",$this->equipment_id,$this->player_id,$this->start,$this->end,$this->amount,$this->authorizing_officer_id);  
             $stmt->execute();  
             $stmt->close();
         }else{
             $con = Connection::getConnectionObject()->getConnection();
             $stmt = $con->prepare('UPDATE equipment_reserved_by_player SET (equipment_id,player_id,start,end,amount,authorizing_officer_id) VALUES (?,?,?,?,?,?)');  
-            $stmt->bind_param("ssssss",$this->equipment_id,$this->player_id,$this->start,$this->end,$this->amount,$this->authorizing_officer_id);  
+            $stmt->bind_param("iissii",$this->equipment_id,$this->player_id,$this->start,$this->end,$this->amount,$this->authorizing_officer_id);  
             $stmt->execute();  
             $stmt->close();
         }
