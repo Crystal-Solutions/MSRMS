@@ -13,11 +13,33 @@ All Players
 
 
 {% block body %}
-<ul>
+<table width="100%">
+	<tr>
+		<th>Name</th>
+		<th>Year</th>
+		<th>Date of Birth</th>
+		<th>Bllod Type</th>
+		<th>Address</th>
+	</tr>
+
     {% for user in players %}
-        <li>
-        	<a href="{{url('player_view',{'id':user.id})}}">{{ user.name|e }} - {{ user.year|e }}- {{ user.dateOfBirth|e }}- {{ user.bloodType|e }}- {{ user.address|e }}</a>
-        </li>
+        <tr>
+        <td>
+        <a href="{{url('player_view',{'id':user.id})}}">{{ user.name|e }}</a>
+        </td>
+
+        <td>{{ user.year|e }}
+        </td>
+
+        <td>{{ user.dateOfBirth|e }}
+        </td>
+
+        <td>{{ user.bloodType|e }}
+        </td>
+
+
+       	<td>{{ user.address|e }}</td>
+        </tr>
     {% endfor %}
 </ul>
 
