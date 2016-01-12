@@ -35,6 +35,33 @@ class Player
     //Manually added
     public $departmentId;
 
+    //-----------Validation related stuff------------------------------------------------------
+    private $errorMessage;
+    public function getError(){ return $this->errorMessage;}
+
+    public function validate()
+    {
+        $this->errorMessage = "";
+        if ( ( (!preg_match("/([\d]{6})(([A-Z])|([a-z]))/", $this->indexNumber)) && strlen($this->indexNumber)!=7 ) )
+            $this->errorMessage = "Index number is not valid";
+        if($this->year<0 || $this->year>6)
+            $this->errorMessage = "Year is not valid.";
+
+        if(strtotime($this->dateOfBirth->format('Y-m-d')) > strtotime("-18 YEAR") || strtotime($this->dateOfBirth->format('Y-m-d')) < strtotime("-120 YEAR"))
+            $this->errorMessage = "Date of Birth is not valid";
+
+       
+        $bloodTypes = array('A+','A-','B+', 'B-', 'AB+', 'AB-', 'O+', 'O-');
+        if(!in_array($this->bloodType, $bloodTypes))
+            $this->errorMessage = 'Blood Type is not valid';
+
+        //Return true if error message is "" (no eror)
+        //Else return false
+        return $this->errorMessage == "";
+    }
+    //--------------------------------------------------------------------------------------------
+
+
     public function save()
     {
 
@@ -109,6 +136,13 @@ class Player
         
         return $players;
 
+    }
+
+    //Newly added
+    public function getDepartmentName()
+    {
+        
+        return Department::getOne($this->departmentId)->getName();
     }
 
 

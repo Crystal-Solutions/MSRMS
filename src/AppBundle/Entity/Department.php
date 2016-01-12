@@ -20,13 +20,7 @@ class Department
      */
     private $name;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    
     private $id;
 
     /**
@@ -91,16 +85,17 @@ class Department
             echo "Failed to connect to MySQL: " . mysqli_connect_error();
         }
 
-        $stmt = $con->prepare('SELECT name,faculty_id FROM department');
+        $stmt = $con->prepare('SELECT id,name,faculty_id FROM department');
         $depts = array();
 
         if ($stmt->execute()) {
-            $stmt->bind_result($name,$faculty_id);
+            $stmt->bind_result($id,$name,$faculty_id);
             
             while ( $stmt->fetch() ) {
                 $dp = new Department();
                 $dp->name = $name;
                 $dp->faculty_id = $faculty_id;
+                $dp->id = $id;
                 $depts[] = $dp;
             }
             $stmt->close();
@@ -135,11 +130,7 @@ class Department
         return $this->name;
     }
 
-    /**
-     * Get id
-     *
-     * @return integer
-     */
+    
     public function getId()
     {
         return $this->id;
