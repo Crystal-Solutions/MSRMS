@@ -59,13 +59,13 @@ class Achievement
     {
         $con = Connection::getConnectionObject()->getConnection();
         if ($this->id == null) {
-            $stmt = $con->prepare('INSERT INTO achievement (title,description,achieved_date) VALUES (?,?,?)');  
-            $stmt->bind_param("sss",$this->title,$this->description,$this->achievedDate);  
+            $stmt = $con->prepare('INSERT INTO achievement (title,description,achieved_date,player_involved_in_sport_id) VALUES (?,?,?,?)');  
+            $stmt->bind_param("sssi",$this->title,$this->description,$this->achievedDate,$this->playerInvolvedInSport);  
             $stmt->execute();  
             $stmt->close();
         }else{
-            $stmt = $con->prepare('UPDATE achievement SET (title,description,achieved_date) VALUES (?,?,?)');  
-            $stmt->bind_param("sss",$this->title,$this->description,$this->achievedDate);  
+            $stmt = $con->prepare('UPDATE achievement SET (title,description,achieved_date,player_involved_in_sport_id) VALUES (?,?,?,?)');  
+            $stmt->bind_param("sssi",$this->title,$this->description,$this->achievedDate,$this->playerInvolvedInSport);  
             $stmt->execute();  
             $stmt->close();
         }
@@ -84,11 +84,11 @@ class Achievement
         $ach = new Achievement();
         $ach->id = $id;
 
-        $stmt = $con->prepare('SELECT title,description,achieved_date FROM achievement WHERE id=?');
+        $stmt = $con->prepare('SELECT title,description,achieved_date,player_involved_in_sport_id FROM achievement WHERE id=?');
         $stmt->bind_param("s",$id);
         $stmt->execute();
 
-        $stmt->bind_result($ach->title,$ach->description,$ach->achievedDate);
+        $stmt->bind_result($ach->title,$ach->description,$ach->achievedDate,$ach->playerInvolvedInSport);
         $stmt->fetch();
         $stmt->close();
         return $ach;
@@ -102,11 +102,11 @@ class Achievement
             echo "Failed to connect to MySQL: " . mysqli_connect_error();
         }
 
-        $stmt = $con->prepare('SELECT id,title,description,achieved_date FROM achievement');
+        $stmt = $con->prepare('SELECT id,title,description,achieved_date,player_involved_in_sport_id FROM achievement');
         $achievements = array();
 
         if ($stmt->execute()) {
-            $stmt->bind_result($id,$title,$description,$date);
+            $stmt->bind_result($id,$title,$description,$date,$playerInvolvedInSport);
             
             while ( $stmt->fetch() ) {
                 $ach = new Achievement();
@@ -114,6 +114,7 @@ class Achievement
                 $ach->title = $title;
                 $ach->description = $description;
                 $ach->achievedDate = $date;
+                $ach->playerInvolvedInSport = $playerInvolvedInSport;
                 $achievements[] = $ach;
             }
             $stmt->close();
