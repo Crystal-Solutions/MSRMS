@@ -48,7 +48,7 @@ class EquipmentReservedByPlayerController extends Controller
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid() && $equipmentReservedByPlayer->validate()) {
             // ... perform some action, such as saving the task to the database
 
             $equipmentReservedByPlayer->save();
@@ -58,7 +58,7 @@ class EquipmentReservedByPlayerController extends Controller
 
 
         // replace this example code with whatever you need
-        return $this->render('equipmentReservedByPlayer/create.html.twig', array('form' => $form->createView()));
+        return $this->render('equipmentReservedByPlayer/create.html.twig', array('form' => $form->createView(),'form_error'=>$player->getError()));
     }
 
     /**
