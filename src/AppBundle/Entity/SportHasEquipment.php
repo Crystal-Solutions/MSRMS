@@ -50,6 +50,7 @@ class SportHasEquipment
      * })
      */
     private $equipment;
+
     private $equipmentId;
     private $sportId;
     private $authorizingOfficerId;
@@ -68,21 +69,24 @@ class SportHasEquipment
         else
         {
             $con = Connection::getConnectionObject()->getConnection();
-            $stmt = $con->prepare('UPDATE sport_has_equipment SET equipment_id = ? , sport_id = ? WHERE authorizing_officer_id= ?');  
-            $stmt->bind_param("iii",$this->euipmentId,$this->sportId,$this->authorizingOfficerId);  
+            $stmt = $con->prepare('UPDATE sport_has_equipment SET equipment_id = ? , sport_id = ?, authorizing_officer_id=? WHERE id= ?');  
+            $stmt->bind_param("iiii",$this->euipmentId,$this->sportId,$this->authorizingOfficerId,$this->id);  
             $stmt->execute();  
             $stmt->close();
         }
     }
 
-    public static function getOne($id)
-    {
+
+
+ public static function getOne($id){
+
         $con = Connection::getConnectionObject()->getConnection();
         // Check connection
         if (mysqli_connect_errno())
         {
             echo "Failed to connect to MySQL: " . mysqli_connect_error();
         }
+
 
         $sportHasEquipment = new SportHasEquipment();
         $stmt = $con->prepare('SELECT equipment_id,sport_id,authorizing_officer_id FROM sport_has_equipment WHERE id=?');
@@ -95,8 +99,8 @@ class SportHasEquipment
         return $sportHasEquipment;
     }
 
-    public static function getAll()
-    {
+    public static function getAll(){
+
         $con = Connection::getConnectionObject()->getConnection();
         // Check connection
         if (mysqli_connect_errno())
@@ -120,42 +124,16 @@ class SportHasEquipment
             }
             $stmt->close();
             return $sportHasEquipments;      
-    }
-  
+        }
 
     /**
      * Get id
      *
      * @return integer
      */
-
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set authorizingOfficer
-     *
-     * @param \AppBundle\Entity\AuthorizingOfficer $authorizingOfficer
-     *
-     * @return SportHasEquipment
-     */
-    public function setAuthorizingOfficer(\AppBundle\Entity\AuthorizingOfficer $authorizingOfficer = null)
-    {
-        $this->authorizingOfficer = $authorizingOfficer;
-
-        return $this;
-    }
-
-    /**
-     * Get authorizingOfficer
-     *
-     * @return \AppBundle\Entity\AuthorizingOfficer
-     */
-    public function getAuthorizingOfficer()
-    {
-        return $this->authorizingOfficer;
     }
 
     /**
@@ -163,7 +141,7 @@ class SportHasEquipment
      *
      * @param \AppBundle\Entity\Sport $sport
      *
-     * @return SportHasEquipment
+     * @return SportHasResource
      */
     public function setSport(\AppBundle\Entity\Sport $sport = null)
     {
@@ -191,7 +169,7 @@ class SportHasEquipment
      */
     public function setEquipment(\AppBundle\Entity\Equipment $equipment = null)
     {
-        $this->equipment = $equipment;
+        $this->resource = $equipment;
 
         return $this;
     }
@@ -206,34 +184,32 @@ class SportHasEquipment
         return $this->equipment;
     }
 
-// manually added methods from here on
-    public function setEquipmentId($equipmentId)
+    /**
+     * Set authorizingOfficer
+     *
+     * @param \AppBundle\Entity\AuthorizingOfficer $authorizingOfficer
+     *
+     * @return SportHasResource
+     */
+    public function setAuthorizingOfficer(\AppBundle\Entity\AuthorizingOfficer $authorizingOfficer = null)
     {
-        $this->equipmentId = $equipmentId;
+        $this->authorizingOfficer = $authorizingOfficer;
 
         return $this;
     }
 
-
-    public function getEquipmentId()
+    /**
+     * Get authorizingOfficer
+     *
+     * @return \AppBundle\Entity\AuthorizingOfficer
+     */
+    public function getAuthorizingOfficer()
     {
-        return $this->equipmentId;
-    }
-///////////////////////////////////////////////////
-    public function setSportId($sportId)
-    {
-        $this->sportId = $sportId;
-
-        return $this;
+        return $this->authorizingOfficer;
     }
 
 
-    public function getSportId()
-    {
-        return $this->sportId;
-    }
-
-///////////////////////////////////////////////////
+//authorizing officer id
     public function setAuthorizingOfficerId($authorizingOfficerId)
     {
         $this->authorizingOfficerId = $authorizingOfficerId;
@@ -241,9 +217,37 @@ class SportHasEquipment
         return $this;
     }
 
-
     public function getAuthorizingOfficerId()
     {
         return $this->authorizingOfficerId;
+    }  
+
+
+//equipment id
+    public function setEquipmentId($equipmentId)
+    {
+        $this->equipmentId = $equipmentId;
+
+        return $this;
     }
-}
+
+     public function getEquipmentId()
+    {
+        return $this->equipmentId;
+    } 
+
+//sportId
+
+    public function setSportId($sportId)
+    {
+        $this->sportId = $sportId;
+
+        return $this;
+    }
+
+    public function getSportId()
+    {
+        return $this->sportId;
+    } 
+
+    }

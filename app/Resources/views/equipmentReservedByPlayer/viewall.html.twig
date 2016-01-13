@@ -1,0 +1,25 @@
+
+{# app/Resources/views/default/new.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}
+Equipment burrowed by Players
+{% endblock %}
+
+{% block links %}
+    <div class="btn-group" >
+       <a href="{{url('reservation_create')}}"> <button type="button" class="btn btn-xs btn-success">Burrow Equipment</button></a>
+    </div>
+{% endblock %}
+
+
+{% block body %}
+<ul>
+    {% for eq in equips %}
+        <li>
+        	<a href="{{url('reservation_view',{'id':eq.id})}}">{{ eq.equipment_id|e }} - {{ eq.player_id|e }}- {{ eq.start|e }}- {{ eq.end|e }} - {{ eq.amount|e }} - {{ eq.authorizing_officer_id|e }} </a>
+        </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

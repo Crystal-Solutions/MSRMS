@@ -53,6 +53,78 @@ class TimeSlotResource
     private $sportHasResource;
 
 
+    public function save()
+    {
+        $this->startTime = $this->startTime?$this->startTime->format('H-i'):null;
+        $this->endTime = $this->endTime?$this->endTime->format('H-i'):null;
+
+        $con = Connection::getConnectionObject()->getConnection();
+        if ($this->id == null) {
+            $stmt = $con->prepare('INSERT INTO time_slot_resource (sport_has_resource_id,start_time,end_time,day) VALUES (?,?,?.?)');  
+            $stmt->bind_param("isss",$this->sportHasResource,$this->startTime,$this->endTime,$this->day);  
+            $stmt->execute();  
+            $stmt->close();
+        }else{
+            $stmt = $con->prepare('UPDATE time_slot_resource SET (sport_has_resource_id,start_time,end_time,day) VALUES (?,?,?.?)');  
+            $stmt->bind_param("isss",$this->sportHasResource,$this->startTime,$this->endTime,$this->day);  
+            $stmt->execute();  
+            $stmt->close();
+        }
+        $con->close();
+    }
+
+    public static function getOne($id){
+
+        $con = Connection::getConnectionObject()->getConnection();
+        // Check connection
+        if (mysqli_connect_errno())
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
+
+        $slot = new TimeSlotResource();
+        $slot->id = $id;
+
+        $stmt = $con->prepare('SELECT sport_has_resource_id,start_time,end_time,day FROM time_slot_resource WHERE id=?');
+        $stmt->bind_param("s",$id);
+        $stmt->execute();
+
+        $stmt->bind_result($this->sportHasResource,$this->startTime,$this->endTime,$this->day);
+        $stmt->fetch();
+        $stmt->close();
+        return $slot;
+    }
+
+    public static function getAll(){
+        $con = Connection::getConnectionObject()->getConnection();
+        // Check connection
+        if (mysqli_connect_errno())
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
+
+        $stmt = $con->prepare('SELECT id,sport_has_resource_id,start_time,end_time,day FROM time_slot_resource');
+        $slots = array();
+
+        if ($stmt->execute()) {
+            $stmt->bind_result($id,$sportHasResource,$startTime,$endTime,$day);
+            
+            while ( $stmt->fetch() ) {
+                $slot = new TimeSlotResource();
+                $slot->id = $id;
+                $slot->sportHasResource = $sportHasResource;
+                $slot->startTime = $startTime;
+                $slot->endTime = $endTime;
+                $slot->day = $day;
+                $slots[] = $slot;
+            }
+            $stmt->close();
+            return $slots;  
+            
+        }
+        $stmt->close();
+        return false;     
+    }
 
     /**
      * Set startTime

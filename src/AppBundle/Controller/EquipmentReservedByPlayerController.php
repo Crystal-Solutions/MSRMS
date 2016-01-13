@@ -5,17 +5,18 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Entity\Department;
+use AppBundle\Entity\EquipmentReservedByPlayer;
 
 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-class DepartmentController extends Controller
+class EquipmentReservedByPlayerController extends Controller
 {
     /**
-     * @Route("/EquipmentReservedByPlayer/", name="EquipmentReservedByPlaye_home")
+     * @Route("/EquipmentReservedByPlayer/", name="EquipmentReservedByPlayer_home")
      */
     public function indexAction(Request $request)
     {
@@ -27,7 +28,7 @@ class DepartmentController extends Controller
 
 
     /**
-     * @Route("/equipmentreservedbyplayer/create", name="department_create")
+     * @Route("/equipmentreservedbyplayer/create", name="reservation_create")
      */
     public function createAction(Request $request)
     {
@@ -37,10 +38,10 @@ class DepartmentController extends Controller
         $form = $this->createFormBuilder($equipmentReservedByPlayer)
             ->add('equipment_id', TextType::class)
             ->add('player_id', TextType::class)
-            ->add('start', DateTimeType::class)
-            ->add('end', DateTimeType::class)
-            ->add('amount', DateTimeType::class)
-            ->add('end', DateTimeType::class)
+            ->add('start', TextType::class)
+            ->add('end', TextType::class)
+            ->add('amount', TextType::class)
+            ->add('authorizing_officer_id', TextType::class)
             ->add('save', SubmitType::class, array('label' => 'Reserve the Equipment'))
             ->getForm();
 
@@ -60,7 +61,7 @@ class DepartmentController extends Controller
     }
 
     /**
-     * @Route("/equipmentreservedbyplayer/view/{id}", name="department_view")
+     * @Route("/equipmentreservedbyplayer/view/{id}", name="reservation_view")
      */
     public function viewAction($id, Request $request)
     {
@@ -69,7 +70,7 @@ class DepartmentController extends Controller
     }
 
     /**
-     * @Route("/equipmentreservedbyplayer/view", name="department_viewall")
+     * @Route("/equipmentreservedbyplayer/view", name="reservation_viewall")
      */
     public function viewallAction(Request $request)
     {
