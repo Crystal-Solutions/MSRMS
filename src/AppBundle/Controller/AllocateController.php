@@ -31,7 +31,8 @@ class AllocateController extends Controller
         //Generate required data for the form ----------------------- For choices
         $sports =  Sport::getAll();
         $sportIds = array();
-// not sure about this line
+
+        // not sure about this line
         foreach ($sports as $sport) {
             $sportIds[$sport->getName()] = $sport->getId();
         }
@@ -52,7 +53,7 @@ class AllocateController extends Controller
         //------------------------------------------------------------------------
         
         //Set the default borrowed time to current time
-      //  $sportHasResource->setBorrowedTime(new \DateTime('now'));
+        // $sportHasResource->setBorrowedTime(new \DateTime('now'));
 
         $form = $this->createFormBuilder($sportHasResource)
             ->add('sport_id',ChoiceType::class, array(

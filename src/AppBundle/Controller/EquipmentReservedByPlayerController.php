@@ -9,6 +9,7 @@ use AppBundle\Entity\EquipmentReservedByPlayer;
 
 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -36,18 +37,18 @@ class EquipmentReservedByPlayerController extends Controller
         $equipmentReservedByPlayer = new EquipmentReservedByPlayer(); 
 
         $form = $this->createFormBuilder($equipmentReservedByPlayer)
-            ->add('equipment_id', TextType::class)
-            ->add('player_id', TextType::class)
-            ->add('start', TextType::class)
-            ->add('end', TextType::class)
-            ->add('amount', TextType::class)
-            ->add('authorizing_officer_id', TextType::class)
+            ->add('equipment_id', IntegerType::class)
+            ->add('player_id', IntegerType::class)
+            ->add('start', DateTimeType::class)
+            ->add('end', DateTimeType::class)
+            ->add('amount', IntegerType::class)
+            ->add('authorizing_officer_id', IntegerType::class)
             ->add('save', SubmitType::class, array('label' => 'Reserve the Equipment'))
             ->getForm();
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid() && $equipmentReservedByPlayer->validate()) {
             // ... perform some action, such as saving the task to the database
 
             $equipmentReservedByPlayer->save();
@@ -57,7 +58,7 @@ class EquipmentReservedByPlayerController extends Controller
 
 
         // replace this example code with whatever you need
-        return $this->render('equipmentReservedByPlayer/create.html.twig', array('form' => $form->createView()));
+        return $this->render('equipmentReservedByPlayer/create.html.twig', array('form' => $form->createView(),'form_error'=>$player->getError()));
     }
 
     /**

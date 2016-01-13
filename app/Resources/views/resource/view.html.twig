@@ -2,10 +2,34 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-Resources
+Resource Details
 {% endblock %}
 
 {% block body %}
-{{ resource.name|e }} - {{ resource.description|e }} - {{ resource.instructorName|e }} - {{ resource.location|e }}
+
+<table width="100%">
+	<tr>
+		<th>Name</th>
+		<th>Description</th>
+		<th>Instructor Name</th>
+		<th>Location</th>
+	</tr>
+<ul>
+
+	<tr>
+	<td>{{ resource.name|e }}
+	</td>
+
+	<td>{{ resource.description|e }}
+	</td>
+	<td>{{ resource.instructorName|e }}
+	</td>
+
+	<td>{{ resource.location|e }}
+	</td>
+	</tr>
+
+
+</ul>
 {% endblock %}
 

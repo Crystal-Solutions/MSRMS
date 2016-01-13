@@ -5,10 +5,36 @@
 Resources
 {% endblock %}
 
+{% block links %}
+    <div class="btn-group" >
+       <a href="{{url('resource_create')}}"> <button type="button" class="btn btn-xs btn-success">Create Resource</button></a>
+    </div>
+{% endblock %}
+
 {% block body %}
+<table width="100%">
+	<tr>
+		<th>Name</th>
+		<th>Description</th>
+		<th>Instructor Name</th>
+		<th>Location</th>
+	</tr>
 <ul>
 	{% for res in resources %}
-        <li>{{ res.name|e }} - {{ res.description|e }} - {{ res.instructorName|e }} - {{ res.location|e }}</li>
+	<tr>
+	<td>
+    <a href="{{url('resource_view',{'id':res.id})}}">{{ res.name|e }}</a>
+	</td>
+
+	<td>{{ res.description|e }}
+	</td>
+	<td>{{ res.instructorName|e }}
+	</td>
+
+	<td>{{ res.location|e }}
+	</td>
+	</tr>
+
     {% endfor %}
 </ul>
 {% endblock %}

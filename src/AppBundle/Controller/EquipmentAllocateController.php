@@ -5,8 +5,8 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Entity\EquipmentReservedByPlayer;
-use AppBundle\Entity\Player;    
+use AppBundle\Entity\SportHasEquipment;
+use AppBundle\Entity\Sport;    
 use AppBundle\Entity\Equipment;
 use AppBundle\Entity\AuthorizingOfficer;
   
@@ -20,20 +20,20 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 
 
-class ReserveController extends Controller
+class EquipmentAllocateController extends Controller
 {
     /**
-     * @Route("/reserve/", name="reserve_home")
+     * @Route("/equipmentAllocate/", name="equipment_allocate_home")
      */
     public function indexAction(Request $request)
     {
-        $equipmentReservedByPlayer = new EquipmentReservedByPlayer(); 
+        $sportHasEquipment = new SportHasEquipment(); 
 
         //Generate required data for the form ----------------------- For choices
-        $players =  Player::getAll();
-        $playerIds = array();
-        foreach ($players as $player) {
-            $playerIds[$player->getIndexNumber()] = $player->getId();
+        $sports =  Sport::getAll();
+        $sportIds = array();
+        foreach ($sports as $sport) {
+            $sportIds[$sport->getName()] = $sport->getId();
         }
 
         $equipments =  Equipment::getAll();
@@ -42,55 +42,47 @@ class ReserveController extends Controller
             $equipmentIds[$eq->getName()] = $eq->getId();
         }
 
-        $authOfficers =  AuthorizingOfficer::getAll();
-        $authIds = array();
-        foreach ($authOfficers as $au) {
-            $authIds[$au->getName()] = $au->getId();
+        $authorizingOfficers = AuthorizingOfficer :: getAll();
+        $authorizingOfficerIds = array();
+
+        foreach ($authorizingOfficers as $authorizingOfficer){
+            $authorizingOfficerIds[$authorizingOfficer->getName()]= $authorizingOfficer->getId();
         }
-
         //------------------------------------------------------------------------
-        
-        //Set the default reserved time to current time
-        $equipmentReservedByPlayer->SetStart(new \DateTime('now'));
 
-        $form = $this->createFormBuilder($equipmentReservedByPlayer)
+
+
+        $form = $this->createFormBuilder($sportHasEquipment)
             ->add('equipment_id',ChoiceType::class, array(
             'choices'  => $equipmentIds,
             'choices_as_values' => true,
             'label'=>'Equipment'
                 ))
-
-            ->add('player_id',ChoiceType::class, array(
-            'choices'  => $playerIds,
+            ->add('sport_id',ChoiceType::class, array(
+            'choices'  => $sportIds,
             'choices_as_values' => true,
-            'label'=>'Index Number of the Player'
-                ))
-
-            ->add('start',DateTimeType::class)
-            ->add('end',DateTimeType::class)
-            ->add('amount',IntegerType::class)
-
+            'label'=>'Sport'
+                ))   
             ->add('authorizing_officer_id',ChoiceType::class, array(
-            'choices'  => $authIds,
+            'choices'  => $authorizingOfficerIds,
             'choices_as_values' => true,
             'label'=>'Authorizing Officer'
-                ))
+                )) 
 
-            ->add('save', SubmitType::class, array('label' => 'Reserve Equipment'))
+            ->add('save', SubmitType::class, array('label' => 'Allocate Equipment'))
             ->getForm();
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid() && $equipmentReservedByPlayer->validate()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             // ... perform some action, such as saving the task to the database
-            $equipmentReservedByPlayer->save();
+            $sportHasEquipment->save();
 
             return $this->redirectToRoute('task_success');
         }
 
         // replace this example code with whatever you need
-        //return $this->render('usecases/reserve_home.html.twig', array('form' => $form->createView()));
-        return $this->render('usecases/reserve_home.html.twig', array('form' => $form->createView(), 'form_error'=>$equipmentReservedByPlayer->getError()));
+        return $this->render('usecases/equipment_allocate_home.html.twig', array('form' => $form->createView()));
     }
 
  
