@@ -54,7 +54,6 @@ class Achievement
      */
     private $playerInvolvedInSport;
 
-
     public function save()
     {
         $con = Connection::getConnectionObject()->getConnection();
