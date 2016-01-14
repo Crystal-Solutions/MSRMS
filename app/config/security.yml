@@ -70,6 +70,6 @@ security:
 #                        path:   /logout
 #                        target: /
 
-    access_control:
-        # require ROLE_ADMIN for /admin*
-        - { path: ^/player/create, roles: ROLE_ADMIN }
+#    access_control:
+#        # require ROLE_ADMIN for /admin*
+#        - { path: ^/player/create, roles: ROLE_ADMIN }
