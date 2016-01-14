@@ -6,12 +6,17 @@
 Player Details
 {% endblock %}
 
+
 {% block body %}
-{{player.indexNumber}}<br>
-{{player.name}}<br>
-{{player.dateOfBirth}}<br>
-{{player.year}}<br>
-{{player.departmentId}}<br>
-{{player.address}}<br>
-{{player.bloodType}}<br>
+    <ul>
+
+        <li>{{player.indexNumber}}</li>
+        <li>{{player.name}}</li>
+        <li>{{player.dateOfBirth}}</li>
+        <li>{{player.year}}</li>
+        <li>{{player.facultyName}}</li>
+        <li>{{player.departmentName}}</li>
+        <li>{{player.address}}</li>
+        <li>{{player.bloodType}}</li>
+    </ul>
 {% endblock %}

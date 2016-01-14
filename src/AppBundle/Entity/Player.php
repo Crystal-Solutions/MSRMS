@@ -102,11 +102,11 @@ class Player
         }
 
         $player = new Player();
-        $stmt = $con->prepare('SELECT id,name,index_number,year,date_of_birth,address,blood_type,department_id FROM player WHERE id=?');
+        $stmt = $con->prepare('SELECT player.id, player.name, player.index_number, player.year, player.date_of_birth, player.address, player.blood_type, player.department_id, department.name, faculty.name FROM player,department,faculty where player.id=department.id and faculty.id=department.faculty_id and player.id=?');
         $stmt->bind_param("s",$id);
         $stmt->execute();
 
-        $stmt->bind_result($player->id,$player->name,$player->index_number,$player->year,$player->date_of_birth,$player->address,$player->blood_type,$player->department_id);
+        $stmt->bind_result($player->id,$player->name,$player->indexNumber,$player->year,$player->dateOfBirth,$player->address,$player->bloodType,$player->departmentId, $player->departmentName, $player->facultyName);
         $stmt->fetch();
         $stmt->close();
         return $player;
