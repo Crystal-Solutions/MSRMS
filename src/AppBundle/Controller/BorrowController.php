@@ -45,6 +45,7 @@ class BorrowController extends Controller
         
         //Set the default borrowed time to current time
         $equipmentBorrowedByPlayer->setBorrowedTime(new \DateTime('now'));
+        $equipmentBorrowedByPlayer->setDueTime(new \DateTime('now'));
 
         $form = $this->createFormBuilder($equipmentBorrowedByPlayer)
             ->add('player_id',ChoiceType::class, array(
@@ -59,14 +60,18 @@ class BorrowController extends Controller
                 ))   
 
             ->add('amount',IntegerType::class)
-            ->add('borrowedTime',DateTimeType::class)
-            ->add('dueTime',DateTimeType::class)
+            ->add('borrowedTime',DateTimeType::class,array(
+                'years'=>range(date('Y'),date('Y')),'months'=>range(date('m'),date('m')),'days'=>range(date('d')-1,date('d'))
+                ))
+            ->add('dueTime',DateTimeType::class,array(
+                'years'=>range(date('Y'),date('Y')+2)
+                ))                
             ->add('save', SubmitType::class, array('label' => 'Borrow Equipment'))
             ->getForm();
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $equipmentBorrowedByPlayer->validate()) {
             // ... perform some action, such as saving the task to the database
             $equipmentBorrowedByPlayer->save();
 
@@ -74,7 +79,7 @@ class BorrowController extends Controller
         }
 
         // replace this example code with whatever you need
-        return $this->render('usecases/borrow_home.html.twig', array('form' => $form->createView()));
+        return $this->render('usecases/borrow_home.html.twig', array('form' => $form->createView(),'form_error'=>$player->getError()));
     }
 
  

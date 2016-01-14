@@ -79,6 +79,33 @@ class EquipmentBorrowedByPlayer
     public $equipment_id;
     public $player_id;
 
+    //-----------Validation related stuff------------------------------------------------------
+ /**   private $errorMessage;
+    public function getError(){ return $this->errorMessage;}
+
+    public function validate()
+    {
+        $this->errorMessage = "";
+        if ( ( (!preg_match("/([\d]{6})(([A-Z])|([a-z]))/", $this->player_id)) && strlen($this->player_id)!=7 ) )
+            $this->errorMessage = "Player ID is not valid";
+
+
+        if(strtotime($this->borrowedTime->format('Y-m-d H-i-s')) > strtotime("+0 YEAR","+0 MONTH","-1 DAY") || strtotime($this->borrowedTime->format('Y-m-d H-i-s')) < strtotime("+0 YEAR","+0 MONTH","+0 DAY"))
+            $this->errorMessage = "Borrowed Time is not valid";
+
+        if(strtotime($this->dueTime->format('Y-m-d H-i-s')) > strtotime("+0 YEAR","+0 MONTH","-1 DAY") || strtotime($this->dueTime->format('Y-m-d H-i-s')) < strtotime("+0 YEAR","+0 MONTH","+0 DAY"))
+            $this->errorMessage = "Due Time is not valid";
+
+        if($this->borrowedTime > $this->dueTime)$this->errorMessage="Due Time should be a date after Borrowed Time";
+       
+
+
+        //Return true if error message is "" (no eror)
+        //Else return false
+        return $this->errorMessage == "";
+    }
+    //--------------------------------------------------------------------------------------------*//
+
     public function save()
     {
 
