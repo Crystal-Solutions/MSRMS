@@ -37,6 +37,7 @@ class Player
 
     //-----------Validation related stuff------------------------------------------------------
     private $errorMessage;
+    
     public function getError(){ return $this->errorMessage;}
 
     public function validate()
