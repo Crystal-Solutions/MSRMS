@@ -106,7 +106,8 @@ class Player
         $stmt->close();
         return $player;
     }
-        public static function getAll()
+
+    public static function getAll()
     {
         $con = Connection::getConnectionObject()->getConnection();
         // Check connection
