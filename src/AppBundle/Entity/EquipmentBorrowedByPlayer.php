@@ -80,7 +80,7 @@ class EquipmentBorrowedByPlayer
     public $player_id;
 
     //-----------Validation related stuff------------------------------------------------------
- /**   private $errorMessage;
+    private $errorMessage;
     public function getError(){ return $this->errorMessage;}
 
     public function validate()
@@ -96,7 +96,7 @@ class EquipmentBorrowedByPlayer
         if(strtotime($this->dueTime->format('Y-m-d H-i-s')) > strtotime("+0 YEAR","+0 MONTH","-1 DAY") || strtotime($this->dueTime->format('Y-m-d H-i-s')) < strtotime("+0 YEAR","+0 MONTH","+0 DAY"))
             $this->errorMessage = "Due Time is not valid";
 
-        if($this->borrowedTime > $this->dueTime)$this->errorMessage="Due Time should be a date after Borrowed Time";
+        if(($this->borrowedTime) > ($this->dueTime))$this->errorMessage="Due Time should be a date after Borrowed Time";
        
 
 
@@ -104,7 +104,7 @@ class EquipmentBorrowedByPlayer
         //Else return false
         return $this->errorMessage == "";
     }
-    //--------------------------------------------------------------------------------------------*//
+    //--------------------------------------------------------------------------------------------
 
     public function save()
     {

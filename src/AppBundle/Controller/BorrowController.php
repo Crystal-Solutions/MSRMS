@@ -79,7 +79,7 @@ class BorrowController extends Controller
         }
 
         // replace this example code with whatever you need
-        return $this->render('usecases/borrow_home.html.twig', array('form' => $form->createView(),'form_error'=>$player->getError()));
+        return $this->render('usecases/borrow_home.html.twig', array('form' => $form->createView(),'form_error'=>$equipmentBorrowedByPlayer->getError()));
     }
 
  
