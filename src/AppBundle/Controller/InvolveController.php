@@ -57,7 +57,7 @@ class InvolveController extends Controller
             'label'=>'Sport'
                 ))   
             ->add('startedDate',DateType::class)
-            ->add('endDate',DateType::class)
+            //->add('endDate',DateType::class)
             ->add('position',TextType::class)
             ->add('save', SubmitType::class, array('label' => 'Involve Player'))
             ->getForm();
