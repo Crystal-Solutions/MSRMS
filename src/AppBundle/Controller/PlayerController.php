@@ -57,7 +57,9 @@ class PlayerController extends Controller
                 ))
 
             ->add('address',TextType::class)
-            ->add('bloodType',TextType::class)
+            ->add('bloodType',ChoiceType::class, array(
+                'choices'=>array('A+'=>'A+','A-'=>'A-','B+'=>'B+','B-'=>'B-','AB+'=>'AB+','AB-'=>'AB-','O+'=>'O+','O-'=>'O-')
+                ))
             ->add('save', SubmitType::class, array('label' => 'Create Player'))
             ->getForm();
 

@@ -7,8 +7,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Equipment;
 
-
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
@@ -20,11 +20,12 @@ class EquipmentController extends Controller
     public function indexAction(Request $request)
     {
         // replace this example code with whatever you need
-        return $this->render('default/index.html.twig', array(
-            'base_dir' => realpath($this->container->getParameter('kernel.root_dir').'/..'),
-        ));
-    }
+        return $this->redirectToRoute('equipment_viewall');
 
+        /*return $this->render('default/index.html.twig', array(
+            'base_dir' => realpath($this->container->getParameter('kernel.root_dir').'/..'),
+        ));*/
+    }
 
     /**
      * @Route("/equipment/create", name="equipment_create")
@@ -37,7 +38,7 @@ class EquipmentController extends Controller
         $form = $this->createFormBuilder($equipment)
             ->add('name', TextType::class)
             ->add('description', TextType::class)
-            ->add('amount',TextType::class)
+            ->add('amount',IntegerType::class)
             ->add('save', SubmitType::class, array('label' => 'Create Equipment'))
             ->getForm();
 

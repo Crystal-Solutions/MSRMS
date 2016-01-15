@@ -34,6 +34,9 @@ class AuthorizingOfficerController extends Controller{
         $form = $this->createFormBuilder($authorizingOfficer)
             ->add('name', TextType::class)
             ->add('contactNu', TextType::class)
+            ->add('username', TextType::class)
+            ->add('password', TextType::class)
+            ->add('email', TextType::class)
             ->add('save', SubmitType::class, array('label' => 'Create Authorizing Officer'))
             ->getForm();
 
@@ -42,6 +45,7 @@ class AuthorizingOfficerController extends Controller{
         if ($form->isSubmitted() && $form->isValid()) {
             // ... perform some action, such as saving the task to the database
 
+            $authorizingOfficer->setIsActive(true);
             $authorizingOfficer->save();
 
             return $this->redirectToRoute('task_success');

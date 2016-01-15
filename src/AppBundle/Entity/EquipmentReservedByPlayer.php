@@ -79,6 +79,20 @@ class EquipmentReservedByPlayer
 
     public $player_id;
 
+    private $errorMessage;
+
+    public function getError(){return $this->errorMessage;}
+
+    public function validate()
+    {
+        $this->errorMessage = "";
+        if(($this->start) > ($this->end))
+
+            $this->errorMessage = "End date is not valid";
+
+        return $this->errorMessage == "";
+    }
+
     public function save()
     {
         $this->start = $this->start?$this->start->format('Y-m-d H-i-s'):null;

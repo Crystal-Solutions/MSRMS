@@ -1,13 +1,47 @@
 {# app/Resources/views/default/new.html.twig #}
 {% extends 'base.html.twig' %}
 
+{% block title %}
+All Equipment
+{% endblock %}
+
+{% block links %}
+    <div class="btn-group" >
+       <a href="{{url('equipment_create')}}"> <button type="button" class="btn btn-xs btn-success">Create Equipment</button></a>
+    </div>
+{% endblock %}
+
 
 {% block body %}
-<h1>Equipments</h1>
-<ul>
-    {% for user in equipments %}
-        <li>{{ user.name|e }} - {{ user.description|e }}- {{ user.amount|e }}</li>
+<table width="100%">
+	<tr>
+		<th>Name</th>
+		<th>ID</th>
+		<th>Description</th>
+		<th>Amount</th>
+    </tr>
+
+    {% for eq in equipments %}
+        <tr>
+        <td>
+        <a href="{{url('equipment_view',{'id':eq.id})}}">{{ eq.name|e }}</a>
+        </td>
+
+		<td>{{ eq.id|e }}
+        </td>
+
+        <td>{{ eq.description|e }}
+        </td>
+
+        <td>{{ eq.amount|e }}
+        </td>
+        </tr>
     {% endfor %}
-</ul>
+</table>
 
 {% endblock %}
+
+
+
+
+
