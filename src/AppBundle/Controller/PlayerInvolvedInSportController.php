@@ -34,7 +34,7 @@ class PlayerInvolvedInSportController extends Controller
         	->add('playerId',IntegerType::class)
 		 	->add('sportId',IntegerType::class)            
 			->add('startedDate',DateType::class)
-            ->add('endDate',DateType::class)
+           // ->add('endDate',DateType::class)
             ->add('position',TextType::class)	
             ->add('save', SubmitType::class, array('label' => 'Involve Player'))
             ->getForm();

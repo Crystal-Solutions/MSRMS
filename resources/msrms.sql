@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 06, 2016 at 07:27 PM
+-- Generation Time: Jan 15, 2016 at 07:27 AM
 -- Server version: 5.6.21
 -- PHP Version: 5.5.19
 
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `achievement` (
   `description` varchar(850) DEFAULT NULL,
   `achieved_date` date DEFAULT NULL,
   `player_involved_in_sport_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -43,8 +43,19 @@ CREATE TABLE IF NOT EXISTS `achievement` (
 CREATE TABLE IF NOT EXISTS `authorizing_officer` (
 `id` int(11) NOT NULL,
   `name` varchar(128) DEFAULT NULL,
-  `contact_nu` varchar(45) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `contact_nu` varchar(45) DEFAULT NULL,
+  `username` varchar(45) DEFAULT NULL,
+  `password` varchar(128) DEFAULT NULL,
+  `email` varchar(128) DEFAULT NULL,
+  `is_active` tinyint(1) DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `authorizing_officer`
+--
+
+INSERT INTO `authorizing_officer` (`id`, `name`, `contact_nu`, `username`, `password`, `email`, `is_active`) VALUES
+(4, 'Ravindu Hasantha', '0771111111', 'ravi', '1234', 'ravindu@gmail.com', 1);
 
 -- --------------------------------------------------------
 
@@ -56,14 +67,15 @@ CREATE TABLE IF NOT EXISTS `department` (
 `id` int(11) NOT NULL,
   `name` varchar(45) DEFAULT NULL,
   `faculty_id` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `department`
 --
 
 INSERT INTO `department` (`id`, `name`, `faculty_id`) VALUES
-(2, 'CSE', 1);
+(1, 'Computer Science and Engineering ', 1),
+(2, 'Mechanical', 1);
 
 -- --------------------------------------------------------
 
@@ -76,7 +88,14 @@ CREATE TABLE IF NOT EXISTS `equipment` (
   `name` varchar(100) DEFAULT NULL,
   `description` varchar(450) DEFAULT NULL,
   `amount` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `equipment`
+--
+
+INSERT INTO `equipment` (`id`, `name`, `description`, `amount`) VALUES
+(1, 'TT rubbers and paddles', 'Table Tennis equipment', 10);
 
 -- --------------------------------------------------------
 
@@ -93,7 +112,14 @@ CREATE TABLE IF NOT EXISTS `equipment_borrowed_by_player` (
   `returned_time` datetime DEFAULT NULL,
   `issue_details` varchar(850) DEFAULT NULL,
 `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `equipment_borrowed_by_player`
+--
+
+INSERT INTO `equipment_borrowed_by_player` (`equipment_id`, `player_id`, `amount`, `borrowed_time`, `due_time`, `returned_time`, `issue_details`, `id`) VALUES
+(1, 1, 1, '2016-01-14 05:50:00', '2016-02-01 00:00:00', NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -109,7 +135,7 @@ CREATE TABLE IF NOT EXISTS `equipment_reserved_by_player` (
   `amount` int(11) DEFAULT NULL,
   `authorizing_officer_id` int(11) NOT NULL,
 `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -120,14 +146,16 @@ CREATE TABLE IF NOT EXISTS `equipment_reserved_by_player` (
 CREATE TABLE IF NOT EXISTS `faculty` (
 `id` int(11) NOT NULL,
   `name` varchar(45) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `faculty`
 --
 
 INSERT INTO `faculty` (`id`, `name`) VALUES
-(1, 'Eng');
+(1, 'Engineering'),
+(2, 'IT'),
+(3, 'Architecture ');
 
 -- --------------------------------------------------------
 
@@ -138,7 +166,7 @@ INSERT INTO `faculty` (`id`, `name`) VALUES
 CREATE TABLE IF NOT EXISTS `phone_number_auth_officer` (
 `number` int(11) NOT NULL,
   `authorizing_officer_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -149,7 +177,7 @@ CREATE TABLE IF NOT EXISTS `phone_number_auth_officer` (
 CREATE TABLE IF NOT EXISTS `phone_number_player` (
 `number` int(11) NOT NULL,
   `player_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -166,14 +194,15 @@ CREATE TABLE IF NOT EXISTS `player` (
   `address` varchar(256) DEFAULT NULL,
   `blood_type` varchar(3) DEFAULT NULL,
   `index_number` varchar(7) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `player`
 --
 
 INSERT INTO `player` (`id`, `name`, `department_id`, `year`, `date_of_birth`, `address`, `blood_type`, `index_number`) VALUES
-(3, 'Haha', 2, 12, '2011-01-01', 'asda', 'b+', '123dj');
+(1, 'Shanika Ediriweera', 1, 2, '1916-04-01', '128/A Gedara, Home Town.', 'A+', '130147J'),
+(2, 'Nadun Indunil', 2, 3, '1993-10-07', 'Kottawa', 'AB+', '130130X');
 
 -- --------------------------------------------------------
 
@@ -188,7 +217,15 @@ CREATE TABLE IF NOT EXISTS `player_involved_in_sport` (
   `end_date` date DEFAULT NULL,
   `position` varchar(45) DEFAULT NULL,
 `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `player_involved_in_sport`
+--
+
+INSERT INTO `player_involved_in_sport` (`player_id`, `sport_id`, `started_date`, `end_date`, `position`, `id`) VALUES
+(1, 1, '2016-01-14', NULL, 'Captain', 1),
+(2, 1, '2016-01-14', NULL, 'Vice Captain', 2);
 
 -- --------------------------------------------------------
 
@@ -202,7 +239,14 @@ CREATE TABLE IF NOT EXISTS `resource` (
   `description` varchar(450) DEFAULT NULL,
   `instructor_name` varchar(128) DEFAULT NULL,
   `location` varchar(128) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `resource`
+--
+
+INSERT INTO `resource` (`id`, `name`, `description`, `instructor_name`, `location`) VALUES
+(1, 'Ground', 'Main ground of the university.', 'Mr. Keet Sugathapala', 'University of Moratuwa');
 
 -- --------------------------------------------------------
 
@@ -214,7 +258,14 @@ CREATE TABLE IF NOT EXISTS `sport` (
 `id` int(11) NOT NULL,
   `name` varchar(45) DEFAULT NULL,
   `description` varchar(450) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `sport`
+--
+
+INSERT INTO `sport` (`id`, `name`, `description`) VALUES
+(1, 'Table Tennis', 'Table Tennis Description.');
 
 -- --------------------------------------------------------
 
@@ -227,7 +278,7 @@ CREATE TABLE IF NOT EXISTS `sport_has_equipment` (
   `sport_id` int(11) NOT NULL,
   `authorizing_officer_id` int(11) NOT NULL,
 `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -240,7 +291,7 @@ CREATE TABLE IF NOT EXISTS `sport_has_resource` (
   `resource_id` int(11) NOT NULL,
   `authorizing_officer_id` int(11) NOT NULL,
 `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -254,7 +305,7 @@ CREATE TABLE IF NOT EXISTS `time_slot_equipment` (
   `end_time` time DEFAULT NULL,
   `sport_has_equipment_id` int(11) NOT NULL,
   `day` varchar(25) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -268,7 +319,7 @@ CREATE TABLE IF NOT EXISTS `time_slot_resource` (
   `end_time` time DEFAULT NULL,
   `day` varchar(25) DEFAULT NULL,
   `sport_has_resource_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Indexes for dumped tables
@@ -284,7 +335,7 @@ ALTER TABLE `achievement`
 -- Indexes for table `authorizing_officer`
 --
 ALTER TABLE `authorizing_officer`
- ADD PRIMARY KEY (`id`);
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `username_UNIQUE` (`username`);
 
 --
 -- Indexes for table `department`
@@ -389,7 +440,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `authorizing_officer`
 --
 ALTER TABLE `authorizing_officer`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `department`
 --
@@ -399,12 +450,12 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 -- AUTO_INCREMENT for table `equipment`
 --
 ALTER TABLE `equipment`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `equipment_borrowed_by_player`
 --
 ALTER TABLE `equipment_borrowed_by_player`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `equipment_reserved_by_player`
 --
@@ -414,7 +465,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `faculty`
 --
 ALTER TABLE `faculty`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `phone_number_auth_officer`
 --
@@ -429,22 +480,22 @@ MODIFY `number` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `player`
 --
 ALTER TABLE `player`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `player_involved_in_sport`
 --
 ALTER TABLE `player_involved_in_sport`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `resource`
 --
 ALTER TABLE `resource`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `sport`
 --
 ALTER TABLE `sport`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `sport_has_equipment`
 --

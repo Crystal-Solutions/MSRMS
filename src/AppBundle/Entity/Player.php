@@ -35,6 +35,11 @@ class Player
     //Manually added
     public $departmentId;
 
+
+    //Generated Attributes
+    private $departmentName;
+    private $facultyName;
+
     //-----------Validation related stuff------------------------------------------------------
     private $errorMessage;
     
@@ -97,16 +102,17 @@ class Player
         }
 
         $player = new Player();
-        $stmt = $con->prepare('SELECT id,name,index_number,year,date_of_birth,address,blood_type,department_id FROM player WHERE id=?');
+        $stmt = $con->prepare('SELECT player.id, player.name, player.index_number, player.year, player.date_of_birth, player.address, player.blood_type, player.department_id, department.name, faculty.name FROM player,department,faculty where player.id=department.id and faculty.id=department.faculty_id and player.id=?');
         $stmt->bind_param("s",$id);
         $stmt->execute();
 
-        $stmt->bind_result($player->id,$player->name,$player->index_number,$player->year,$player->date_of_birth,$player->address,$player->blood_type,$player->department_id);
+        $stmt->bind_result($player->id,$player->name,$player->indexNumber,$player->year,$player->dateOfBirth,$player->address,$player->bloodType,$player->departmentId, $player->departmentName, $player->facultyName);
         $stmt->fetch();
         $stmt->close();
         return $player;
     }
-        public static function getAll()
+
+    public static function getAll()
     {
         $con = Connection::getConnectionObject()->getConnection();
         // Check connection
@@ -116,9 +122,9 @@ class Player
         }
 
          $players = array(); //Make an empty array
-        $stmt = $con->prepare('SELECT id,name,index_number,year,date_of_birth,address,blood_type,department_id FROM player');
+        $stmt = $con->prepare('SELECT player.id, player.name, player.index_number, player.year, player.date_of_birth, player.address, player.blood_type, player.department_id, department.name, faculty.name FROM player,department,faculty where player.id=department.id and faculty.id=department.faculty_id');
         $stmt->execute();
-        $stmt->bind_result($id,$name,$indexNumber,$year,$dateOfBirth,$address,$bloodType,$departmentId);
+        $stmt->bind_result($id,$name,$indexNumber,$year,$dateOfBirth,$address,$bloodType,$departmentId,$departmentName, $facultyName);
         while($stmt->fetch())
         {
             $player = new Player();
@@ -130,6 +136,8 @@ class Player
             $player->setAddress($address);
             $player->setBloodType($bloodType);
             $player->setDepartmentId($departmentId);
+            $player->setDepartmentName($departmentName);
+            $player->setFacultyName($facultyName);
 
             array_push($players,$player); //Push one by one
         }
@@ -139,11 +147,36 @@ class Player
 
     }
 
-    //Newly added
+    /**
+     * @return mixed
+     */
     public function getDepartmentName()
     {
-        
-        return Department::getOne($this->departmentId)->getName();
+        return $this->departmentName;
+    }
+
+    /**
+     * @param mixed $departmentName
+     */
+    public function setDepartmentName($departmentName)
+    {
+        $this->departmentName = $departmentName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFacultyName()
+    {
+        return $this->facultyName;
+    }
+
+    /**
+     * @param mixed $facultyName
+     */
+    public function setFacultyName($facultyName)
+    {
+        $this->facultyName = $facultyName;
     }
 
 
