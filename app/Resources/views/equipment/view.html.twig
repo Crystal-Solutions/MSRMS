@@ -2,7 +2,41 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-{{equipment.name}}<br>
-{{equipment.description}}<br>
-{{equipment.amount}}<br>
+<head>
+<style>
+table, th, td {
+
+    border-collapse: collapse;
+}
+th, td {
+    padding: 0px;
+    text-align: left;
+}
+</style>
+</head>
+<body>
+
+<table style="width:30%">
+
+  <tr>
+    <th></th>
+    <th></th>
+  </tr>
+  <tr>
+    <td><b>Name:</td>
+    <td>{{equipment.name}}</td>
+  </tr>
+  <tr>
+    <td><b>Description:</td>
+    <td>{{equipment.description}}</td>
+  </tr>
+   <tr>
+    <td><b>Amount:</td>
+    <td>{{equipment.amount}}</td>
+  </tr>
+
+  
+</table>
+
+</body>
 {% endblock %}
