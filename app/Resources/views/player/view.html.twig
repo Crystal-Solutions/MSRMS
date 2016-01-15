@@ -8,15 +8,74 @@ Player Details
 
 
 {% block body %}
-    <ul>
+<table width 100%>
 
-        <li>{{player.indexNumber}}</li>
-        <li>{{player.name}}</li>
-        <li>{{player.dateOfBirth}}</li>
-        <li>{{player.year}}</li>
-        <li>{{player.facultyName}}</li>
-        <li>{{player.departmentName}}</li>
-        <li>{{player.address}}</li>
-        <li>{{player.bloodType}}</li>
-    </ul>
+    <!-- <ul>
+
+        <li><h4>Index Number:</h4>{{player.indexNumber}}</li>
+        <li><h4>Name:</h4>{{player.name}}</li>
+        <li><h4>Date of Birth:</h4>{{player.dateOfBirth}}</li>
+        <li><h4>Year:</h4>{{player.year}}</li>
+        <li><h4>Faculty Name:</h4>{{player.facultyName}}</li>
+        <li><h4>Department Name:</h4>{{player.departmentName}}</li>
+        <li><h4>Address:</h4>{{player.address}}</li>
+        <li><h4>Blood Type:</h4>{{player.bloodType}}</li>
+    </ul> -->
+    <head>
+<style>
+table, th, td {
+
+    border-collapse: collapse;
+}
+th, td {
+    padding: 5px;
+    text-align: left;
+}
+</style>
+</head>
+<body>
+
+<table style="width:50%">
+
+  <tr>
+    <th></th>
+    <th></th>
+  </tr>
+  <tr>
+    <td><h4>Index Number:</td>
+    <td>{{player.indexNumber}}</td>
+  </tr>
+  <tr>
+    <td><h4>Name:</td>
+    <td>{{player.name}}</td>
+  </tr>
+   <tr>
+    <td><h4>Date of Birth:</td>
+    <td>{{player.dateOfBirth}}</td>
+  </tr>
+   <tr>
+    <td><h4>Year:</td>
+    <td>{{player.year}}</td>
+  </tr>
+   <tr>
+    <td><h4>Faculty:</td>
+    <td>{{player.facultyName}}</td>
+  </tr>
+   <tr>
+    <td><h4>Department Name:</td>
+    <td>{{player.departmentName}}</td>
+  </tr>
+   <tr>
+    <td><h4>Address:</td>
+    <td>{{player.address}}</td>
+  </tr>
+   <tr>
+    <td><h4>Blood Type:</td>
+    <td>{{player.bloodType}}</td>
+  </tr>
+</table>
+
+</body>
+</html>
+
 {% endblock %}
