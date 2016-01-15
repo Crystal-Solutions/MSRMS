@@ -32,7 +32,7 @@ class BorrowController extends Controller
         $players =  Player::getAll();
         $playerIds = array();
         foreach ($players as $player) {
-            $playerIds[$player->getIndexNumber()] = $player->getId();
+            $playerIds[$player->getIndexNumber()] = $player->getId(); 
         }
 
         $equipments =  Equipment::getAll();

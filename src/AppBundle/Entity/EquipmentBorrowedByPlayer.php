@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Controller\Connection;
+use AppBundle\Entity\Player; 
 /**
  * EquipmentBorrowedByPlayer
  *
@@ -86,15 +87,21 @@ class EquipmentBorrowedByPlayer
     public function validate()
     {
         $this->errorMessage = "";
-        if ( ( (!preg_match("/([\d]{6})(([A-Z])|([a-z]))/", $this->player_id)) && strlen($this->player_id)!=7 ) )
-            $this->errorMessage = "Player ID is not valid";
+       /* if ( ( (!preg_match("/([\d]{6})(([A-Z])|([a-z]))/", $this->player_id)) && strlen($this->player_id)!=7 ) )
+            $this->errorMessage = "Player ID is not valid";*/
 
+        $players =  Player::getAll();
+        $playerIds = array();
+        foreach ($players as $player) {
+            $playerIds[$player->getIndexNumber()] = $player->getId(); 
+        }
 
-        if(strtotime($this->borrowedTime->format('Y-m-d H-i-s')) > strtotime("+0 YEAR","+0 MONTH","-1 DAY") || strtotime($this->borrowedTime->format('Y-m-d H-i-s')) < strtotime("+0 YEAR","+0 MONTH","+0 DAY"))
+            if (in_array($this->player_id, $playerIds))$this->errorMeassage = "Player ID is not valid";
+    /**    if(strtotime($this->borrowedTime->format('Y-m-d H-i-s')) > strtotime("+0 YEAR") >strttotime("+0 MONTH"),"-1 DAY") || strtotime($this->borrowedTime->format('Y-m-d H-i-s')) < strtotime("+0 YEAR","+0 MONTH","+0 DAY"))
             $this->errorMessage = "Borrowed Time is not valid";
 
         if(strtotime($this->dueTime->format('Y-m-d H-i-s')) > strtotime("+0 YEAR","+0 MONTH","-1 DAY") || strtotime($this->dueTime->format('Y-m-d H-i-s')) < strtotime("+0 YEAR","+0 MONTH","+0 DAY"))
-            $this->errorMessage = "Due Time is not valid";
+            $this->errorMessage = "Due Time is not valid";**/
 
         if(($this->borrowedTime) > ($this->dueTime))$this->errorMessage="Due Time should be a date after Borrowed Time";
        
