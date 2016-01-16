@@ -16,7 +16,11 @@ class Player
 
     private $year;
 
-
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date_of_birth", type="date", nullable=true)
+     */
     private $dateOfBirth;
 
 
