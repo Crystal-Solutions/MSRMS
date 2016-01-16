@@ -66,17 +66,17 @@ class AchievementController extends Controller{
     {
         //Generate required data for the form ----------------------- For choices
 
-        // $involments =  playerInvolvedInSport::getplayerAll($p_id);
-        // $involmentIds = array();
-        // foreach ($involments as $involment) {
-        //     $involmentIds[Sport::getOne($involment->getSport())->getName()] = $involment->getId(); 
-        // }
-
-        $involments =  PlayerInvolvedInSport::getAll();
+        $involments =  playerInvolvedInSport::getplayerAll($p_id);
         $involmentIds = array();
         foreach ($involments as $involment) {
-            $involmentIds[$involment->getSport()] = $involment->getId(); 
+            $involmentIds[Sport::getOne($involment->getSport())->getName()] = $involment->getId(); 
         }
+
+        // $involments =  PlayerInvolvedInSport::getAll();
+        // $involmentIds = array();
+        // foreach ($involments as $involment) {
+        //     $involmentIds[$involment->getSport()] = $involment->getId(); 
+        // }
 
         $achievement = new Achievement();
 
