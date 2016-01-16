@@ -79,7 +79,30 @@ class EquipmentBorrowedByPlayer
 
     public $equipment_id;
     public $player_id;
+    public $indexNumber;
 
+/*---------------------------------------getting the index number--------------------------
+    public function getIndexFromId($id)
+    {
+        $con = Connection::getConnectionObject()->getConnection();
+        // Check connection
+        if (mysqli_connect_errno())
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
+
+        $stmt = $con->prepare('SELECT index_number FROM player WHERE id=?');
+        $stmt->bind_param("s",$id);
+        $stmt->execute();
+
+        $stmt->bind_result($this->indexNumber);
+        $stmt->fetch();
+        $stmt->close();
+        return $this;
+  }
+
+------------------------------------------------------------------------------------------------------------*/
+  
     //-----------Validation related stuff------------------------------------------------------
     private $errorMessage;
     public function getError(){ return $this->errorMessage;}
@@ -154,7 +177,7 @@ class EquipmentBorrowedByPlayer
         $stmt->bind_param("s",$id);
         $stmt->execute();
 
-        $stmt->bind_result($equipmentBorrowedByPlayer->id,$equipmentBorrowedByPlayer->equipment_id,$equipmentBorrowedByPlayer->player_id,$equipmentBorrowedByPlayer->amount,$equipmentBorrowedByPlayer->borrowed_time,$equipmentBorrowedByPlayer->due_time,$equipmentBorrowedByPlayer->returned_time,$equipmentBorrowedByPlayer->issue_details);
+        $stmt->bind_result($equipmentBorrowedByPlayer->id,$equipmentBorrowedByPlayer->equipment_id,$equipmentBorrowedByPlayer->player_id,$equipmentBorrowedByPlayer->amount,$equipmentBorrowedByPlayer->borrowedTime,$equipmentBorrowedByPlayer->dueTime,$equipmentBorrowedByPlayer->returnedTime,$equipmentBorrowedByPlayer->issueDetails);
         $stmt->fetch();
         $stmt->close();
         return $equipmentBorrowedByPlayer;
@@ -184,6 +207,7 @@ class EquipmentBorrowedByPlayer
             $equipmentBorrowedByPlayer->setDueTime($dueTime);
             $equipmentBorrowedByPlayer->setReturnedTime($returnedTime);
             $equipmentBorrowedByPlayer->setIssueDetails($issueDetails);
+           // $equipmentBorrowedByPlayer->getIndexFromId($player_id);
 
             array_push($equipmentBorrowedByPlayers,$equipmentBorrowedByPlayer); //Push one by one
         }
@@ -383,4 +407,5 @@ class EquipmentBorrowedByPlayer
     {
         return $this->playerId;
     }*/
+
 }

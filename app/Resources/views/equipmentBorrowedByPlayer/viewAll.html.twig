@@ -4,12 +4,62 @@
 {% block title %}
 All Borrowed Equipments
 {% endblock %}
+
+{% block links %}
+    <div class="btn-group" >
+       <a href="{{url('borrow_home')}}"> <button type="button" class="btn btn-xs btn-success">Borrow Equipment</button></a>
+    </div>
+{% endblock %}
+
 {% block body %}
+<!-------------------------------------------commented out--------------------------------------------------------
 <ul>
     {% for user in equipmentBorrowedByPlayer %}
         <li>
-        	<a href="{{url('player_view',{'id':user.id})}}">{{ user.equipment_id|e }} - {{ user.borrowedTime|e }}- {{ user.dueTime|e }}- {{ user.returnedTime|e }}- {{ user.issueDetails|e }}</a>
+        	<a href="{{url('equipmentBorrowedByPlayer_view',{'id':user.id})}}">{{ user.equipment_id|e }} - {{ user.borrowedTime|e }}- {{ user.dueTime|e }}- {{ user.returnedTime|e }}- {{ user.issueDetails|e }}</a>
         </li>
+    {% endfor %}
+</ul>
+--------------------------------------------------------------------------------------------------------------------->
+<table width="100%">
+	<tr>
+		<th>Equipment ID</th>
+		<th>Player ID</th>
+		<th>Amount</th>
+		<th>Borrowed Time</th>
+		<th>Due Time</th>
+		<th>Returned Time</th>
+		<th>Issue Details</th>
+	</tr>
+<ul>
+	{% for user in equipmentBorrowedByPlayer %}
+
+	<tr>
+	<td>
+	<a href="{{url('equipmentBorrowedByPlayer_view',{'id':user.id})}}">{{ user.equipment_id|e }}</a>
+	</td>
+
+
+	<td>
+    <a href="{{url('player_view',{'id':user.player_id})}}">{{ user.player_id|e }}</a>
+	</td>
+
+	<td>{{ user.amount|e }}
+	</td>
+
+	<td>{{ user.borrowedTime|e }}
+	</td>
+
+	<td>{{ user.dueTime|e }}
+	</td>
+
+	<td>{{ user.returnedTime|e }}
+	</td>
+
+	<td>{{ user.issueDetails|e }}
+	</td>
+	</tr>
+
     {% endfor %}
 </ul>
 
