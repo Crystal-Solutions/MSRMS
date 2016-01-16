@@ -8,6 +8,8 @@ Resource Details
 {% block body %}
 
 <table width="100%">
+	
+<!----------------------------------commented out------------------------------------
 	<tr>
 		<th>Name</th>
 		<th>Description</th>
@@ -31,5 +33,47 @@ Resource Details
 
 
 </ul>
+----------------------------------------------------------------------------------------->
+<head>
+<style>
+table, th, td {
+
+    border-collapse: collapse;
+}
+th, td {
+    padding: 0px;
+    text-align: left;
+}
+</style>
+</head>
+<body>
+
+<table style="width:30%">
+
+  <tr>
+    <th></th>
+    <th></th>
+  </tr>
+  <tr>
+    <td><b>Name:</td>
+    <td>{{resource.name}}</td>
+  </tr>
+  <tr>
+    <td><b>Description:</td>
+    <td>{{resource.description}}</td>
+  </tr>
+   <tr>
+    <td><b>Instructor Name:</td>
+    <td>{{resource.instructorName}}</td>
+  </tr>
+   <tr>
+    <td><b>Location:</td>
+    <td>{{resource.location}}</td>
+  </tr>
+  
+</table>
+
+</body>
+</html>
 {% endblock %}
 
