@@ -12,7 +12,7 @@ Player Details
     </div>
 
     <div class="btn-group" >
-       <a href="#"> <button type="button" class="btn btn-xs btn-info">Add Achievement</button></a>
+       <a href="{{url('achievement_create_single',{'p_id':player.id})}}"> <button type="button" class="btn btn-xs btn-info">Add Achievement</button></a>
     </div>
 {% endblock %}
 
