@@ -113,6 +113,7 @@ class Player
         $stmt->bind_result($player->id,$player->name,$player->indexNumber,$player->year,$player->dateOfBirth,$player->address,$player->bloodType,$player->departmentId, $player->departmentName, $player->facultyName);
         $stmt->fetch();
 
+        //sending a DateTime object to the form
         $player->setDateOfBirth(new \DateTime($player->getDateOfBirth()));
         $stmt->close();
         return $player;
@@ -145,7 +146,7 @@ class Player
             $player->setDepartmentName($departmentName);
             $player->setFacultyName($facultyName);
 
-            //
+            //sending a DateTime object to the form
             $player->setDateOfBirth(new \DateTime($player->getDateOfBirth()));
 
             array_push($players,$player); //Push one by one
