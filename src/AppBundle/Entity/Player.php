@@ -9,12 +9,12 @@ use Symfony\Component\Validator\Constraints\DateTime;
 class Player
 {
 
-    private $name;
+    public $name;
 
-    private $indexNumber;
+    public $indexNumber;
 
 
-    private $year;
+    public $year;
 
     /**
      * @var \DateTime
@@ -33,7 +33,7 @@ class Player
 
     private $id;
 
-  
+
     private $department;
 
     //Manually added
@@ -106,13 +106,14 @@ class Player
         }
 
         $player = new Player();
-        $stmt = $con->prepare('SELECT player.id, player.name, player.index_number, player.year, player.date_of_birth, player.address, player.blood_type, player.department_id, department.name, faculty.name FROM player,department,faculty where player.id=department.id and faculty.id=department.faculty_id and player.id=?');
+        $stmt = $con->prepare('SELECT player.id, player.name, player.index_number, player.year, player.date_of_birth, player.address, player.blood_type, player.department_id, department.name, faculty.name FROM player,department,faculty where player.department_id=department.id and faculty.id=department.faculty_id and player.id=?');
         $stmt->bind_param("s",$id);
         $stmt->execute();
 
         $stmt->bind_result($player->id,$player->name,$player->indexNumber,$player->year,$player->dateOfBirth,$player->address,$player->bloodType,$player->departmentId, $player->departmentName, $player->facultyName);
         $stmt->fetch();
 
+        //sending a DateTime object to the form
         $player->setDateOfBirth(new \DateTime($player->getDateOfBirth()));
         $stmt->close();
         return $player;
@@ -145,7 +146,7 @@ class Player
             $player->setDepartmentName($departmentName);
             $player->setFacultyName($facultyName);
 
-            //
+            //sending a DateTime object to the form
             $player->setDateOfBirth(new \DateTime($player->getDateOfBirth()));
 
             array_push($players,$player); //Push one by one
