@@ -71,11 +71,8 @@ class BorrowController extends Controller
 
         $form->handleRequest($request);
 
-<<<<<<< HEAD
         if ($form->isSubmitted() && $form->isValid() && $equipmentBorrowedByPlayer->validate()) {
-=======
-        if ($form->isSubmitted() && $equipmentBorrowedByPlayer->validate()) {
->>>>>>> c547b2b1e9fbb9b253fdf1602a3ff1dc205f9c5d
+
             // ... perform some action, such as saving the task to the database
             $equipmentBorrowedByPlayer->save();
 
@@ -83,12 +80,9 @@ class BorrowController extends Controller
         }
 
         // replace this example code with whatever you need
-<<<<<<< HEAD
+
         //return $this->render('usecases/reserve_home.html.twig', array('form' => $form->createView()));
         return $this->render('usecases/borrow_home.html.twig', array('form' => $form->createView(), 'form_error'=>$equipmentBorrowedByPlayer->getError()));
-=======
-        return $this->render('usecases/borrow_home.html.twig', array('form' => $form->createView(),'form_error'=>$equipmentBorrowedByPlayer->getError()));
->>>>>>> c547b2b1e9fbb9b253fdf1602a3ff1dc205f9c5d
     }
 
  
