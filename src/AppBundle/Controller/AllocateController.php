@@ -44,7 +44,7 @@ class AllocateController extends Controller
         }
 
 
-        $authorizingOfficers = AuthorizingOfficer :: getAll();
+        $authorizingOfficers = AuthorizingOfficer::getAll();
         $authorizingOfficerIds = array();
 
         foreach ($authorizingOfficers as $authorizingOfficer){

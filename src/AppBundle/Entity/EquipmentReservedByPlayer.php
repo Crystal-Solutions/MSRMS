@@ -73,17 +73,17 @@ class EquipmentReservedByPlayer
      */
     private $equipment;
 
-    public $authorizing_officer_id;
+    private $authorizing_officer_id;
 
-    public $equipment_id;
+    private $equipment_id;
 
-    public $player_id;
+    private $player_id;
 
-    public $eqName;
+    private $eqName;
 
-    public $playerName;
+    private $playerName;
 
-    public $authOfficerName;
+    private $authOfficerName;
 
     private $errorMessage;
 
@@ -158,7 +158,7 @@ class EquipmentReservedByPlayer
             while ( $stmt->fetch() ) {
                 $eq = new EquipmentReservedByPlayer();
                 $eq->id = $id;
-                $eq->equipment_id = $equipment_id;
+                /*$eq->equipment_id = $equipment_id;
                 $eq->player_id = $player_id;
                 $eq->start = $start;
                 $eq->end = $end;
@@ -166,7 +166,18 @@ class EquipmentReservedByPlayer
                 $eq->authorizing_officer_id = $authorizing_officer_id;
                 $eq->eqName = $eqName;
                 $eq->playerName = $playerName;
-                $eq->authOfficerName = $authOfficerName;
+                $eq->authOfficerName = $authOfficerName;*/
+
+                $eq->setEquipmentID($equipment_id);
+                $eq->setPlayerID($player_id);
+                $eq->setStart($start);
+                $eq->setEnd($end);
+                $eq->setAmount($amount);
+                $eq->setAuthorizingOfficerID($authorizing_officer_id);
+                $eq->setEqName($eqName);
+                $eq->setPlayerName($playerName);
+                $eq->setAuthOfficerName($authOfficerName);
+
                 array_push($equipment,$eq);
             }
             $stmt->close();
@@ -177,6 +188,101 @@ class EquipmentReservedByPlayer
         return false;     
     }
 
+    /**
+     * @return mixed
+     */
+    public function getEqName()
+    {
+        return $this->eqName;
+    }
+
+    /**
+     * @param mixed $eqName
+     */
+    public function setEqName($eqName)
+    {
+        $this->eqName = $eqName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPlayerName()
+    {
+        return $this->playerName;
+    }
+
+    /**
+     * @param mixed $playerName
+     */
+    public function setPlayerName($playerName)
+    {
+        $this->playerName = $playerName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAuthOfficerName()
+    {
+        return $this->authOfficerName;
+    }
+
+    /**
+     * @param mixed $playerName
+     */
+    public function setAuthOfficerName($authOfficerName)
+    {
+        $this->authOfficerName = $authOfficerName;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getEquipmentID()
+    {
+        return $this->equipment_id;
+    }
+
+    /**
+     * @param mixed $equipment_id
+     */
+    public function setEquipmentID($equipment_id)
+    {
+        $this->equipment_id = $equipment_id;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getPlayerID()
+    {
+        return $this->player_id;
+    }
+
+    /**
+     * @param mixed $player_id
+     */
+    public function setPlayerID($player_id)
+    {
+        $this->player_id = $player_id;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getAuthorizingOfficerID()
+    {
+        return $this->authorizing_officer_id;
+    }
+
+    /**
+     * @param mixed $authorizing_officer_id
+     */
+    public function setAuthorizingOfficerID($authorizing_officer_id)
+    {
+        $this->authorizing_officer_id = $authorizing_officer_id;
+    }
 
     /**
      * Set start
