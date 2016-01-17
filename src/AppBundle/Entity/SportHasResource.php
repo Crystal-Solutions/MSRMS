@@ -51,11 +51,11 @@ class SportHasResource
      */
     private $authorizingOfficer;
 
-    private $authorizingOfficerId;
+    public $authorizingOfficerId;
 
-    private $resourceId;
+    public $resourceId;
 
-    private $sportId;
+    public $sportId;
 
 
  public function save()

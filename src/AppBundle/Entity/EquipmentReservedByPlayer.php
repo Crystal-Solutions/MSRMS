@@ -73,11 +73,17 @@ class EquipmentReservedByPlayer
      */
     private $equipment;
 
-    public $authorizing_officer_id;
+    private $authorizing_officer_id;
 
-    public $equipment_id;
+    private $equipment_id;
 
-    public $player_id;
+    private $player_id;
+
+    private $eqName;
+
+    private $playerName;
+
+    private $authOfficerName;
 
     private $errorMessage;
 
@@ -88,7 +94,7 @@ class EquipmentReservedByPlayer
         $this->errorMessage = "";
         if(($this->start) > ($this->end))
 
-            $this->errorMessage = "End date is not valid";
+            $this->errorMessage = "End date should be higher than the start date";
 
         return $this->errorMessage == "";
     }
@@ -125,11 +131,11 @@ class EquipmentReservedByPlayer
         $eq = new EquipmentReservedByPlayer();
         $eq->id = $id;
 
-        $stmt = $con->prepare('SELECT equipment_id,player_id,start,end,amount,authorizing_officer_id FROM equipment_reserved_by_player WHERE id=?');
+        $stmt = $con->prepare('SELECT equipment_reserved_by_player.equipment_id,equipment_reserved_by_player.player_id,equipment_reserved_by_player.start,equipment_reserved_by_player.end,equipment_reserved_by_player.amount,equipment_reserved_by_player.authorizing_officer_id,equipment.name,player.name,authorizing_officer.name FROM equipment_reserved_by_player,player,authorizing_officer,equipment WHERE equipment_reserved_by_player.equipment_id = equipment.id and equipment_reserved_by_player.player_id = player.id and equipment_reserved_by_player.authorizing_officer_id = authorizing_officer.id and equipment_reserved_by_player.equipment_id = equipment.id and equipment_reserved_by_player.id=?');
         $stmt->bind_param("s",$id);
         $stmt->execute();
 
-        $stmt->bind_result($eq->equipment_id,$eq->player_id,$eq->start, $eq->end, $eq->amount,$eq->authorizing_officer_id);
+        $stmt->bind_result($eq->equipment_id,$eq->player_id,$eq->start, $eq->end, $eq->amount,$eq->authorizing_officer_id,$eq->eqName,$eq->playerName,$eq->authOfficerName);
         $stmt->fetch();
         $stmt->close();
         return $eq;
@@ -143,22 +149,36 @@ class EquipmentReservedByPlayer
             echo "Failed to connect to MySQL: " . mysqli_connect_error();
         }
 
-        $stmt = $con->prepare('SELECT equipment_id,player_id,start,end,amount,authorizing_officer_id,id FROM equipment_reserved_by_player');
+        $stmt = $con->prepare('SELECT equipment_reserved_by_player.equipment_id,equipment_reserved_by_player.player_id,equipment_reserved_by_player.start,equipment_reserved_by_player.end,equipment_reserved_by_player.amount,equipment_reserved_by_player.authorizing_officer_id,equipment_reserved_by_player.id,equipment.name,player.name,authorizing_officer.name FROM equipment_reserved_by_player,player,authorizing_officer,equipment WHERE equipment_reserved_by_player.equipment_id = equipment.id and equipment_reserved_by_player.player_id = player.id and equipment_reserved_by_player.authorizing_officer_id = authorizing_officer.id and equipment_reserved_by_player.equipment_id = equipment.id');
         $equipment = array();
 
         if ($stmt->execute()) {
-            $stmt->bind_result($equipment_id,$player_id,$start,$end,$amount,$authorizing_officer_id,$id);
+            $stmt->bind_result($equipment_id,$player_id,$start,$end,$amount,$authorizing_officer_id,$id,$eqName,$playerName,$authOfficerName);
             
             while ( $stmt->fetch() ) {
                 $eq = new EquipmentReservedByPlayer();
                 $eq->id = $id;
-                $eq->equipment_id = $equipment_id;
+                /*$eq->equipment_id = $equipment_id;
                 $eq->player_id = $player_id;
                 $eq->start = $start;
                 $eq->end = $end;
                 $eq->amount = $amount;
                 $eq->authorizing_officer_id = $authorizing_officer_id;
-                $equipment[] = $eq;
+                $eq->eqName = $eqName;
+                $eq->playerName = $playerName;
+                $eq->authOfficerName = $authOfficerName;*/
+
+                $eq->setEquipmentID($equipment_id);
+                $eq->setPlayerID($player_id);
+                $eq->setStart($start);
+                $eq->setEnd($end);
+                $eq->setAmount($amount);
+                $eq->setAuthorizingOfficerID($authorizing_officer_id);
+                $eq->setEqName($eqName);
+                $eq->setPlayerName($playerName);
+                $eq->setAuthOfficerName($authOfficerName);
+
+                array_push($equipment,$eq);
             }
             $stmt->close();
             return $equipment;  
@@ -168,6 +188,101 @@ class EquipmentReservedByPlayer
         return false;     
     }
 
+    /**
+     * @return mixed
+     */
+    public function getEqName()
+    {
+        return $this->eqName;
+    }
+
+    /**
+     * @param mixed $eqName
+     */
+    public function setEqName($eqName)
+    {
+        $this->eqName = $eqName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPlayerName()
+    {
+        return $this->playerName;
+    }
+
+    /**
+     * @param mixed $playerName
+     */
+    public function setPlayerName($playerName)
+    {
+        $this->playerName = $playerName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAuthOfficerName()
+    {
+        return $this->authOfficerName;
+    }
+
+    /**
+     * @param mixed $playerName
+     */
+    public function setAuthOfficerName($authOfficerName)
+    {
+        $this->authOfficerName = $authOfficerName;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getEquipmentID()
+    {
+        return $this->equipment_id;
+    }
+
+    /**
+     * @param mixed $equipment_id
+     */
+    public function setEquipmentID($equipment_id)
+    {
+        $this->equipment_id = $equipment_id;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getPlayerID()
+    {
+        return $this->player_id;
+    }
+
+    /**
+     * @param mixed $player_id
+     */
+    public function setPlayerID($player_id)
+    {
+        $this->player_id = $player_id;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getAuthorizingOfficerID()
+    {
+        return $this->authorizing_officer_id;
+    }
+
+    /**
+     * @param mixed $authorizing_officer_id
+     */
+    public function setAuthorizingOfficerID($authorizing_officer_id)
+    {
+        $this->authorizing_officer_id = $authorizing_officer_id;
+    }
 
     /**
      * Set start
