@@ -27,16 +27,18 @@
 </ul>
 </div>
 
-<!-- Content -->
-<div class="panel panel-default">
-  <div class="panel-heading">{{ block('title') }}<div class="pull-right">{% block links %}{% endblock %}</div></div>
-  <div class="panel-body">
 
-        <div class='error_message'> 
-{{ form_error | default("") }} </div>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-  </div>
-</div>
+
+      <!-- Content -->
+      <div class="panel panel-default">
+        <div class="panel-heading">{{ block('title') }}<div class="pull-right">{% block links %}{% endblock %}</div></div>
+        <div class="panel-body">
+
+          <div class='error_message'> {{ form_error | default("") }} </div>
+          {% block body %}{% endblock %}
+          {% block javascripts %}{% endblock %}
+        
+        </div>
+      </div>
     </body>
 </html>

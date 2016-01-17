@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Controller\Connection;
+use AppBundle\Entity\Player; 
 /**
  * EquipmentBorrowedByPlayer
  *
@@ -78,6 +79,62 @@ class EquipmentBorrowedByPlayer
 
     public $equipment_id;
     public $player_id;
+    public $indexNumber;
+
+/*---------------------------------------getting the index number--------------------------
+    public function getIndexFromId($id)
+    {
+        $con = Connection::getConnectionObject()->getConnection();
+        // Check connection
+        if (mysqli_connect_errno())
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
+
+        $stmt = $con->prepare('SELECT index_number FROM player WHERE id=?');
+        $stmt->bind_param("s",$id);
+        $stmt->execute();
+
+        $stmt->bind_result($this->indexNumber);
+        $stmt->fetch();
+        $stmt->close();
+        return $this;
+  }
+
+------------------------------------------------------------------------------------------------------------*/
+  
+    //-----------Validation related stuff------------------------------------------------------
+    private $errorMessage;
+    public function getError(){ return $this->errorMessage;}
+
+    public function validate()
+    {
+        $this->errorMessage = "";
+       /* if ( ( (!preg_match("/([\d]{6})(([A-Z])|([a-z]))/", $this->player_id)) && strlen($this->player_id)!=7 ) )
+            $this->errorMessage = "Player ID is not valid";*/
+
+        $players =  Player::getAll();
+        $playerIds = array();
+        foreach ($players as $player) {
+            $playerIds[$player->getIndexNumber()] = $player->getId(); 
+        }
+
+            if (in_array($this->player_id, $playerIds))$this->errorMeassage = "Player ID is not valid";
+    /**    if(strtotime($this->borrowedTime->format('Y-m-d H-i-s')) > strtotime("+0 YEAR") >strttotime("+0 MONTH"),"-1 DAY") || strtotime($this->borrowedTime->format('Y-m-d H-i-s')) < strtotime("+0 YEAR","+0 MONTH","+0 DAY"))
+            $this->errorMessage = "Borrowed Time is not valid";
+
+        if(strtotime($this->dueTime->format('Y-m-d H-i-s')) > strtotime("+0 YEAR","+0 MONTH","-1 DAY") || strtotime($this->dueTime->format('Y-m-d H-i-s')) < strtotime("+0 YEAR","+0 MONTH","+0 DAY"))
+            $this->errorMessage = "Due Time is not valid";**/
+
+        if(($this->borrowedTime) > ($this->dueTime))$this->errorMessage="Due Time should be a date after Borrowed Time";
+       
+
+
+        //Return true if error message is "" (no eror)
+        //Else return false
+        return $this->errorMessage == "";
+    }
+    //--------------------------------------------------------------------------------------------
 
     private $errorMessage;
 
@@ -134,7 +191,7 @@ class EquipmentBorrowedByPlayer
         $stmt->bind_param("s",$id);
         $stmt->execute();
 
-        $stmt->bind_result($equipmentBorrowedByPlayer->id,$equipmentBorrowedByPlayer->equipment_id,$equipmentBorrowedByPlayer->player_id,$equipmentBorrowedByPlayer->amount,$equipmentBorrowedByPlayer->borrowed_time,$equipmentBorrowedByPlayer->due_time,$equipmentBorrowedByPlayer->returned_time,$equipmentBorrowedByPlayer->issue_details);
+        $stmt->bind_result($equipmentBorrowedByPlayer->id,$equipmentBorrowedByPlayer->equipment_id,$equipmentBorrowedByPlayer->player_id,$equipmentBorrowedByPlayer->amount,$equipmentBorrowedByPlayer->borrowedTime,$equipmentBorrowedByPlayer->dueTime,$equipmentBorrowedByPlayer->returnedTime,$equipmentBorrowedByPlayer->issueDetails);
         $stmt->fetch();
         $stmt->close();
         return $equipmentBorrowedByPlayer;
@@ -164,6 +221,7 @@ class EquipmentBorrowedByPlayer
             $equipmentBorrowedByPlayer->setDueTime($dueTime);
             $equipmentBorrowedByPlayer->setReturnedTime($returnedTime);
             $equipmentBorrowedByPlayer->setIssueDetails($issueDetails);
+           // $equipmentBorrowedByPlayer->getIndexFromId($player_id);
 
             array_push($equipmentBorrowedByPlayers,$equipmentBorrowedByPlayer); //Push one by one
         }
@@ -363,4 +421,5 @@ class EquipmentBorrowedByPlayer
     {
         return $this->playerId;
     }*/
+
 }

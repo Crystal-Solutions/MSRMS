@@ -78,6 +78,55 @@ class PlayerController extends Controller
     }
 
     /**
+     * @Route("/player/view/{id}/update", name="player_update")
+     */
+    public function updateAction($id,Request $request)
+    {
+
+        $player = Player::getOne($id); 
+
+        $departments =  Department::getAll();
+        $departmentIds = array();
+        foreach ($departments as $d) {
+            $departmentIds[$d->getName()] = $d->getId();
+        }
+
+
+        $form = $this->createFormBuilder($player)
+            ->add('indexNumber',TextType::class)
+            ->add('name', TextType::class)
+            ->add('dateOfBirth', DateType::class, array(
+                    'years' => range(date('Y') - 100, date('Y') - 20)
+                   ))
+            ->add('year',TextType::class)
+
+            ->add('departmentId',ChoiceType::class, array(
+            'choices'  => $departmentIds,
+            'label'=>'Department',
+                ))
+
+            ->add('address',TextType::class)
+            ->add('bloodType',ChoiceType::class, array(
+                'choices'=>array('A+'=>'A+','A-'=>'A-','B+'=>'B+','B-'=>'B-','AB+'=>'AB+','AB-'=>'AB-','O+'=>'O+','O-'=>'O-')
+                ))
+            ->add('save', SubmitType::class, array('label' => 'Update Player'))
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() &&  $player->validate()) {
+            // ... perform some action, such as saving the task to the database
+
+            $player->save();
+
+            return $this->redirectToRoute('player_viewall');
+        }
+
+        // replace this example code with whatever you need
+        return $this->render('player/update.html.twig', array('form' => $form->createView(), 'form_error'=>$player->getError()));
+    }
+
+    /**
      * @Route("/player/view/{id}", name="player_view")
      */
     public function viewAction($id, Request $request)

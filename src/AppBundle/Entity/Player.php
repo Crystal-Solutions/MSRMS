@@ -16,7 +16,11 @@ class Player
 
     private $year;
 
-
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date_of_birth", type="date", nullable=true)
+     */
     private $dateOfBirth;
 
 
@@ -122,7 +126,7 @@ class Player
         }
 
          $players = array(); //Make an empty array
-        $stmt = $con->prepare('SELECT player.id, player.name, player.index_number, player.year, player.date_of_birth, player.address, player.blood_type, player.department_id, department.name, faculty.name FROM player,department,faculty where player.id=department.id and faculty.id=department.faculty_id');
+        $stmt = $con->prepare('SELECT player.id, player.name, player.index_number, player.year, player.date_of_birth, player.address, player.blood_type, player.department_id, department.name, faculty.name FROM player,department,faculty where player.department_id=department.id and faculty.id=department.faculty_id');
         $stmt->execute();
         $stmt->bind_result($id,$name,$indexNumber,$year,$dateOfBirth,$address,$bloodType,$departmentId,$departmentName, $facultyName);
         while($stmt->fetch())

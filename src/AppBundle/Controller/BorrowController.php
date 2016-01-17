@@ -32,7 +32,7 @@ class BorrowController extends Controller
         $players =  Player::getAll();
         $playerIds = array();
         foreach ($players as $player) {
-            $playerIds[$player->getIndexNumber()] = $player->getId();
+            $playerIds[$player->getIndexNumber()] = $player->getId(); 
         }
 
         $equipments =  Equipment::getAll();
@@ -45,6 +45,7 @@ class BorrowController extends Controller
         
         //Set the default borrowed time to current time
         $equipmentBorrowedByPlayer->setBorrowedTime(new \DateTime('now'));
+        $equipmentBorrowedByPlayer->setDueTime(new \DateTime('now'));
 
         $form = $this->createFormBuilder($equipmentBorrowedByPlayer)
             ->add('player_id',ChoiceType::class, array(
@@ -59,14 +60,22 @@ class BorrowController extends Controller
                 ))   
 
             ->add('amount',IntegerType::class)
-            ->add('borrowedTime',DateTimeType::class)
-            ->add('dueTime',DateTimeType::class)
+            ->add('borrowedTime',DateTimeType::class,array(
+                'years'=>range(date('Y'),date('Y')),'months'=>range(date('m'),date('m')),'days'=>range(date('d')-1,date('d'))
+                ))
+            ->add('dueTime',DateTimeType::class,array(
+                'years'=>range(date('Y'),date('Y')+2)
+                ))                
             ->add('save', SubmitType::class, array('label' => 'Borrow Equipment'))
             ->getForm();
 
         $form->handleRequest($request);
 
+<<<<<<< HEAD
         if ($form->isSubmitted() && $form->isValid() && $equipmentBorrowedByPlayer->validate()) {
+=======
+        if ($form->isSubmitted() && $equipmentBorrowedByPlayer->validate()) {
+>>>>>>> c547b2b1e9fbb9b253fdf1602a3ff1dc205f9c5d
             // ... perform some action, such as saving the task to the database
             $equipmentBorrowedByPlayer->save();
 
@@ -74,8 +83,12 @@ class BorrowController extends Controller
         }
 
         // replace this example code with whatever you need
+<<<<<<< HEAD
         //return $this->render('usecases/reserve_home.html.twig', array('form' => $form->createView()));
         return $this->render('usecases/borrow_home.html.twig', array('form' => $form->createView(), 'form_error'=>$equipmentBorrowedByPlayer->getError()));
+=======
+        return $this->render('usecases/borrow_home.html.twig', array('form' => $form->createView(),'form_error'=>$equipmentBorrowedByPlayer->getError()));
+>>>>>>> c547b2b1e9fbb9b253fdf1602a3ff1dc205f9c5d
     }
 
  

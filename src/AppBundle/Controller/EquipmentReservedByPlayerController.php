@@ -6,6 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\EquipmentReservedByPlayer;
+use AppBundle\Entity\Player;
 
 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -76,6 +77,7 @@ class EquipmentReservedByPlayerController extends Controller
      */
     public function viewallAction(Request $request)
     {
+       
         $equips = EquipmentReservedByPlayer::getAll();
         return $this->render('equipmentReservedByPlayer/viewall.html.twig', array('equips' => $equips));
     }
