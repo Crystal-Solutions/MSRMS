@@ -1,5 +1,5 @@
 
-{# app/Resources/views/default/new.html.twig #}
+{# app/Resources/views/player/view.html.twig #}
 {% extends 'base.html.twig' %}
 
 {% block title %}
@@ -12,39 +12,12 @@ Player Details
     </div>
 
     <div class="btn-group" >
-       <a href="#"> <button type="button" class="btn btn-xs btn-info">Add Achievement</button></a>
+       <a href="{{url('achievement_create_single',{'p_id':player.id})}}"> <button type="button" class="btn btn-xs btn-info">Add Achievement</button></a>
     </div>
 {% endblock %}
 
 
 {% block body %}
-<table width 100%>
-
-    <!-- Commented out-----------------------------------------------
-    <ul>
-
-        <li><h4>Index Number:</h4>{{player.indexNumber}}</li>
-        <li><h4>Name:</h4>{{player.name}}</li>
-        <li><h4>Date of Birth:</h4>{{player.dateOfBirth}}</li>
-        <li><h4>Year:</h4>{{player.year}}</li>
-        <li><h4>Faculty Name:</h4>{{player.facultyName}}</li>
-        <li><h4>Department Name:</h4>{{player.departmentName}}</li>
-        <li><h4>Address:</h4>{{player.address}}</li>
-        <li><h4>Blood Type:</h4>{{player.bloodType}}</li>
-    </ul>------------------------------------------------------------- -->
-<head>
-<style>
-table, th, td {
-
-    border-collapse: collapse;
-}
-th, td {
-    padding: 0px;
-    text-align: left;
-}
-</style>
-</head>
-<body>
 
 <table style="width:100%">
 
@@ -62,7 +35,7 @@ th, td {
   </tr>
    <tr>
     <td><b>Date of Birth:</td>
-    <td>{{player.dateOfBirth}}</td>
+    <td>{{player.dateOfBirth|date('Y-m-d') }}</td>
   </tr>
    <tr>
     <td><b>Year:</td>
@@ -85,8 +58,5 @@ th, td {
     <td>{{player.bloodType}}</td>
   </tr>
 </table>
-
-</body>
-</html>
 
 {% endblock %}

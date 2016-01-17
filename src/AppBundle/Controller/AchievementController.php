@@ -6,10 +6,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Achievement;
+use AppBundle\Entity\Sport;
+use AppBundle\Entity\PlayerInvolvedInSport;
 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class AchievementController extends Controller{
 
@@ -24,6 +27,8 @@ class AchievementController extends Controller{
         ));
     }
 
+
+//lets use this to create achievements for multiple players ??-Shanika
     /**
      * @Route("/achievement/create", name="achievement_create")
      */
@@ -52,6 +57,55 @@ class AchievementController extends Controller{
 
         // replace this example code with whatever you need
         return $this->render('achievement/create.html.twig', array('form' => $form->createView()));
+    }
+
+    /**
+     * @Route("/achievement/create/{p_id}", name="achievement_create_single")
+     */
+    public function createsingleAction($p_id,Request $request)
+    {
+        //Generate required data for the form ----------------------- For choices
+
+        $involments =  playerInvolvedInSport::getplayerAll($p_id);
+        $involmentIds = array();
+        foreach ($involments as $involment) {
+            
+            $involmentIds[Sport::getOne($involment->getSportId())->getName()] = $involment->getId(); 
+        }
+
+        // $involments =  PlayerInvolvedInSport::getAll();
+        // $involmentIds = array();
+        // foreach ($involments as $involment) {
+        //     $involmentIds[$involment->getSport()] = $involment->getId(); 
+        // }
+
+        $achievement = new Achievement();
+
+        $form = $this->createFormBuilder($achievement)
+            ->add('player_involved_in_sport',ChoiceType::class, array(
+            'choices'  => $involmentIds,
+            'choices_as_values' => true,
+            'label'=>'Sport'
+                ))
+            ->add('title', TextType::class)
+            ->add('description', TextType::class)
+            ->add('achievedDate', DateType::class)
+            ->add('save', SubmitType::class, array('label' => 'Create Achievement'))
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // ... perform some action, such as saving the task to the database
+
+            $achievement->save();
+
+            return $this->redirectToRoute('task_success');
+        }
+
+
+        // replace this example code with whatever you need
+        return $this->render('achievement/createsingle.html.twig', array('form' => $form->createView()));
     }
 
     /**

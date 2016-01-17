@@ -57,11 +57,14 @@ class SportHasResource
 
     private $sportId;
 
+    public $authorizingOfficerName;
 
- public function save()
+    public $resourceName;
+
+    public $sportName;
+
+    public function save()
     {
-
-
         if($this->id ==null)
         {
            
@@ -81,7 +84,7 @@ class SportHasResource
         }
     }
 
- public static function getOne($id)
+    public static function getOne($id)
     {
         $con = Connection::getConnectionObject()->getConnection();
         // Check connection
@@ -91,11 +94,11 @@ class SportHasResource
         }
 
         $sportHasResource = new SportHasResource();
-        $stmt = $con->prepare('SELECT id,sport_id,resource_id,authorizing_officer_id FROM authorizing_officer_id WHERE id=?');
+        $stmt = $con->prepare('SELECT sport_has_resource.id,sport_has_resource.sport_id,sport_has_resource.resource_id,sport_has_resource.authorizing_officer_id,sport.name,resource.name,authorizing_officer.name FROM sport_has_resource,sport,resource,authorizing_officer WHERE sport_has_resource.sport_id = sport.id and sport_has_resource.resource_id = resource.id and sport_has_resource.authorizing_officer_id = authorizing_officer.id and sport_has_resource.id=?');
         $stmt->bind_param("s",$id);
         $stmt->execute();
 
-        $stmt->bind_result($sportHasResource->id,$sportHasResource->sport_id,$sportHasResource->resource_id,$sportHasResource->authorizingOfficerId);
+        $stmt->bind_result($sportHasResource->id,$sportHasResource->sportId,$sportHasResource->resourceId,$sportHasResource->authorizingOfficerId,$sportHasResource->sportName,$sportHasResource->resourceName,$sportHasResource->authorizingOfficerName);
         $stmt->fetch();
         $stmt->close();
         return $sportHasResource;
@@ -112,9 +115,9 @@ class SportHasResource
         }
 
         $sportHasResources = array(); //Make an empty array - don't mind the name
-        $stmt = $con->prepare('SELECT id,sport_id,resource_id,authorizing_officer_id FROM sport_has_resource');
+        $stmt = $con->prepare('SELECT sport_has_resource.id,sport_has_resource.sport_id,sport_has_resource.resource_id,sport_has_resource.authorizing_officer_id,sport.name,resource.name,authorizing_officer.name FROM sport_has_resource,sport,resource,authorizing_officer WHERE sport_has_resource.sport_id = sport.id and sport_has_resource.resource_id = resource.id and sport_has_resource.authorizing_officer_id = authorizing_officer.id');
         $stmt->execute();
-        $stmt->bind_result($id,$sportId,$resourceId,$authorizingOfficerId);
+        $stmt->bind_result($id,$sportId,$resourceId,$authorizingOfficerId,$sportName,$resourceName,$authorizingOfficerName);
         while($stmt->fetch())
         {
             $sportHasResource = new SportHasResource ();
@@ -123,6 +126,9 @@ class SportHasResource
             $sportHasResource ->setSportId($sportId);
             $sportHasResource ->setResourceId($resourceId);
             $sportHasResource ->setAuthorizingOfficerId($authorizingOfficerId);
+            $sportHasResource ->setSportName($sportName);
+            $sportHasResource ->setResourceName($resourceName);
+            $sportHasResource ->setAuthorizingOfficerName($authorizingOfficerName);
 
      
 
@@ -230,6 +236,44 @@ class SportHasResource
         return $this->authorizingOfficerId;
     }  
 
+//Sport Name
+    public function setSportName($sportName)
+    {
+        $this->sportName = $sportName;
+
+        return $this;
+    }
+
+    public function getSportName()
+    {
+        return $this->sportName;
+    } 
+
+//Resource Name
+    public function setResourceName($resourceName)
+    {
+        $this->resourceName = $resourceName;
+
+        return $this;
+    }
+
+    public function getResourceName()
+    {
+        return $this->resourceName;
+    } 
+
+//Auth. Officer Name
+    public function setAuthorizingOfficerName($authorizingOfficerName)
+    {
+        $this->authorizingOfficerName = $authorizingOfficerName;
+
+        return $this;
+    }
+
+    public function getAuthorizingOfficerName()
+    {
+        return $this->authorizingOfficerName;
+    } 
 
 //resource id
     public function setResourceId($resourceId)

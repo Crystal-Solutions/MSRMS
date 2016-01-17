@@ -40,7 +40,7 @@ class PlayerInvolvedInSport
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    public $id;
 
     /**
      * @var \AppBundle\Entity\Sport
@@ -138,6 +138,41 @@ class PlayerInvolvedInSport
             $playerInvolvedInSport->setEndDate($endDate);
             $playerInvolvedInSport->setPosition($position);
      
+
+            array_push($playerInvolvedInSports,$playerInvolvedInSport); //Push one by one
+        }
+        $stmt->close();
+        
+        return $playerInvolvedInSports;
+
+    }
+
+    //get all involvements of a player-Shanika
+    public static function getplayerAll($p_id)
+    {
+        $con = Connection::getConnectionObject()->getConnection();
+        // Check connection
+        if (mysqli_connect_errno())
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
+
+        $playerInvolvedInSports = array(); //Make an empty array - don't mind the name
+        $stmt = $con->prepare('SELECT id,player_id,sport_id,started_date,end_date,position FROM player_involved_in_sport WHERE player_id=?');
+        $stmt->bind_param("s",$p_id);
+        $stmt->execute();
+
+        $stmt->bind_result($id,$playerId,$sportId,$startedDate,$endDate,$position);
+        while($stmt->fetch())
+        {
+            $playerInvolvedInSport = new PlayerInvolvedInSport();
+            $playerInvolvedInSport->id=$id;
+            //check here k
+            $playerInvolvedInSport->setPlayerId($playerId);
+            $playerInvolvedInSport->setSportId($sportId);
+            $playerInvolvedInSport->setStartedDate($startedDate);
+            $playerInvolvedInSport->setEndDate($endDate);
+            $playerInvolvedInSport->setPosition($position);
 
             array_push($playerInvolvedInSports,$playerInvolvedInSport); //Push one by one
         }

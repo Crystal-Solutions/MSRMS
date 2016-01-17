@@ -91,6 +91,8 @@ class PlayerController extends Controller
             $departmentIds[$d->getName()] = $d->getId();
         }
 
+        
+
 
         $form = $this->createFormBuilder($player)
             ->add('indexNumber',TextType::class)
@@ -119,11 +121,11 @@ class PlayerController extends Controller
 
             $player->save();
 
-            return $this->redirectToRoute('player_view');
+            return $this->redirectToRoute('player_viewall');
         }
 
         // replace this example code with whatever you need
-        return $this->render('player/update.html.twig', array('form' => $form->updateView(), 'form_error'=>$player->getError()));
+        return $this->render('player/update.html.twig', array('form' => $form->createView(), 'form_error'=>$player->getError()));
     }
 
     /**

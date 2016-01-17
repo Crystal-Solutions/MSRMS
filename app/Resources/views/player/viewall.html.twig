@@ -40,7 +40,7 @@ All Players
         <td>{{ user.year|e }}
         </td>
 
-        <td>{{ user.dateOfBirth|e }}
+        <td>{{ user.dateOfBirth |date('Y-m-d') |e }}
         </td>
 
         <td>{{ user.bloodType|e }}
