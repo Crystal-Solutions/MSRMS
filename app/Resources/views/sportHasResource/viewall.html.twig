@@ -15,20 +15,20 @@ Allocated resources to sports
 {% block body %}
 <table width="100%">
 	<tr>
-		<th>Sport</th>
-        <th>Resource</th>
-        <th>Auth. Officer</th>
+		<th>Resource Name</th>
+        <th>Sport Name</th>
+        <th>Auth. Officer Name</th>
 	</tr>
 
     {% for shs in sportHasResources %}
         <tr>
-        <td>{{ shs.sportId|e}}
+        <td>{{ shs.resourceName|e}}
         </td>
         
-        <td>{{ shs.resourceId|e}}
+        <td>{{ shs.sportName|e}}
         </td>
 
-		<td>{{ shs.authorizingOfficerId|e }}
+		<td>{{ shs.authorizingOfficerName|e }}
         </td>
 
     {% endfor %}
