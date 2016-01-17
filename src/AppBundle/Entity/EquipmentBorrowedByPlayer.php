@@ -81,27 +81,16 @@ class EquipmentBorrowedByPlayer
     public $player_id;
     public $indexNumber;
 
-/*---------------------------------------getting the index number--------------------------
+// get index from id
     public function getIndexFromId($id)
     {
-        $con = Connection::getConnectionObject()->getConnection();
-        // Check connection
-        if (mysqli_connect_errno())
-        {
-            echo "Failed to connect to MySQL: " . mysqli_connect_error();
-        }
 
-        $stmt = $con->prepare('SELECT index_number FROM player WHERE id=?');
-        $stmt->bind_param("s",$id);
-        $stmt->execute();
+      $player = Player::getOne($id);
 
-        $stmt->bind_result($this->indexNumber);
-        $stmt->fetch();
-        $stmt->close();
-        return $this;
+
+      return $player->getIndexNumber();
   }
 
-------------------------------------------------------------------------------------------------------------*/
   
     //-----------Validation related stuff------------------------------------------------------
     private $errorMessage;
@@ -208,7 +197,7 @@ class EquipmentBorrowedByPlayer
             $equipmentBorrowedByPlayer->setDueTime($dueTime);
             $equipmentBorrowedByPlayer->setReturnedTime($returnedTime);
             $equipmentBorrowedByPlayer->setIssueDetails($issueDetails);
-           // $equipmentBorrowedByPlayer->getIndexFromId($player_id);
+            $equipmentBorrowedByPlayer->getIndexFromId($player_id);
 
             array_push($equipmentBorrowedByPlayers,$equipmentBorrowedByPlayer); //Push one by one
         }
