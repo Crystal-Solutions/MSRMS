@@ -4,7 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Controller\Connection;
-
+use Symfony\Component\Validator\Constraints\DateTime;
 
 class Player
 {
@@ -112,6 +112,8 @@ class Player
 
         $stmt->bind_result($player->id,$player->name,$player->indexNumber,$player->year,$player->dateOfBirth,$player->address,$player->bloodType,$player->departmentId, $player->departmentName, $player->facultyName);
         $stmt->fetch();
+
+        $player->setDateOfBirth(new \DateTime($player->getDateOfBirth()));
         $stmt->close();
         return $player;
     }
@@ -142,6 +144,9 @@ class Player
             $player->setDepartmentId($departmentId);
             $player->setDepartmentName($departmentName);
             $player->setFacultyName($facultyName);
+
+            //
+            $player->setDateOfBirth(new \DateTime($player->getDateOfBirth()));
 
             array_push($players,$player); //Push one by one
         }

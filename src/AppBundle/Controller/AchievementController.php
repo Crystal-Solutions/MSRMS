@@ -69,7 +69,8 @@ class AchievementController extends Controller{
         $involments =  playerInvolvedInSport::getplayerAll($p_id);
         $involmentIds = array();
         foreach ($involments as $involment) {
-            $involmentIds[Sport::getOne($involment->getSport())->getName()] = $involment->getId(); 
+            
+            $involmentIds[Sport::getOne($involment->getSportId())->getName()] = $involment->getId(); 
         }
 
         // $involments =  PlayerInvolvedInSport::getAll();
