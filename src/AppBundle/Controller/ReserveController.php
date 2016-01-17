@@ -27,6 +27,7 @@ class ReserveController extends Controller
      */
     public function indexAction(Request $request)
     {
+        //return $this->redirectToRoute('reservation_viewall');
         $equipmentReservedByPlayer = new EquipmentReservedByPlayer(); 
 
         //Generate required data for the form ----------------------- For choices
@@ -85,7 +86,7 @@ class ReserveController extends Controller
             // ... perform some action, such as saving the task to the database
             $equipmentReservedByPlayer->save();
 
-            return $this->redirectToRoute('task_success');
+            return $this->redirectToRoute('reservation_viewall');
         }
 
         // replace this example code with whatever you need

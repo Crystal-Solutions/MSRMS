@@ -48,7 +48,7 @@ class EquipmentController extends Controller
             // ... perform some action, such as saving the task to the database
             $equipment->save();
 
-            return $this->redirectToRoute('task_success');
+            return $this->redirectToRoute('equipment_viewall');
         }
 
         // replace this example code with whatever you need

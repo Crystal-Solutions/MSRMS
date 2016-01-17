@@ -79,6 +79,20 @@ class EquipmentBorrowedByPlayer
     public $equipment_id;
     public $player_id;
 
+    private $errorMessage;
+
+    public function getError(){return $this->errorMessage;}
+
+    public function validate()
+    {
+        $this->errorMessage = "";
+        if(($this->borrowedTime) > ($this->dueTime))
+
+            $this->errorMessage = "Borrowed Time should be higher than the End Time";
+
+        return $this->errorMessage == "";
+    }
+
     public function save()
     {
 

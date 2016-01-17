@@ -17,14 +17,15 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 class EquipmentReservedByPlayerController extends Controller
 {
     /**
-     * @Route("/EquipmentReservedByPlayer/", name="EquipmentReservedByPlayer_home")
+     * @Route("/EquipmentReservedByPlayer/", name="reservation_home")
      */
     public function indexAction(Request $request)
     {
         // replace this example code with whatever you need
-        return $this->render('default/index.html.twig', array(
+        return $this->redirectToRoute('reservation_viewall');
+       /* return $this->render('default/index.html.twig', array(
             'base_dir' => realpath($this->container->getParameter('kernel.root_dir').'/..'),
-        ));
+        ));*/
     }
 
 
@@ -48,7 +49,7 @@ class EquipmentReservedByPlayerController extends Controller
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid() && $equipmentReservedByPlayer->validate()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             // ... perform some action, such as saving the task to the database
 
             $equipmentReservedByPlayer->save();
@@ -58,7 +59,7 @@ class EquipmentReservedByPlayerController extends Controller
 
 
         // replace this example code with whatever you need
-        return $this->render('equipmentReservedByPlayer/create.html.twig', array('form' => $form->createView(),'form_error'=>$player->getError()));
+        return $this->render('equipmentReservedByPlayer/create.html.twig', array('form' => $form->createView(),'form_error'=>$equipmentReservedByPlayer->getError()));
     }
 
     /**

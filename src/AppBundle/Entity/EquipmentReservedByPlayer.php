@@ -79,6 +79,12 @@ class EquipmentReservedByPlayer
 
     public $player_id;
 
+    public $eqName;
+
+    public $playerName;
+
+    public $authOfficerName;
+
     private $errorMessage;
 
     public function getError(){return $this->errorMessage;}
@@ -88,7 +94,7 @@ class EquipmentReservedByPlayer
         $this->errorMessage = "";
         if(($this->start) > ($this->end))
 
-            $this->errorMessage = "End date is not valid";
+            $this->errorMessage = "End date should be higher than the start date";
 
         return $this->errorMessage == "";
     }
@@ -125,11 +131,11 @@ class EquipmentReservedByPlayer
         $eq = new EquipmentReservedByPlayer();
         $eq->id = $id;
 
-        $stmt = $con->prepare('SELECT equipment_id,player_id,start,end,amount,authorizing_officer_id FROM equipment_reserved_by_player WHERE id=?');
+        $stmt = $con->prepare('SELECT equipment_reserved_by_player.equipment_id,equipment_reserved_by_player.player_id,equipment_reserved_by_player.start,equipment_reserved_by_player.end,equipment_reserved_by_player.amount,equipment_reserved_by_player.authorizing_officer_id,equipment.name,player.name,authorizing_officer.name FROM equipment_reserved_by_player,player,authorizing_officer,equipment WHERE equipment_reserved_by_player.equipment_id = equipment.id and equipment_reserved_by_player.player_id = player.id and equipment_reserved_by_player.authorizing_officer_id = authorizing_officer.id and equipment_reserved_by_player.equipment_id = equipment.id and equipment_reserved_by_player.id=?');
         $stmt->bind_param("s",$id);
         $stmt->execute();
 
-        $stmt->bind_result($eq->equipment_id,$eq->player_id,$eq->start, $eq->end, $eq->amount,$eq->authorizing_officer_id);
+        $stmt->bind_result($eq->equipment_id,$eq->player_id,$eq->start, $eq->end, $eq->amount,$eq->authorizing_officer_id,$eq->eqName,$eq->playerName,$eq->authOfficerName);
         $stmt->fetch();
         $stmt->close();
         return $eq;
@@ -143,11 +149,11 @@ class EquipmentReservedByPlayer
             echo "Failed to connect to MySQL: " . mysqli_connect_error();
         }
 
-        $stmt = $con->prepare('SELECT equipment_id,player_id,start,end,amount,authorizing_officer_id,id FROM equipment_reserved_by_player');
+        $stmt = $con->prepare('SELECT equipment_reserved_by_player.equipment_id,equipment_reserved_by_player.player_id,equipment_reserved_by_player.start,equipment_reserved_by_player.end,equipment_reserved_by_player.amount,equipment_reserved_by_player.authorizing_officer_id,equipment_reserved_by_player.id,equipment.name,player.name,authorizing_officer.name FROM equipment_reserved_by_player,player,authorizing_officer,equipment WHERE equipment_reserved_by_player.equipment_id = equipment.id and equipment_reserved_by_player.player_id = player.id and equipment_reserved_by_player.authorizing_officer_id = authorizing_officer.id and equipment_reserved_by_player.equipment_id = equipment.id');
         $equipment = array();
 
         if ($stmt->execute()) {
-            $stmt->bind_result($equipment_id,$player_id,$start,$end,$amount,$authorizing_officer_id,$id);
+            $stmt->bind_result($equipment_id,$player_id,$start,$end,$amount,$authorizing_officer_id,$id,$eqName,$playerName,$authOfficerName);
             
             while ( $stmt->fetch() ) {
                 $eq = new EquipmentReservedByPlayer();
@@ -158,7 +164,10 @@ class EquipmentReservedByPlayer
                 $eq->end = $end;
                 $eq->amount = $amount;
                 $eq->authorizing_officer_id = $authorizing_officer_id;
-                $equipment[] = $eq;
+                $eq->eqName = $eqName;
+                $eq->playerName = $playerName;
+                $eq->authOfficerName = $authOfficerName;
+                array_push($equipment,$eq);
             }
             $stmt->close();
             return $equipment;  
