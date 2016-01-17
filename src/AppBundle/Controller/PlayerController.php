@@ -91,6 +91,8 @@ class PlayerController extends Controller
             $departmentIds[$d->getName()] = $d->getId();
         }
 
+        
+
 
         $form = $this->createFormBuilder($player)
             ->add('indexNumber',TextType::class)

@@ -40,7 +40,7 @@ class PlayerInvolvedInSport
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    public $id;
 
     /**
      * @var \AppBundle\Entity\Sport
@@ -173,7 +173,6 @@ class PlayerInvolvedInSport
             $playerInvolvedInSport->setStartedDate($startedDate);
             $playerInvolvedInSport->setEndDate($endDate);
             $playerInvolvedInSport->setPosition($position);
-     
 
             array_push($playerInvolvedInSports,$playerInvolvedInSport); //Push one by one
         }
