@@ -2,15 +2,9 @@
 
 namespace AppBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Controller\Connection;
 use AppBundle\Entity\Player; 
-/**
- * EquipmentBorrowedByPlayer
- *
- * @ORM\Table(name="equipment_borrowed_by_player", indexes={@ORM\Index(name="fk_equipment_has_player_player2_idx", columns={"player_id"}), @ORM\Index(name="fk_equipment_has_player_equipment2_idx", columns={"equipment_id"})})
- * @ORM\Entity
- */
+
 class EquipmentBorrowedByPlayer
 {
     /**
@@ -82,13 +76,10 @@ class EquipmentBorrowedByPlayer
     public $indexNumber;
 
 // get index from id
-    public function getIndexFromId($id)
+    public function setIndexNumber($id)
     {
-
-      $player = Player::getOne($id);
-
-
-      return $player->getIndexNumber();
+    $this->indexNumber= $id;
+      return $this;
   }
 
   
@@ -182,9 +173,9 @@ class EquipmentBorrowedByPlayer
         }
 
         $equipmentBorrowedByPlayers = array(); //Make an empty array
-        $stmt = $con->prepare('SELECT id,equipment_id,player_id,amount,borrowed_time,due_time,returned_time,issue_details FROM equipment_borrowed_by_player');
+        $stmt = $con->prepare('SELECT equipment_borrowed_by_player.id,equipment_borrowed_by_player.equipment_id,equipment_borrowed_by_player.player_id,equipment_borrowed_by_player.amount,equipment_borrowed_by_player.borrowed_time,equipment_borrowed_by_player.due_time,equipment_borrowed_by_player.returned_time,equipment_borrowed_by_player.issue_details,player.index_number FROM equipment_borrowed_by_player,player WHERE equipment_borrowed_by_player.player_id=player.id ');
         $stmt->execute();
-        $stmt->bind_result($id,$equipment_id,$player_id,$amount,$borrowedTime,$dueTime,$returnedTime,$issueDetails);
+        $stmt->bind_result($id,$equipment_id,$player_id,$amount,$borrowedTime,$dueTime,$returnedTime,$issueDetails,$indexNumber);
         while($stmt->fetch())
         {
             $equipmentBorrowedByPlayer = new EquipmentBorrowedByPlayer();
@@ -197,7 +188,7 @@ class EquipmentBorrowedByPlayer
             $equipmentBorrowedByPlayer->setDueTime($dueTime);
             $equipmentBorrowedByPlayer->setReturnedTime($returnedTime);
             $equipmentBorrowedByPlayer->setIssueDetails($issueDetails);
-            $equipmentBorrowedByPlayer->getIndexFromId($player_id);
+            $equipmentBorrowedByPlayer->setIndexNumber($indexNumber);
 
             array_push($equipmentBorrowedByPlayers,$equipmentBorrowedByPlayer); //Push one by one
         }

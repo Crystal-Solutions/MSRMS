@@ -2,14 +2,8 @@
 
 namespace AppBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 
-/**
- * PhoneNumberPlayer
- *
- * @ORM\Table(name="phone_number_player", indexes={@ORM\Index(name="fk_phone_number_player_player1_idx", columns={"player_id"})})
- * @ORM\Entity
- */
+
 class PhoneNumberPlayer
 {
     /**

@@ -2,15 +2,9 @@
 
 namespace AppBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Controller\Connection;
 
-/**
- * Sport
- *
- * @ORM\Table(name="sport")
- * @ORM\Entity
- */
+
     class Sport
     {
     /**
@@ -107,6 +101,9 @@ use AppBundle\Controller\Connection;
         return false;     
     }
 
+
+
+
     /**
      * Set name
      *
@@ -164,4 +161,5 @@ use AppBundle\Controller\Connection;
     {
         return $this->id;
     }
+
 }
