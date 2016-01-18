@@ -4,12 +4,7 @@ namespace AppBundle\Entity;
 
 use AppBundle\Controller\Connection;
 
-/**
- * PhoneNumberAuthOfficer
- *
- * @ORM\Table(name="phone_number_auth_officer", indexes={@ORM\Index(name="fk_phone_number_auth_officer_authorizing_officer1_idx", columns={"authorizing_officer_id"})})
- * @ORM\Entity
- */
+
 class PhoneNumberAuthOfficer
 {
     /**

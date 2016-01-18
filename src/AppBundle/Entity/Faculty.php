@@ -6,12 +6,7 @@ use Doctrine\ORM\EntityManager;
 use AppBundle\Controller\Connection;
 
 
-/**
- * Faculty
- *
- * @ORM\Table(name="faculty")
- * @ORM\Entity
- */
+
 class Faculty
 {
     /**

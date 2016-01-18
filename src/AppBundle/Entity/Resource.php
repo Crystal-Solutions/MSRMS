@@ -4,12 +4,7 @@ namespace AppBundle\Entity;
 
 use AppBundle\Controller\Connection;
 
-/**
- * Resource
- *
- * @ORM\Table(name="resource")
- * @ORM\Entity
- */
+
 class Resource
 {
     /**

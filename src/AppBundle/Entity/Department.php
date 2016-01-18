@@ -4,12 +4,7 @@ namespace AppBundle\Entity;
 
 use AppBundle\Controller\Connection;
 
-/**
- * Department
- *
- * @ORM\Table(name="department", indexes={@ORM\Index(name="fk_department_faculty1_idx", columns={"faculty_id"})})
- * @ORM\Entity
- */
+
 class Department
 {
     /**

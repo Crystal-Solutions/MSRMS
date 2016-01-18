@@ -4,12 +4,7 @@ namespace AppBundle\Entity;
 
 use AppBundle\Controller\Connection;
 
-/**
- * Sport
- *
- * @ORM\Table(name="sport")
- * @ORM\Entity
- */
+
     class Sport
     {
     /**

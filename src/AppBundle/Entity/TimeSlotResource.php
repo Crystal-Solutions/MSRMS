@@ -3,12 +3,7 @@
 namespace AppBundle\Entity;
 
 
-/**
- * TimeSlotResource
- *
- * @ORM\Table(name="time_slot_resource", indexes={@ORM\Index(name="fk_time_slot_resource_sport_has_resource1_idx", columns={"sport_has_resource_id"})})
- * @ORM\Entity
- */
+
 class TimeSlotResource
 {
     /**

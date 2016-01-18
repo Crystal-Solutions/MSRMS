@@ -4,12 +4,7 @@ namespace AppBundle\Entity;
 
 use AppBundle\Controller\Connection;
 
-/**
- * Achievement
- *
- * @ORM\Table(name="achievement", indexes={@ORM\Index(name="fk_achievement_player_involved_in_sport1_idx", columns={"player_involved_in_sport_id"})})
- * @ORM\Entity
- */
+
 class Achievement
 {
     /**
