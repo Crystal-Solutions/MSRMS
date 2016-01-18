@@ -75,7 +75,7 @@ class SportHasEquipmentController extends Controller
     }
 
      /**
-     * @Route("/sportHasEquipment/delete", name="sportHasEquipment_delete")
+     * @Route("/sportHasEquipment/delete/{id}", name="sportHasEquipment_delete")
      */
     public function deleteAction($id, Request $request)
     {

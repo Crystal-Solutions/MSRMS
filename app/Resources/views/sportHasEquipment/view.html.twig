@@ -1,0 +1,24 @@
+{# app/Resources/views/default/new.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}
+Sport has Equipment
+{% endblock %}
+
+{% block links %}
+    <div class="btn-group" >
+       <a href="{{url('sportHasEquipment_delete',{'id':sportHasEquipment.id})}}"> <button type="button" class="btn btn-xs btn-warning">Delete</button></a>
+    </div>
+{% endblock %}
+
+{% block body %}
+
+{{sportHasEquipment.id}}<br>
+{{sportHasEquipment.equipmentId}}<br>
+{{sportHasEquipment.sportId}}<br>
+{{sportHasEquipment.authorizingOfficerId}}<br>
+{{sportHasEquipment.equipmentName}}<br>
+{{sportHasEquipment.sportName}}<br>
+{{sportHasEquipment.authorizingOfficerName}}<br>
+
+{% endblock %}

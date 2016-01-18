@@ -3,14 +3,8 @@
 namespace AppBundle\Entity;
 use AppBundle\Controller\Connection;
 
-use Doctrine\ORM\Mapping as ORM;
 
-/**
- * EquipmentReservedByPlayer
- *
- * @ORM\Table(name="equipment_reserved_by_player", indexes={@ORM\Index(name="fk_equipment_has_player_player1_idx", columns={"player_id"}), @ORM\Index(name="fk_equipment_has_player_equipment1_idx", columns={"equipment_id"}), @ORM\Index(name="fk_equipment_reserved_by_player_authorizing_officer1_idx", columns={"authorizing_officer_id"})})
- * @ORM\Entity
- */
+
 class EquipmentReservedByPlayer
 {
     /**

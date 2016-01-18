@@ -2,7 +2,6 @@
 
 namespace AppBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Controller\Connection;
 use Symfony\Component\Validator\Constraints\DateTime;
 
@@ -38,7 +37,8 @@ class Player
 
     //Manually added
     public $departmentId;
-
+    private $achievement;
+    private $achievementId;
 
     //Generated Attributes
     private $departmentName;
@@ -104,13 +104,14 @@ class Player
         {
             echo "Failed to connect to MySQL: " . mysqli_connect_error();
         }
-
+//changed query in this -- ravi
         $player = new Player();
-        $stmt = $con->prepare('SELECT player.id, player.name, player.index_number, player.year, player.date_of_birth, player.address, player.blood_type, player.department_id, department.name, faculty.name FROM player,department,faculty where player.department_id=department.id and faculty.id=department.faculty_id and player.id=?');
+        $stmt = $con->prepare('SELECT player.id, player.name, player.index_number, player.year, player.date_of_birth, player.address, player.blood_type, player.department_id, department.name, faculty.name, achievement.id, achievement.title
+         FROM player,department,faculty,achievement,player_involved_in_sport where player.department_id=department.id and department.faculty_id=faculty.id and player.id=player_involved_in_sport.player_id and player_involved_in_sport.id = achievement.player_involved_in_sport_id and player.id=?');
         $stmt->bind_param("s",$id);
         $stmt->execute();
 
-        $stmt->bind_result($player->id,$player->name,$player->indexNumber,$player->year,$player->dateOfBirth,$player->address,$player->bloodType,$player->departmentId, $player->departmentName, $player->facultyName);
+        $stmt->bind_result($player->id,$player->name,$player->indexNumber,$player->year,$player->dateOfBirth,$player->address,$player->bloodType,$player->departmentId, $player->departmentName, $player->facultyName, $player->achievementId, $player->achievement);
         $stmt->fetch();
 
         //sending a DateTime object to the form
@@ -128,7 +129,7 @@ class Player
             echo "Failed to connect to MySQL: " . mysqli_connect_error();
         }
 
-         $players = array(); //Make an empty array
+        $players = array(); //Make an empty array
         $stmt = $con->prepare('SELECT player.id, player.name, player.index_number, player.year, player.date_of_birth, player.address, player.blood_type, player.department_id, department.name, faculty.name FROM player,department,faculty where player.department_id=department.id and faculty.id=department.faculty_id');
         $stmt->execute();
         $stmt->bind_result($id,$name,$indexNumber,$year,$dateOfBirth,$address,$bloodType,$departmentId,$departmentName, $facultyName);
@@ -386,6 +387,31 @@ class Player
     {
         return $this->departmentId;
     }
+
+
+    public function setAchievement(\AppBundle\Entity\Achievement $achievement = null)
+    {
+        $this->achievement = $achievement;
+
+        return $this;
+    }
+ public function getAchievement()
+    {
+        return $this->achievement;
+    }
+
+ public function setAchievementtId($achievementId)
+    {
+        $this->achievementId = $achievementId;
+
+        return $this;
+    }
+public function getAchievementId()
+    {
+        return $this->achievementId;
+    }
+
+
 
 }
 

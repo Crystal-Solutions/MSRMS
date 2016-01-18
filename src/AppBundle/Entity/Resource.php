@@ -2,16 +2,9 @@
 
 namespace AppBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Controller\Connection;
-use AppBundle\Entity\Resource;
 
-/**
- * Resource
- *
- * @ORM\Table(name="resource")
- * @ORM\Entity
- */
+
 class Resource
 {
     /**
