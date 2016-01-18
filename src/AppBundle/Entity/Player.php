@@ -104,10 +104,10 @@ class Player
         {
             echo "Failed to connect to MySQL: " . mysqli_connect_error();
         }
-//changed query in this -- ravi
+
         $player = new Player();
         $stmt = $con->prepare('SELECT player.id, player.name, player.index_number, player.year, player.date_of_birth, player.address, player.blood_type, player.department_id, department.name, faculty.name, achievement.id, achievement.title
-         FROM player,department,faculty,achievement,player_involved_in_sport where player.department_id=department.id and department.faculty_id=faculty.id and player.id=player_involved_in_sport.player_id and player_involved_in_sport.id = achievement.player_involved_in_sport_id and player.id=?');
+         FROM player,department,faculty,achievement where player.department_id=department.id and department.faculty_id=faculty.id  and player.id=?');
         $stmt->bind_param("s",$id);
         $stmt->execute();
 
@@ -157,6 +157,41 @@ class Player
         return $players;
 
     }
+ public  function getInvolvedSports($playerId)
+{
+ $con = Connection::getConnectionObject()->getConnection();
+        // Check connection
+        if (mysqli_connect_errno())
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
+
+        $playerSports = array(); //Make an empty array - don't mind the name
+        $stmt = $con->prepare('SELECT sport.id,sport.name, sport.description FROM sport,player_involved_in_sport,player WHERE  player.id=? AND player.id=player_involved_in_sport.player_id AND player_involved_in_sport.sport_id = sport.id ');
+       
+        $stmt->bind_param("s",$playerId);
+        $stmt->execute();
+
+        $stmt->bind_result($id,$name,$description);
+        while($stmt->fetch())
+        {
+            $sport = new Sport();
+            $sport->id=$id;
+            //check here k
+            $sport->setName($name);
+            $sport->setDescription($description);
+      
+          
+          
+
+            array_push($playerSports,$sport); //Push one by one
+        }
+        $stmt->close();
+        
+        return $playerSports;
+
+}
+
 
     /**
      * @return mixed
