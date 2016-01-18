@@ -76,5 +76,15 @@ class SportHasResourceController extends Controller
 
     }
 
+    /**
+     * @Route("/sportHasResource/delete/{id}", name="sportHasResource_delete")
+     */
+    public function deleteAction($id, Request $request)
+    {
+        SportHasResource::delete($id);
+        return $this->redirectToRoute('sportHasResource_viewAll');
+
+    }
+    
  
 }
