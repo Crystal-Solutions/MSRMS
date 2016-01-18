@@ -1,8 +1,8 @@
 .panel
 {
 	margin: 20px;
-    width: 50%;
 }
+
 .error_message
 {
 	color: red;
@@ -98,7 +98,7 @@ img {
 
 
 /*For forms*/
-button, input,  textarea {
+ input,  textarea {
     width: 100%;
 }
 button, input, select, textarea {
@@ -110,4 +110,8 @@ label
 {
     color: #003200;
     padding-right: 20px;
+}
+form
+{
+    width:50%;
 }
