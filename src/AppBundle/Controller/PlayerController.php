@@ -7,7 +7,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Player;    
 use AppBundle\Entity\Department;    
-
+use AppBundle\Entity\PlayerInvolvedInSport;    
+use AppBundle\Entity\Achievement;    
+use AppBundle\Entity\Sport;
 
 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -134,7 +136,14 @@ class PlayerController extends Controller
     public function viewAction($id, Request $request)
     {
         $player =  Player::getOne($id);
-        return $this->render('player/view.html.twig', array('player' =>$player));  
+        $playerInvolvedInSport = PlayerInvolvedInSport::getOne($id);
+
+
+        $sports= PlayerInvolvedInSport::getInvolvedSports($id);
+
+        $playerAchievements = Achievement::getPlayerAchievements($playerInvolvedInSport->id);
+        return $this->render('player/view.html.twig', array('player' =>$player, 'achievements'=>$playerAchievements,'sports'=>$sports));  
+
     }
 
     /**

@@ -53,10 +53,27 @@ Player Details
     <td><b>Address:</td>
     <td>{{player.address}}</td>
   </tr>
+
    <tr>
     <td><b>Blood Type:</td>
     <td>{{player.bloodType}}</td>
   </tr>
+
+  <tr>
+  <td><b>Achievements:</td>
+{%for ach in achievements %}
+ <td>{{ ach.title|e}}</td>
+{% endfor %}
+  <tr>
+
+  <tr>
+    <td><b>Involved Sports:</td>
+{%for sport in sports %}
+ <td>{{ sport.name|e}}</td>
+{% endfor %}
+  </tr>
+
+
 </table>
 
 {% endblock %}

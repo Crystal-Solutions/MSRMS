@@ -107,6 +107,9 @@ use AppBundle\Controller\Connection;
         return false;     
     }
 
+
+
+
     /**
      * Set name
      *
@@ -164,4 +167,5 @@ use AppBundle\Controller\Connection;
     {
         return $this->id;
     }
+
 }

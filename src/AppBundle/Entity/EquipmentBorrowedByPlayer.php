@@ -194,8 +194,6 @@ class EquipmentBorrowedByPlayer
             $equipmentBorrowedByPlayer->setDueTime($dueTime);
             $equipmentBorrowedByPlayer->setReturnedTime($returnedTime);
             $equipmentBorrowedByPlayer->setIssueDetails($issueDetails);
-
-
             $equipmentBorrowedByPlayer->setIndexNumber($indexNumber);
 
             array_push($equipmentBorrowedByPlayers,$equipmentBorrowedByPlayer); //Push one by one

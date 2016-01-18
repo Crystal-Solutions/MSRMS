@@ -42,7 +42,7 @@ class Achievement
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    public $id;
 
     /**
      * @var \AppBundle\Entity\PlayerInvolvedInSport
@@ -53,6 +53,7 @@ class Achievement
      * })
      */
     private $playerInvolvedInSport;
+    private $playerInvolvedInSportsId;
 
     public function save()
     {
@@ -83,7 +84,7 @@ class Achievement
         $ach = new Achievement();
         $ach->id = $id;
 
-        $stmt = $con->prepare('SELECT title,description,achieved_date,player_involved_in_sport_id FROM achievement WHERE id=?');
+        $stmt = $con->prepare('SELECT title,description,achieved_date,player_involved_in_sport_id FROM achievement WHERE player_involved_in_sport_id=?');
         $stmt->bind_param("s",$id);
         $stmt->execute();
 
@@ -122,6 +123,41 @@ class Achievement
         }
         $stmt->close();
         return false;     
+    }
+
+    public static function getPlayerAchievements($player_involved_in_sport_id)
+    {
+ $con = Connection::getConnectionObject()->getConnection();
+        // Check connection
+        if (mysqli_connect_errno())
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
+
+        $playerAchievements = array(); //Make an empty array - don't mind the name
+        $stmt = $con->prepare('SELECT id,title, description, achieved_date, player_involved_in_sport_id FROM achievement WHERE player_involved_in_sport_id=?');
+        $stmt->bind_param("s",$player_involved_in_sport_id);
+        $stmt->execute();
+
+        $stmt->bind_result($id,$title,$description,$achievedDate,$playerInvolvedInSportId);
+        while($stmt->fetch())
+        {
+            $achievement = new Achievement();
+            $achievement->id=$id;
+            //check here k
+            $achievement->setTitle($title);
+            $achievement->setDescription($description);
+            $achievement->setAchievedDate($achievedDate);
+            $achievement->setPlayerInvolvedInSportId($playerInvolvedInSportId);
+          
+          
+
+            array_push($playerAchievements,$achievement); //Push one by one
+        }
+        $stmt->close();
+        
+        return $playerAchievements;
+
     }
 
     /**
@@ -229,4 +265,21 @@ class Achievement
     {
         return $this->playerInvolvedInSport;
     }
+
+    /////////// playerInvolvedInSportID
+
+    public function setPlayerInvolvedInSportId($playerInvolvedInSportId)
+    {
+        $this->playerInvolvedInSportId= $playerInvolvedInSportId;
+
+        return $this;
+    }
+
+
+    public function getPlayerInvolvedInSportId()
+    {
+        return $this->playerInvolvedInSportId;
+
+    }
+
 }
