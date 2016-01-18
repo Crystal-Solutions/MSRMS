@@ -1,15 +1,8 @@
 <?php
 
 namespace AppBundle\Entity;
-
-use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Controller\Connection;
-/**
- * PlayerInvolvedInSport
- *
- * @ORM\Table(name="player_involved_in_sport", indexes={@ORM\Index(name="fk_player_has_sport_sport1_idx", columns={"sport_id"}), @ORM\Index(name="fk_player_has_sport_player1_idx", columns={"player_id"})})
- * @ORM\Entity
- */
+
 class PlayerInvolvedInSport
 {
     /**

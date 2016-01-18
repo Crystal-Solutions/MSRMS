@@ -2,15 +2,9 @@
 
 namespace AppBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Controller\Connection;
 use AppBundle\Entity\Player; 
-/**
- * EquipmentBorrowedByPlayer
- *
- * @ORM\Table(name="equipment_borrowed_by_player", indexes={@ORM\Index(name="fk_equipment_has_player_player2_idx", columns={"player_id"}), @ORM\Index(name="fk_equipment_has_player_equipment2_idx", columns={"equipment_id"})})
- * @ORM\Entity
- */
+
 class EquipmentBorrowedByPlayer
 {
     /**

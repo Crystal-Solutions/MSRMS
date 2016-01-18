@@ -2,14 +2,8 @@
 
 namespace AppBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 
-/**
- * TimeSlotEquipment
- *
- * @ORM\Table(name="time_slot_equipment", indexes={@ORM\Index(name="fk_time_slot_equipment_sport_has_equipment1_idx", columns={"sport_has_equipment_id"})})
- * @ORM\Entity
- */
+
 class TimeSlotEquipment
 {
     /**

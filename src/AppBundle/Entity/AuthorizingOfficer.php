@@ -211,6 +211,7 @@ class AuthorizingOfficer implements UserInterface, \Serializable
      */
     public function getName()
     {
+
         return $this->name;
     }
 

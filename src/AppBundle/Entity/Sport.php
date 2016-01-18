@@ -2,15 +2,9 @@
 
 namespace AppBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Controller\Connection;
 
-/**
- * Sport
- *
- * @ORM\Table(name="sport")
- * @ORM\Entity
- */
+
     class Sport
     {
     /**
