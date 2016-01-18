@@ -182,40 +182,7 @@ class PlayerInvolvedInSport
 
     }
 
-    public static function getInvolvedSports($playerInvolvedId)
-{
- $con = Connection::getConnectionObject()->getConnection();
-        // Check connection
-        if (mysqli_connect_errno())
-        {
-            echo "Failed to connect to MySQL: " . mysqli_connect_error();
-        }
 
-        $playerSports = array(); //Make an empty array - don't mind the name
-        $stmt = $con->prepare('SELECT sport.id,sport.name, sport.description FROM sport WHERE  sport.id=?');
-        $sportId = PlayerInvolvedInSport::getOne($playerInvolvedId)->getSportId();
-        $stmt->bind_param("s",$sportId);
-        $stmt->execute();
-
-        $stmt->bind_result($id,$name,$description);
-        while($stmt->fetch())
-        {
-            $sport = new Sport();
-            $sport->id=$id;
-            //check here k
-            $sport->setName($name);
-            $sport->setDescription($description);
-      
-          
-          
-
-            array_push($playerSports,$sport); //Push one by one
-        }
-        $stmt->close();
-        
-        return $playerSports;
-
-}
 
     /**
      * Set startedDate
