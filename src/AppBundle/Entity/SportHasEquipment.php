@@ -54,8 +54,13 @@ class SportHasEquipment
     private $equipmentId;
     private $sportId;
     private $authorizingOfficerId;
-/////////////methods//////
- public function save()
+
+    private $equipmentName;
+    private $sportName;
+    private $authorizingofficerName;
+
+    /////////////methods//////
+    public function save()
     {
         if ($this->id == null)
         {
@@ -78,7 +83,7 @@ class SportHasEquipment
 
 
 
- public static function getOne($id){
+    public static function getOne($id){
 
         $con = Connection::getConnectionObject()->getConnection();
         // Check connection
@@ -89,11 +94,11 @@ class SportHasEquipment
 
 
         $sportHasEquipment = new SportHasEquipment();
-        $stmt = $con->prepare('SELECT equipment_id,sport_id,authorizing_officer_id FROM sport_has_equipment WHERE id=?');
+        $stmt = $con->prepare('SELECT sport_has_equipment.equipment_id,sport_has_equipment.sport_id,sport_has_equipment.authorizing_officer_id,equipment.name,sport.name,authorizing_officer.name FROM sport_has_equipment,equipment,sport,authorizing_officer WHERE sport_has_equipment.equipment_id = equipment.id and sport_has_equipment.sport_id = sport.id and sport_has_equipment.authorizing_officer_id = authorizing_officer.id and id=?');
         $stmt->bind_param("s",$id);
         $stmt->execute();
 
-        $stmt->bind_result($sportHasEquipment->equipmentId,$sportHasEquipment->sportId,$sportHasEquipment->authorizingOfficerId);
+        $stmt->bind_result($sportHasEquipment->equipmentId,$sportHasEquipment->sportId,$sportHasEquipment->authorizingOfficerId,$sportHasEquipment->equipmentName,$sportHasEquipment->sportName,$sportHasEquipment->authorizingOfficerName);
         $stmt->fetch();
         $stmt->close();
         return $sportHasEquipment;
@@ -108,9 +113,9 @@ class SportHasEquipment
             echo "Failed to connect to MySQL: " . mysqli_connect_error();
         }
 
-        $stmt = $con->prepare('SELECT id,equipment_id,sport_id,authorizing_officer_id FROM sport_has_equipment');
+        $stmt = $con->prepare('SELECT sport_has_equipment.id,sport_has_equipment.equipment_id,sport_has_equipment.sport_id,sport_has_equipment.authorizing_officer_id,equipment.name,sport.name,authorizing_officer.name FROM sport_has_equipment,equipment,sport,authorizing_officer WHERE sport_has_equipment.equipment_id = equipment.id and sport_has_equipment.sport_id = sport.id and sport_has_equipment.authorizing_officer_id = authorizing_officer.id');
         $stmt->execute();
-        $stmt->bind_result($id,$equipmentId,$sportId,$authorizingOfficerId);
+        $stmt->bind_result($id,$equipmentId,$sportId,$authorizingOfficerId,$equipmentName,$sportName,$authorizingOfficerName);
         $sportHasEquipments = array();   
             while ( $stmt->fetch() ) {
             $sportHasEquipment = new SportHasEquipment();
@@ -118,8 +123,10 @@ class SportHasEquipment
             $sportHasEquipment->setEquipmentId($equipmentId);
             $sportHasEquipment->setSportId($sportId);
             $sportHasEquipment->setAuthorizingOfficerId($authorizingOfficerId);
+            $sportHasEquipment->setEquipmentName($equipmentName);
+            $sportHasEquipment->setSportName($sportName);
+            $sportHasEquipment->setAuthorizingOfficerName($authorizingOfficerName);
            
-
             array_push($sportHasEquipments,$sportHasEquipment);
             }
             $stmt->close();
@@ -250,4 +257,48 @@ class SportHasEquipment
         return $this->sportId;
     } 
 
+    
+    //equipmentName
+
+    public function setEquipmentName($equipmentName)
+    {
+        $this->equipmentName = $equipmentName;
+
+        return $this;
     }
+
+    public function getEquipmentName()
+    {
+        return $this->equipmentName;
+    } 
+
+    
+    //sportName
+
+    public function setSportName($sportName)
+    {
+        $this->sportName = $sportName;
+
+        return $this;
+    }
+
+    public function getSportName()
+    {
+        return $this->sportName;
+    } 
+
+    //authorizingofficerName
+
+    public function setAuthorizingOfficerName($authorizingofficerName)
+    {
+        $this->authorizingofficerName = $authorizingofficerName;
+
+        return $this;
+    }
+
+    public function getAuthorizingOfficerName()
+    {
+        return $this->authorizingofficerName;
+    } 
+
+}
