@@ -106,12 +106,12 @@ class Player
         }
 
         $player = new Player();
-        $stmt = $con->prepare('SELECT player.id, player.name, player.index_number, player.year, player.date_of_birth, player.address, player.blood_type, player.department_id, department.name, faculty.name, achievement.id, achievement.title
-         FROM player,department,faculty,achievement where player.department_id=department.id and department.faculty_id=faculty.id  and player.id=?');
+        $stmt = $con->prepare('SELECT player.id, player.name, player.index_number, player.year, player.date_of_birth, player.address, player.blood_type, player.department_id, department.name, faculty.name
+         FROM player,department,faculty where player.department_id=department.id and department.faculty_id=faculty.id  and player.id=?');
         $stmt->bind_param("s",$id);
         $stmt->execute();
 
-        $stmt->bind_result($player->id,$player->name,$player->indexNumber,$player->year,$player->dateOfBirth,$player->address,$player->bloodType,$player->departmentId, $player->departmentName, $player->facultyName, $player->achievementId, $player->achievement);
+        $stmt->bind_result($player->id,$player->name,$player->indexNumber,$player->year,$player->dateOfBirth,$player->address,$player->bloodType,$player->departmentId, $player->departmentName, $player->facultyName);
         $stmt->fetch();
 
         //sending a DateTime object to the form
