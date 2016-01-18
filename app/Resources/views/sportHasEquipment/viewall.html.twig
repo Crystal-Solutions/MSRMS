@@ -1,0 +1,38 @@
+{# app/Resources/views/default/new.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}
+Allocated Equipment to sports
+{% endblock %}
+
+{% block links %}
+    <div class="btn-group" >
+       <a href="{{url('equipment_allocate_home')}}"> <button type="button" class="btn btn-xs btn-success">Allocate Equipment</button></a>
+    </div>
+{% endblock %}
+
+
+{% block body %}
+<table width="100%">
+	<tr>
+		<th>Equipment Name</th>
+        <th>Sport Name</th>
+        <th>Auth. Officer Name</th>
+	</tr>
+
+    {% for she in sportHasEquips %}
+        <tr>
+        <td>{{ she.equipmentName|e}}
+        </td>
+        
+        <td>{{ she.sportName|e}}
+        </td>
+
+		<td>{{ she.authorizingOfficerName|e }}
+        </td>
+
+    {% endfor %}
+</table>
+
+
+{% endblock %}
