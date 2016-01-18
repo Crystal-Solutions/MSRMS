@@ -133,6 +133,22 @@ class SportHasEquipment
             return $sportHasEquipments;      
         }
 
+    public function delete($id)
+    {
+        $con = Connection::getConnectionObject()->getConnection();
+        // Check connection
+        if (mysqli_connect_errno())
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
+
+        $stmt = $con->prepare('DELETE FROM sport_has_equipment WHERE id=?');
+        $stmt->execute();
+        $stmt->close();
+         
+    }
+
+
     /**
      * Get id
      *

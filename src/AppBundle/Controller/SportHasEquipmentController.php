@@ -69,12 +69,21 @@ class SportHasEquipmentController extends Controller
      */
     public function viewallAction( Request $request)
     {
-        
-
-    $sportHasEquips = SportHasEquipment::getAll();
-    return $this->render('sportHasEquipment/viewall.html.twig', array('sportHasEquips' => $sportHasEquips));
+        $sportHasEquips = SportHasEquipment::getAll();
+        return $this->render('sportHasEquipment/viewall.html.twig', array('sportHasEquips' => $sportHasEquips));
 
     }
+
+     /**
+     * @Route("/sportHasEquipment/delete", name="sportHasEquipment_delete")
+     */
+    public function deleteAction($id, Request $request)
+    {
+        SportHasEquipment::delete($id);
+        return $this->redirectToRoute('sportHasEquipment_viewAll');
+
+    }
+    
 
  
 }
