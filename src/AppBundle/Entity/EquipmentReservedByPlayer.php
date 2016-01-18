@@ -3,7 +3,6 @@
 namespace AppBundle\Entity;
 use AppBundle\Controller\Connection;
 
-use Doctrine\ORM\Mapping as ORM;
 
 /**
  * EquipmentReservedByPlayer

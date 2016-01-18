@@ -2,7 +2,6 @@
 
 namespace AppBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\EntityManager;
 use AppBundle\Controller\Connection;
 

@@ -2,7 +2,6 @@
 
 namespace AppBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Controller\Connection;
 use Symfony\Component\Validator\Constraints\DateTime;
 
