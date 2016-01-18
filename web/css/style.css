@@ -2,6 +2,7 @@
 {
 	margin: 20px;
 }
+
 .error_message
 {
 	color: red;
@@ -92,4 +93,25 @@ img {
     margin: 3px;
     padding: 3px;
 
+}
+
+
+
+/*For forms*/
+ input,  textarea {
+    width: 100%;
+}
+button, input, select, textarea {
+
+    margin-bottom: 20px;
+}
+
+label
+{
+    color: #003200;
+    padding-right: 20px;
+}
+form
+{
+    width:50%;
 }

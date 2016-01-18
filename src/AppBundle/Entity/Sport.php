@@ -28,7 +28,7 @@ use AppBundle\Controller\Connection;
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    public $id;
 
     public function save()
     {
