@@ -139,7 +139,7 @@ class PlayerController extends Controller
         $playerInvolvedInSport = PlayerInvolvedInSport::getOne($id);
 
 
-        $sports= PlayerInvolvedInSport::getInvolvedSports($playerInvolvedInSport->id);
+        $sports=$player->getInvolvedSports($id);
 
         $playerAchievements = Achievement::getPlayerAchievements($playerInvolvedInSport->id);
         return $this->render('player/view.html.twig', array('player' =>$player, 'achievements'=>$playerAchievements,'sports'=>$sports));  
