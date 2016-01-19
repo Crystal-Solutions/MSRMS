@@ -7,34 +7,16 @@ use AppBundle\Controller\Connection;
 
 class Equipment
 {
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=100, nullable=true)
-     */
+
     private $name;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="string", length=450, nullable=true)
-     */
+
     private $description;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="amount", type="integer", nullable=true)
-     */
+
     private $amount;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+
     private $id;
 
     public function save()

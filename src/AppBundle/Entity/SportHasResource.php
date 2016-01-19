@@ -6,43 +6,15 @@ use AppBundle\Controller\Connection;
 
 class SportHasResource
 {
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+   
     private $id;
 
-    /**
-     * @var \AppBundle\Entity\Sport
-     *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Sport")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="sport_id", referencedColumnName="id")
-     * })
-     */
+    
     private $sport;
 
-    /**
-     * @var \AppBundle\Entity\Resource
-     *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Resource")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="resource_id", referencedColumnName="id")
-     * })
-     */
     private $resource;
 
-    /**
-     * @var \AppBundle\Entity\AuthorizingOfficer
-     *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\AuthorizingOfficer")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="authorizing_officer_id", referencedColumnName="id")
-     * })
-     */
+   
     private $authorizingOfficer;
 
     private $authorizingOfficerId;
@@ -132,6 +104,22 @@ class SportHasResource
         
         return $sportHasResources;
 
+    }
+
+    public static function delete($id)
+    {
+        $con = Connection::getConnectionObject()->getConnection();
+        // Check connection
+        if (mysqli_connect_errno())
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
+
+        $stmt = $con->prepare('DELETE FROM sport_has_resource WHERE id=?');
+        $stmt->bind_param("s",$id);
+        $stmt->execute();
+        $stmt->close();
+         
     }
 
     /**

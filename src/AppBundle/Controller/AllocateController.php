@@ -88,5 +88,6 @@ class AllocateController extends Controller
         return $this->render('usecases/allocate_home.html.twig', array('form' => $form->createView()));
     }
 
+    
  
 }

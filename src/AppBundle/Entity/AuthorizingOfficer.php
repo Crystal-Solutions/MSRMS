@@ -115,7 +115,34 @@ class AuthorizingOfficer implements UserInterface, \Serializable
     }
     //-------------------------------------------------------------------------
 
+//---------------------validate function ------------------------under construction
+ private $errorMessage;
+    
+    public function getError(){ return $this->errorMessage;}
 
+    public function validate()
+    {
+        $this->errorMessage = "";
+        if ( ( (!preg_match("/([\d]{10}/", $this->contactNu)) && strlen($this->contactNu)!=10 ) )
+            $this->errorMessage = "Contact Number is not valid";
+
+       $authOfficers = AuthorizingOfficer::getAll();
+       $userNames= array();
+       foreach ($authOfficers as $auth){
+         array_push($userNames,$auth->getUserName());
+         }
+
+       if (in_array($this->username,$userNames)) $this->errorMessage= 'username already assigned';
+       
+        $bloodTypes = array('A+','A-','B+', 'B-', 'AB+', 'AB-', 'O+', 'O-');
+        if(!in_array($this->bloodType, $bloodTypes))
+            $this->errorMessage = 'Blood Type is not valid';
+
+        //Return true if error message is "" (no eror)
+        //Else return false
+        return $this->errorMessage == "";
+    }
+ //-----------------------------------------------------------   
 
 
     public function save()

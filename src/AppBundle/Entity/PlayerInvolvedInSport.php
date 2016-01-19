@@ -5,58 +5,29 @@ use AppBundle\Controller\Connection;
 
 class PlayerInvolvedInSport
 {
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="started_date", type="date", nullable=false)
-     */
+
     private $startedDate;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="end_date", type="date", nullable=true)
-     */
+
     private $endDate;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="position", type="string", length=45, nullable=true)
-     */
+
     private $position;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+
     public $id;
 
-    /**
-     * @var \AppBundle\Entity\Sport
-     *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Sport")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="sport_id", referencedColumnName="id")
-     * })
-     */
+
     private $sport;
 
-    /**
-     * @var \AppBundle\Entity\Player
-     *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Player")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="player_id", referencedColumnName="id")
-     * })
-     */
+
     private $player;
 
     private $playerId;
     private $sportId;
+
+    private $playerName;
+    private $sportName;
 
 
     public function save()
@@ -96,11 +67,11 @@ class PlayerInvolvedInSport
         }
 
         $playerInvolvedInSport = new PlayerInvolvedInSport();
-        $stmt = $con->prepare('SELECT id,player_id,sport_id,started_date,end_date,position FROM player_involved_in_sport WHERE id=?');
+        $stmt = $con->prepare('SELECT player_involved_in_sport.id,player_involved_in_sport.player_id,player_involved_in_sport.sport_id,player_involved_in_sport.started_date,player_involved_in_sport.end_date,player_involved_in_sport.position,player.name,sport.name FROM player_involved_in_sport,sport,player WHERE player_involved_in_sport.player_id = player.id and player_involved_in_sport.sport_id = sport.id and player_involved_in_sport.id=?');
         $stmt->bind_param("s",$id);
         $stmt->execute();
 
-        $stmt->bind_result($playerInvolvedInSport->id,$playerInvolvedInSport->player_id,$playerInvolvedInSport->sport_id,$playerInvolvedInSport->startedDate,$playerInvolvedInSport->endDate,$playerInvolvedInSport->position);
+        $stmt->bind_result($playerInvolvedInSport->id,$playerInvolvedInSport->player_id,$playerInvolvedInSport->sport_id,$playerInvolvedInSport->startedDate,$playerInvolvedInSport->endDate,$playerInvolvedInSport->position,$playerInvolvedInSport->playerName,$playerInvolvedInSport->sportName);
         $stmt->fetch();
         $stmt->close();
         return $playerInvolvedInSport;
@@ -117,9 +88,9 @@ class PlayerInvolvedInSport
         }
 
         $playerInvolvedInSports = array(); //Make an empty array - don't mind the name
-        $stmt = $con->prepare('SELECT id,player_id,sport_id,started_date,end_date,position FROM player_involved_in_sport');
+        $stmt = $con->prepare('SELECT player_involved_in_sport.id,player_involved_in_sport.player_id,player_involved_in_sport.sport_id,player_involved_in_sport.started_date,player_involved_in_sport.end_date,player_involved_in_sport.position,player.name,sport.name FROM player_involved_in_sport,sport,player WHERE player_involved_in_sport.player_id = player.id and player_involved_in_sport.sport_id = sport.id');
         $stmt->execute();
-        $stmt->bind_result($id,$playerId,$sportId,$startedDate,$endDate,$position);
+        $stmt->bind_result($id,$playerId,$sportId,$startedDate,$endDate,$position,$playerName,$sportName);
         while($stmt->fetch())
         {
             $playerInvolvedInSport = new PlayerInvolvedInSport();
@@ -130,6 +101,8 @@ class PlayerInvolvedInSport
             $playerInvolvedInSport->setStartedDate($startedDate);
             $playerInvolvedInSport->setEndDate($endDate);
             $playerInvolvedInSport->setPosition($position);
+            $playerInvolvedInSport->setPlayerName($playerName);
+            $playerInvolvedInSport->setSportName($sportName);
      
 
             array_push($playerInvolvedInSports,$playerInvolvedInSport); //Push one by one
@@ -166,6 +139,9 @@ class PlayerInvolvedInSport
             $playerInvolvedInSport->setStartedDate($startedDate);
             $playerInvolvedInSport->setEndDate($endDate);
             $playerInvolvedInSport->setPosition($position);
+
+            // $playerInvolvedInSport->setPlayerName($playerName);
+            // $playerInvolvedInSport->setSportName($sportName);
 
             array_push($playerInvolvedInSports,$playerInvolvedInSport); //Push one by one
         }
@@ -336,5 +312,31 @@ class PlayerInvolvedInSport
     public function getSportId()
     {
         return $this->sportId;
+    } 
+
+    //playerName
+    public function setPlayerName($playerName)
+    {
+        $this->playerName = $playerName;
+
+        return $this;
+    }
+
+     public function getPlayerName()
+    {
+        return $this->playerName;
+    } 
+
+    //sportName
+    public function setSportName($sportName)
+    {
+        $this->sportName = $sportName;
+
+        return $this;
+    }
+
+     public function getSportName()
+    {
+        return $this->sportName;
     }  
 }

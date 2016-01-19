@@ -7,24 +7,13 @@ use AppBundle\Controller\Connection;
 
 class Department
 {
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=45, nullable=true)
-     */
+
     private $name;
 
     
     private $id;
 
-    /**
-     * @var \AppBundle\Entity\Faculty
-     *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Faculty")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="faculty_id", referencedColumnName="id")
-     * })
-     */
+
     private $faculty;
 
     public $faculty_id;

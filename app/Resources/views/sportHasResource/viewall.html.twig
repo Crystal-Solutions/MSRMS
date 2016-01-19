@@ -31,6 +31,12 @@ Allocated resources to sports
 		<td>{{ shs.authorizingOfficerName|e }}
         </td>
 
+        <td>
+        <div class="btn-group" >
+        <a href="{{url('sportHasResource_delete',{'id':shs.id})}}"> <button type="button" class="btn btn-xs btn-danger">Delete</button></a>
+        </div>
+        </td>
+
     {% endfor %}
 </table>
 
