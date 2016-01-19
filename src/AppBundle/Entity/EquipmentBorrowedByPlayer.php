@@ -7,68 +7,21 @@ use AppBundle\Entity\Player;
 
 class EquipmentBorrowedByPlayer
 {
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="amount", type="integer", nullable=true)
-     */
+   
     private $amount;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="borrowed_time", type="datetime", nullable=true)
-     */
     private $borrowedTime;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="due_time", type="datetime", nullable=true)
-     */
     private $dueTime;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="returned_time", type="datetime", nullable=true)
-     */
     private $returnedTime;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="issue_details", type="string", length=850, nullable=true)
-     */
     private $issueDetails;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
     private $id;
 
-    /**
-     * @var \AppBundle\Entity\Player
-     *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Player")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="player_id", referencedColumnName="id")
-     * })
-     */
     private $player;
 
-    /**
-     * @var \AppBundle\Entity\Equipment
-     *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Equipment")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="equipment_id", referencedColumnName="id")
-     * })
-     */
     private $equipment;
 
     public $equipment_id;
@@ -196,6 +149,22 @@ class EquipmentBorrowedByPlayer
         
         return $equipmentBorrowedByPlayers;
 
+    }
+
+    public static function delete($id)
+    {
+        $con = Connection::getConnectionObject()->getConnection();
+        // Check connection
+        if (mysqli_connect_errno())
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
+
+        $stmt = $con->prepare('DELETE FROM equipment_borrowed_by_player WHERE id=?');
+        $stmt->bind_param("s",$id);
+        $stmt->execute();
+        $stmt->close();
+         
     }
 
     /**

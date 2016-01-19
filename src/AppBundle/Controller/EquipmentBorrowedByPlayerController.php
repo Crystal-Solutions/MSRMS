@@ -80,5 +80,16 @@ class EquipmentBorrowedByPlayerController extends Controller
 
     }
 
+     /**
+     * @Route("/equipmentBorrowedByPlayer/delete/{id}", name="equipmentBorrowedByPlayer_delete")
+     */
+    public function deleteAction($id, Request $request)
+    {
+        EquipmentBorrowedByPlayer::delete($id);
+        return $this->redirectToRoute('equipmentBorrowedByPlayer_viewAll');
+
+    }
+
+    
  
 }
