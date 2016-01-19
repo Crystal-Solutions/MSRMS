@@ -1,2 +1,22 @@
-{{sport.name}}<br>
-{{sport.description}}
+
+{# app/Resources/views/player/view.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Player Details
+{% endblock %}
+
+{% block body %}
+
+    <ul>
+
+       <li>{{sport.name}}</li>
+       <li> {{sport.description}} </li>
+
+
+    </ul>
+
+    {#Add players here#}
+    <span style="color: red;">Add a list of Players details here</span>
+
+{% endblock %}

@@ -1,6 +1,31 @@
-<h1>Sports</h1>
-<ul>
+{# app/Resources/views/authorizingOfficer/viewall.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Sports
+{% endblock %}
+
+{% block body %}
+
+
+<table width="100%">
+    <tr>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+
     {% for user in sports %}
-        <li>{{ user.name|e }} - {{ user.description|e }}</li>
+    <tr>
+        <td> <a href="{{url('sport_view',{'id':user.id})}}">{{ user.name|e }}</a></td>
+        <td> {{ user.description|e }}</td>
+    </tr>
     {% endfor %}
-</ul>
+</table>
+
+
+{% endblock %}
+
+
+
+
+

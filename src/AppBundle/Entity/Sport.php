@@ -7,27 +7,13 @@ use AppBundle\Controller\Connection;
 
     class Sport
     {
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=45, nullable=true)
-     */
+
     private $name;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="string", length=450, nullable=true)
-     */
+
     private $description;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+
     public $id;
 
     public function save()

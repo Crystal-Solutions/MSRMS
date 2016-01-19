@@ -6,5 +6,5 @@ Achievement
 {% endblock %}
 
 {% block body %}
-{{ achievement.title|e }} - {{ achievement.description|e }} - {{ achievement.achievedDate|e }}
+{{ achievement.title|e }} - {{ achievement.description|e }} - {{ achievement.achievedDate| date('Y-m-d') |e }}
 {% endblock %}

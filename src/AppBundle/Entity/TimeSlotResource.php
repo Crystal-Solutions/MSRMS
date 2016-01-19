@@ -6,44 +6,19 @@ namespace AppBundle\Entity;
 
 class TimeSlotResource
 {
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="start_time", type="time", nullable=true)
-     */
+
     private $startTime;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="end_time", type="time", nullable=true)
-     */
+
     private $endTime;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="day", type="string", length=25, nullable=true)
-     */
+
     private $day;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+
     private $id;
 
-    /**
-     * @var \AppBundle\Entity\SportHasResource
-     *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\SportHasResource")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="sport_has_resource_id", referencedColumnName="id")
-     * })
-     */
+
     private $sportHasResource;
 
 
@@ -83,7 +58,9 @@ class TimeSlotResource
         $stmt->bind_param("s",$id);
         $stmt->execute();
 
-        $stmt->bind_result($this->sportHasResource,$this->startTime,$this->endTime,$this->day);
+        $t = new TimeSlotResource();
+
+        $stmt->bind_result($t->sportHasResource,$t->startTime,$t->endTime,$t->day);
         $stmt->fetch();
         $stmt->close();
         return $slot;

@@ -25,15 +25,16 @@ class Achievement
 
     public function save()
     {
+        $this->achievedDate = $this->achievedDate->format('Y-m-d');
         $con = Connection::getConnectionObject()->getConnection();
         if ($this->id == null) {
             $stmt = $con->prepare('INSERT INTO achievement (title,description,achieved_date,player_involved_in_sport_id) VALUES (?,?,?,?)');  
-            $stmt->bind_param("sssi",$this->title,$this->description,$this->achievedDate,$this->playerInvolvedInSportId);  
+            $stmt->bind_param("sssi",$this->title,$this->description,$this->achievedDate,$this->playerInvolvedInSportId);
             $stmt->execute();  
             $stmt->close();
         }else{
             $stmt = $con->prepare('UPDATE achievement SET (title,description,achieved_date,player_involved_in_sport_id) VALUES (?,?,?,?)');  
-            $stmt->bind_param("sssi",$this->title,$this->description,$this->achievedDate,$this->playerInvolvedInSportId);  
+            $stmt->bind_param("sssi",$this->title,$this->description,$this->achievedDate,$this->playerInvolvedInSportId);
             $stmt->execute();  
             $stmt->close();
         }
@@ -60,6 +61,9 @@ class Achievement
         $stmt->bind_result($ach->title,$ach->description,$ach->achievedDate,$ach->playerInvolvedInSportId);
         $stmt->fetch();
         $stmt->close();
+        
+        $ach->setAchievedDate(new \DateTime($ach->getAchievedDate()));
+
         return $ach;
     }
 
@@ -84,6 +88,9 @@ class Achievement
                 $ach->description = $description;
                 $ach->achievedDate = $date;
                 $ach->playerInvolvedInSportId = $playerInvolvedInSportId;
+
+
+                $ach->setAchievedDate(new \DateTime($ach->getAchievedDate()));
                 $achievements[] = $ach;
             }
             $stmt->close();
