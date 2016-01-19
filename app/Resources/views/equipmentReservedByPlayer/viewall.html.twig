@@ -47,7 +47,7 @@ Equipment reserved by Players
 
         <td>
         <div class="btn-group" >
-        <a href="{{url('reservation_delete',{'id':eq.id})}}"> <button type="button" class="btn btn-xs btn-danger">Delete</button></a>
+        <a onclick="if(confirm('Are you sure you want to delete?')) window.location.assign('{{url('reservation_delete',{'id':eq.id})}}')"> <button type="button" class="btn btn-xs btn-danger">Delete</button></a>
         </div>
         </td>
 

@@ -161,14 +161,14 @@ class PlayerInvolvedInSport
         }
 
         $nowTime = new \DateTime('now');
-        
-        $nowTime= $nowTime->format('Y-m-d');
+
+        $strTime= $nowTime->format('Y-m-d');
 
         $stmt = $con->prepare('UPDATE player_involved_in_sport SET end_date = ? WHERE id=?');
-        $stmt->bind_param("ss",$nowTime,$id);
+        $stmt->bind_param("ss",$strTime,$id);
         $stmt->execute();
         $stmt->close();
-                  //$equipmentReservedByPlayer->SetStart(new \DateTime('now'));
+                  
     }
 
 
