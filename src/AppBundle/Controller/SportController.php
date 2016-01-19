@@ -66,7 +66,9 @@ class SportController extends Controller
     {
         $sport = Sport::getOne($id);
         //die($au->getName().$au->getContactNu());
-        return $this->render('sport/view.html.twig', array('sport' => $sport));
+
+        $players= $sport->getInvolvedPlayers($id);
+        return $this->render('sport/view.html.twig', array('sport' => $sport, 'players'=>$players));
         //return $this->render('sport/viewall.html.twig', array('depts' => $depts));
     }
 
