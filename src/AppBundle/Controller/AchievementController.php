@@ -76,7 +76,7 @@ class AchievementController extends Controller{
         $achievement = new Achievement();
 
         $form = $this->createFormBuilder($achievement)
-            ->add('player_involved_in_sport',ChoiceType::class, array(
+            ->add('playerInvolvedInSportId',ChoiceType::class, array(
             'choices'  => $involmentIds,
             'choices_as_values' => true,
             'label'=>'Sport'
@@ -87,7 +87,7 @@ class AchievementController extends Controller{
             ->add('save', SubmitType::class, array('label' => 'Create Achievement'))
             ->getForm();
 
-        $form->handleRequest($request);
+       $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             // ... perform some action, such as saving the task to the database
