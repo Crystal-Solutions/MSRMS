@@ -5,54 +5,22 @@ use AppBundle\Controller\Connection;
 
 class PlayerInvolvedInSport
 {
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="started_date", type="date", nullable=false)
-     */
+
     private $startedDate;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="end_date", type="date", nullable=true)
-     */
+
     private $endDate;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="position", type="string", length=45, nullable=true)
-     */
+
     private $position;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+
     public $id;
 
-    /**
-     * @var \AppBundle\Entity\Sport
-     *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Sport")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="sport_id", referencedColumnName="id")
-     * })
-     */
+
     private $sport;
 
-    /**
-     * @var \AppBundle\Entity\Player
-     *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Player")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="player_id", referencedColumnName="id")
-     * })
-     */
+
     private $player;
 
     private $playerId;
@@ -99,7 +67,7 @@ class PlayerInvolvedInSport
         }
 
         $playerInvolvedInSport = new PlayerInvolvedInSport();
-        $stmt = $con->prepare('SELECT player_involved_in_sport.id,player_involved_in_sport.player_id,player_involved_in_sport.sport_id,player_involved_in_sport.started_date,player_involved_in_sport.end_date,player_involved_in_sport.position,player.name,sport.name FROM player_involved_in_sport,sport,player WHERE player_involved_in_sport.player_id = player.id and player_involved_in_sport.sport_id = sport.id and id=?');
+        $stmt = $con->prepare('SELECT player_involved_in_sport.id,player_involved_in_sport.player_id,player_involved_in_sport.sport_id,player_involved_in_sport.started_date,player_involved_in_sport.end_date,player_involved_in_sport.position,player.name,sport.name FROM player_involved_in_sport,sport,player WHERE player_involved_in_sport.player_id = player.id and player_involved_in_sport.sport_id = sport.id and player_involved_in_sport.id=?');
         $stmt->bind_param("s",$id);
         $stmt->execute();
 
@@ -172,8 +140,8 @@ class PlayerInvolvedInSport
             $playerInvolvedInSport->setEndDate($endDate);
             $playerInvolvedInSport->setPosition($position);
 
-            $playerInvolvedInSport->setPlayerName($playerName);
-            $playerInvolvedInSport->setSportName($sportName);
+            // $playerInvolvedInSport->setPlayerName($playerName);
+            // $playerInvolvedInSport->setSportName($sportName);
 
             array_push($playerInvolvedInSports,$playerInvolvedInSport); //Push one by one
         }

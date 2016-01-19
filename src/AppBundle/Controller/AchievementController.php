@@ -73,12 +73,6 @@ class AchievementController extends Controller{
             $involmentIds[Sport::getOne($involment->getSportId())->getName()] = $involment->getId(); 
         }
 
-        // $involments =  PlayerInvolvedInSport::getAll();
-        // $involmentIds = array();
-        // foreach ($involments as $involment) {
-        //     $involmentIds[$involment->getSport()] = $involment->getId(); 
-        // }
-
         $achievement = new Achievement();
 
         $form = $this->createFormBuilder($achievement)
