@@ -136,13 +136,12 @@ class PlayerController extends Controller
     public function viewAction($id, Request $request)
     {
         $player =  Player::getOne($id);
-        $playerInvolvedInSport = PlayerInvolvedInSport::getOne($id);
+      
 
 
         $sports=$player->getInvolvedSports($id);
-
-        $playerAchievements = Achievement::getPlayerAchievements($playerInvolvedInSport->id);
-        return $this->render('player/view.html.twig', array('player' =>$player, 'achievements'=>$playerAchievements,'sports'=>$sports));  
+        $achievements = $player->getPlayerAchievements($id);
+        return $this->render('player/view.html.twig', array('player' =>$player, 'achievements'=>$achievements,'sports'=>$sports));  
 
     }
 
