@@ -83,7 +83,9 @@ class TimeSlotResource
         $stmt->bind_param("s",$id);
         $stmt->execute();
 
-        $stmt->bind_result($this->sportHasResource,$this->startTime,$this->endTime,$this->day);
+        $t = new TimeSlotResource();
+
+        $stmt->bind_result($t->sportHasResource,$t->startTime,$t->endTime,$t->day);
         $stmt->fetch();
         $stmt->close();
         return $slot;
