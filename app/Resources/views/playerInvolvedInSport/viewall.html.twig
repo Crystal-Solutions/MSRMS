@@ -18,6 +18,7 @@ Player Involvements
 		<th>Player Name</th>
         <th>Sport Name</th>
         <th>Started Date</th>
+        <th>End Date</th>
 		<th>Position</th>
 	</tr>
 
@@ -34,9 +35,22 @@ Player Involvements
         <td>{{ inv.startedDate|e }}
         </td>
 
+        <td>{{ inv.endDate|e }}
+        </td>
+
         <td>{{ inv.position|e }}
         </td>
 
+        {% if inv.endDate == null %}
+
+            <td>
+            <div class="btn-group" >
+            <a href="{{url('playerInvolvedInSport_delete',{'id':inv.id})}}"> <button type="button" class="btn btn-xs btn-warning">Finish</button></a>
+            </div>
+            </td>
+
+        {% endif %}
+        
     {% endfor %}
 </ul>
 

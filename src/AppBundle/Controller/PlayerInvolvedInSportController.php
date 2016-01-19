@@ -71,4 +71,14 @@ class PlayerInvolvedInSportController extends Controller
     return $this->render('playerInvolvedInSport/viewall.html.twig', array('playerInvolvedInSport' => $playerInvolvedInSports));
     }
 
+    /**
+     * @Route("/playerInvolvedInSport/finish/{id}", name="playerInvolvedInSport_delete")
+     */
+    public function finishAction($id, Request $request)
+    {
+        PlayerInvolvedInSport::finish($id);
+        return $this->redirectToRoute('playerInvolvedInSport_viewAll');
+
+    }
+
 }
