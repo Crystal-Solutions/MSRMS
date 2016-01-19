@@ -7,41 +7,18 @@ use AppBundle\Controller\Connection;
 
 class Resource
 {
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=45, nullable=true)
-     */
+
     private $name;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="string", length=450, nullable=true)
-     */
+
     private $description;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="instructor_name", type="string", length=128, nullable=true)
-     */
+
     private $instructorName;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="location", type="string", length=128, nullable=true)
-     */
+
     private $location;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
     private $id;
 
     public function save()

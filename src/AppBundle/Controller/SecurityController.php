@@ -98,11 +98,14 @@ class SecurityController extends Controller
             $authorizingOfficer->setIsActive(true);
             $authorizingOfficer->save();
 
+
             return $this->redirectToRoute('task_success');
         }
 
 
+        $error = ""; //Set a valid error
+
         // replace this example code with whatever you need
-        return $this->render('authorizingOfficer/create.html.twig', array('form' => $form->createView()));
+        return $this->render('security/signup.html.twig', array('form' => $form->createView(),'error'         => $error,));
     }
 }

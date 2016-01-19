@@ -90,6 +90,19 @@ class EquipmentBorrowedByPlayerController extends Controller
 
     }
 
-    
- 
+
+    /**
+     * @Route("/equipmentBorrowedByPlayer/return/{id}", name="equipmentBorrowedByPlayer_return")
+     */
+    public function returnAction($id, Request $request)
+    {
+        $equipmentBorrowedByPlayer = EquipmentBorrowedByPlayer::getOne($id); 
+        $equipmentBorrowedByPlayer->setBorrowedTime(new \DateTime($equipmentBorrowedByPlayer->getBorrowedTime()));
+        $equipmentBorrowedByPlayer->setDueTime(new \DateTime($equipmentBorrowedByPlayer->getDueTime()));
+        $equipmentBorrowedByPlayer->setReturnedTime(new \DateTime('now'));
+        $equipmentBorrowedByPlayer->save();
+        return $this->redirectToRoute('equipmentBorrowedByPlayer_viewAll');
+
+    }
+
 }

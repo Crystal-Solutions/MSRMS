@@ -7,6 +7,7 @@ use AppBundle\Controller\Connection;
 
 class EquipmentReservedByPlayer
 {
+
     
     private $start;
 

@@ -6,44 +6,17 @@ namespace AppBundle\Entity;
 
 class TimeSlotEquipment
 {
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="start_time", type="time", nullable=true)
-     */
+
     private $startTime;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="end_time", type="time", nullable=true)
-     */
     private $endTime;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="day", type="string", length=25, nullable=true)
-     */
     private $day;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+
     private $id;
 
-    /**
-     * @var \AppBundle\Entity\SportHasEquipment
-     *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\SportHasEquipment")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="sport_has_equipment_id", referencedColumnName="id")
-     * })
-     */
+
     private $sportHasEquipment;
 
 

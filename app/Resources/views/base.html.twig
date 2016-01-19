@@ -21,6 +21,7 @@
     {% if is_granted('ROLE_ADMIN') %}
     <li ><a href='{{url('homepage')}}'><span>Home</span></a></li>
     <li><a href='{{url('player_home')}}'><span>Players</span></a></li>
+    <li><a href='{{url('sport_home')}}'><span>Sports</span></a></li>
     <li><a href='{{url('resource_home')}}'><span>Resources</span></a></li>
     <li><a href='{{url('equipment_home')}}'><span>Equipment</span></a></li>
     <li><a href='{{url('equipmentBorrowedByPlayer_home')}}'><span>Borrow Equipment</span></a></li>
@@ -35,8 +36,9 @@
     {% endif %}
 
     {% if not is_granted('ROLE_ADMIN') %}
+        <li><a href='{{url('homepage_guest')}}'><span>Home</span></a></li>
         <li><a href='{{url('login_route')}}'><span>Login</span></a></li>
-    <li><a href='{{url('signup')}}'><span>Sign Up</span></a></li>
+        <li><a href='{{url('signup')}}'><span>Sign Up</span></a></li>
     {% endif %}
 </ul>
 </div>

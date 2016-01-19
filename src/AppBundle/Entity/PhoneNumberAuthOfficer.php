@@ -7,23 +7,10 @@ use AppBundle\Controller\Connection;
 
 class PhoneNumberAuthOfficer
 {
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="number", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+
     private $number;
 
-    /**
-     * @var \AppBundle\Entity\AuthorizingOfficer
-     *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\AuthorizingOfficer")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="authorizing_officer_id", referencedColumnName="id")
-     * })
-     */
+
     private $authorizingOfficer;
 
     private $authorizingOfficerId;

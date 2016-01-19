@@ -8,7 +8,7 @@ Achievements
 {% block body %}
 <ul>
     {% for achievement in achievements %}
-        <li>{{ achievement.title|e }} - {{ achievement.description|e }} - {{ achievement.achievedDate|e }}</li>
+        <li>{{ achievement.title|e }} - {{ achievement.description|e }} - {{ achievement.achievedDate|date('Y-m-d')|e  }}</li>
     {% endfor %}
 </ul>
 {% endblock %}

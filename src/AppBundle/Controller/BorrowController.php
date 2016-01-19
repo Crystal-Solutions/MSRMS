@@ -24,7 +24,7 @@ class BorrowController extends Controller
     /**
      * @Route("/borrow/", name="borrow_home")
      */
-    public function indexAction(Request $request)
+    public function borrowAction(Request $request)
     {
         $equipmentBorrowedByPlayer = new EquipmentBorrowedByPlayer(); 
 
@@ -84,6 +84,4 @@ class BorrowController extends Controller
         //return $this->render('usecases/reserve_home.html.twig', array('form' => $form->createView()));
         return $this->render('usecases/borrow_home.html.twig', array('form' => $form->createView(), 'form_error'=>$equipmentBorrowedByPlayer->getError()));
     }
-
- 
 }

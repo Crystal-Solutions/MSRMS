@@ -6,31 +6,14 @@
 Equipment Borrowed Details
 {% endblock %}
 
+{% block links %}
+    <div class="btn-group" >
+       <a href="{{url('equipmentBorrowedByPlayer_return',{'id':equipmentBorrowedByPlayer.id})}}"> <button type="button" class="btn btn-xs btn-primary">Return Equipment
+       </button></a>
+    </div>
+{% endblock %}
+
 {% block body %}
-<!-------------------------------------comented out------------------------------------
-{{equipmentBorrowedByPlayer.equipment_id}}<br>
-{{equipmentBorrowedByPlayer.player_id}}<br>
-{{equipmentBorrowedByPlayer.amount}}<br>
-{{equipmentBorrowedByPlayer.borrowedTime}}<br>
-{{equipmentBorrowedByPlayer.dueTime}}<br>
-{{equipmentBorrowedByPlayer.returnedTime}}<br>
-{{equipmentBorrowedByPlayer.issueDetails}}<br>
--------------------------------------------------------------------------------------->
-
-<head>
-<style>
-table, th, td {
-
-    border-collapse: collapse;
-}
-th, td {
-    padding: 0px;
-    text-align: left;
-}
-</style>
-</head>
-<body>
-
 <table style="width:100%">
 
   <tr>
@@ -38,12 +21,18 @@ th, td {
     <th></th>
   </tr>
   <tr>
+    <td><b>Equipment Name:</td>
+    <td>{{equipmentBorrowedByPlayer.equipmentName}}</td>
+  </tr>
+
+    <tr>
     <td><b>Equipment ID:</td>
     <td>{{equipmentBorrowedByPlayer.equipment_id}}</td>
   </tr>
+
   <tr>
-    <td><b>Player ID:</td>
-    <td>{{equipmentBorrowedByPlayer.player_id}}</td>
+    <td><b>Player Index Number:</td>
+    <td>{{equipmentBorrowedByPlayer.indexNumber}}</td>
   </tr>
 
     <tr>
@@ -53,24 +42,37 @@ th, td {
 
    <tr>
     <td><b>BorrowedTime:</td>
-    <td>{{equipmentBorrowedByPlayer.borrowedTime}}</td>
+    <td>{{equipmentBorrowedByPlayer.borrowedTime }}</td>
   </tr>
    <tr>
     <td><b>Due Time:</td>
-    <td>{{equipmentBorrowedByPlayer.dueTime}}</td>
+    <td>{{equipmentBorrowedByPlayer.dueTime }}</td>
   </tr>
 
   <tr>
     <td><b>Returned Time:</td>
-    <td>{{equipmentBorrowedByPlayer.returnedTime}}</td>
+    <td>{{equipmentBorrowedByPlayer.returnedTime }} </td>
   </tr>
+
+  <!--
+   <tr>
+    <td><b>BorrowedTime:</td>
+    <td>{{equipmentBorrowedByPlayer.borrowedTime | date('Y-m-d H-i-s')}}</td>
+  </tr>
+   <tr>
+    <td><b>Due Time:</td>
+    <td>{{equipmentBorrowedByPlayer.dueTime | date('Y-m-d H-i-s')}}</td>
+  </tr>
+
+  <tr>
+    <td><b>Returned Time:</td>
+    <td>{{equipmentBorrowedByPlayer.returnedTime | date('Y-m-d H-i-s')}} </td>
+  </tr>
+  -->
   
   <tr>
     <td><b>Issue Details:</td>
     <td>{{equipmentBorrowedByPlayer.issueDetails}}</td>
   </tr>
 </table>
-
-</body>
-
 {% endblock %}

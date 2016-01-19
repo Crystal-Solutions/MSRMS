@@ -7,58 +7,34 @@ use AppBundle\Controller\Connection;
 
 class Achievement
 {
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="title", type="string", length=140, nullable=true)
-     */
+
     private $title;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="string", length=850, nullable=true)
-     */
+
     private $description;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="achieved_date", type="date", nullable=true)
-     */
+
     private $achievedDate;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+
     public $id;
 
-    /**
-     * @var \AppBundle\Entity\PlayerInvolvedInSport
-     *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\PlayerInvolvedInSport")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="player_involved_in_sport_id", referencedColumnName="id")
-     * })
-     */
     private $playerInvolvedInSport;
-    private $playerInvolvedInSportsId;
+
+    private $playerInvolvedInSportId;
 
     public function save()
     {
+        $this->achievedDate = $this->achievedDate->format('Y-m-d');
         $con = Connection::getConnectionObject()->getConnection();
         if ($this->id == null) {
             $stmt = $con->prepare('INSERT INTO achievement (title,description,achieved_date,player_involved_in_sport_id) VALUES (?,?,?,?)');  
-            $stmt->bind_param("sssi",$this->title,$this->description,$this->achievedDate,$this->playerInvolvedInSport);  
+            $stmt->bind_param("sssi",$this->title,$this->description,$this->achievedDate,$this->playerInvolvedInSportId);
             $stmt->execute();  
             $stmt->close();
         }else{
             $stmt = $con->prepare('UPDATE achievement SET (title,description,achieved_date,player_involved_in_sport_id) VALUES (?,?,?,?)');  
-            $stmt->bind_param("sssi",$this->title,$this->description,$this->achievedDate,$this->playerInvolvedInSport);  
+            $stmt->bind_param("sssi",$this->title,$this->description,$this->achievedDate,$this->playerInvolvedInSportId);
             $stmt->execute();  
             $stmt->close();
         }
@@ -77,13 +53,17 @@ class Achievement
         $ach = new Achievement();
         $ach->id = $id;
 
-        $stmt = $con->prepare('SELECT title,description,achieved_date,player_involved_in_sport_id FROM achievement WHERE player_involved_in_sport_id=?');
+        // $stmt = $con->prepare('SELECT title,description,achieved_date,player_involved_in_sport_id FROM achievement WHERE player_involved_in_sport_id=?');
+        $stmt = $con->prepare('SELECT title,description,achieved_date,player_involved_in_sport_id FROM achievement WHERE id=?');
         $stmt->bind_param("s",$id);
         $stmt->execute();
 
-        $stmt->bind_result($ach->title,$ach->description,$ach->achievedDate,$ach->playerInvolvedInSport);
+        $stmt->bind_result($ach->title,$ach->description,$ach->achievedDate,$ach->playerInvolvedInSportId);
         $stmt->fetch();
         $stmt->close();
+        
+        $ach->setAchievedDate(new \DateTime($ach->getAchievedDate()));
+
         return $ach;
     }
 
@@ -99,7 +79,7 @@ class Achievement
         $achievements = array();
 
         if ($stmt->execute()) {
-            $stmt->bind_result($id,$title,$description,$date,$playerInvolvedInSport);
+            $stmt->bind_result($id,$title,$description,$date,$playerInvolvedInSportId);
             
             while ( $stmt->fetch() ) {
                 $ach = new Achievement();
@@ -107,7 +87,10 @@ class Achievement
                 $ach->title = $title;
                 $ach->description = $description;
                 $ach->achievedDate = $date;
-                $ach->playerInvolvedInSport = $playerInvolvedInSport;
+                $ach->playerInvolvedInSportId = $playerInvolvedInSportId;
+
+
+                $ach->setAchievedDate(new \DateTime($ach->getAchievedDate()));
                 $achievements[] = $ach;
             }
             $stmt->close();
@@ -120,7 +103,7 @@ class Achievement
 
     public static function getPlayerAchievements($player_involved_in_sport_id)
     {
- $con = Connection::getConnectionObject()->getConnection();
+        $con = Connection::getConnectionObject()->getConnection();
         // Check connection
         if (mysqli_connect_errno())
         {

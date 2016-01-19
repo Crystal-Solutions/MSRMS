@@ -7,6 +7,7 @@ use AppBundle\Entity\Player;
 
 class EquipmentBorrowedByPlayer
 {
+
    
     private $amount;
 
@@ -22,11 +23,13 @@ class EquipmentBorrowedByPlayer
 
     private $player;
 
+
     private $equipment;
 
     public $equipment_id;
     public $player_id;
     public $indexNumber;
+    public $equipmentName;
 
 // get index from id
     public function setIndexNumber($id)
@@ -72,32 +75,29 @@ class EquipmentBorrowedByPlayer
     
     public function save()
     {
-
-
         $this->borrowedTime = $this->borrowedTime?$this->borrowedTime->format('Y-m-d H-i-s'):null;
         $this->dueTime = $this->dueTime?$this->dueTime->format('Y-m-d H-i-s'):null;
         $this->returnedTime = $this->returnedTime?$this->returnedTime->format('Y-m-d H-i-s'):null;
 
         if($this->id ==null)
         {
-           
-        $con = Connection::getConnectionObject()->getConnection();
-        $stmt = $con->prepare('INSERT INTO `equipment_borrowed_by_player` (`equipment_id`,`player_id`,`amount`, `borrowed_time`, `due_time`, `returned_time`, `issue_details`) VALUES (?,?,?,?,?,?,?)');  
-        $stmt->bind_param("iiissss",$this->equipment_id,$this->player_id,$this->amount,$this->borrowedTime,$this->dueTime,$this->returnedTime,$this->issueDetails);  
-        $stmt->execute();  
-        $stmt->close();
+            $con = Connection::getConnectionObject()->getConnection();
+            $stmt = $con->prepare('INSERT INTO `equipment_borrowed_by_player` (`equipment_id`,`player_id`,`amount`, `borrowed_time`, `due_time`, `returned_time`, `issue_details`) VALUES (?,?,?,?,?,?,?)');  
+            $stmt->bind_param("iiissss",$this->equipment_id,$this->player_id,$this->amount,$this->borrowedTime,$this->dueTime,$this->returnedTime,$this->issueDetails);  
+            $stmt->execute();  
+            $stmt->close();
         }
         else
         {
-        $con = Connection::getConnectionObject()->getConnection();
-        $stmt = $con->prepare('UPDATE equipment_borrowed_by_player SET equipment_id =?,player_id=?,amount=?,borrowed_time=?,due_time=?,returned_time=?,issue_details=? WHERE id = ?');  
-        $stmt->bind_param("iiissss",$this->equipment_id,$this->player_id,$this->amount,$this->borrowedTime,$this->dueTime,$this->returnedTime,$this->issueDetails,$this->id);  
-        $stmt->execute();  
-        $stmt->close();   
+            $con = Connection::getConnectionObject()->getConnection();
+            $stmt = $con->prepare('UPDATE equipment_borrowed_by_player SET equipment_id =?,player_id=?,amount=?,borrowed_time=?,due_time=?,returned_time=?,issue_details=? WHERE id = ?');  
+            $stmt->bind_param("iiissssi",$this->equipment_id,$this->player_id,$this->amount,$this->borrowedTime,$this->dueTime,$this->returnedTime,$this->issueDetails,$this->id);  
+            $stmt->execute();  
+            $stmt->close();   
         }
     }
 
-        public static function getOne($id)
+    public static function getOne($id)
     {
         $con = Connection::getConnectionObject()->getConnection();
         // Check connection
@@ -107,16 +107,17 @@ class EquipmentBorrowedByPlayer
         }
 
         $equipmentBorrowedByPlayer = new EquipmentBorrowedByPlayer();
-        $stmt = $con->prepare('SELECT id,equipment_id,player_id,amount,borrowed_time,due_time,returned_time,issue_details FROM equipment_borrowed_by_player WHERE id=?');
+        $stmt = $con->prepare('SELECT equipment_borrowed_by_player.id,equipment_borrowed_by_player.equipment_id,equipment_borrowed_by_player.player_id,equipment_borrowed_by_player.amount,equipment_borrowed_by_player.borrowed_time,equipment_borrowed_by_player.due_time,equipment_borrowed_by_player.returned_time,equipment_borrowed_by_player.issue_details,player.index_number,equipment.name FROM equipment_borrowed_by_player,player,equipment WHERE equipment_borrowed_by_player.id=? AND equipment_borrowed_by_player.player_id=player.id AND equipment_borrowed_by_player.equipment_id=equipment.id');
         $stmt->bind_param("s",$id);
         $stmt->execute();
 
-        $stmt->bind_result($equipmentBorrowedByPlayer->id,$equipmentBorrowedByPlayer->equipment_id,$equipmentBorrowedByPlayer->player_id,$equipmentBorrowedByPlayer->amount,$equipmentBorrowedByPlayer->borrowedTime,$equipmentBorrowedByPlayer->dueTime,$equipmentBorrowedByPlayer->returnedTime,$equipmentBorrowedByPlayer->issueDetails);
+        $stmt->bind_result($equipmentBorrowedByPlayer->id,$equipmentBorrowedByPlayer->equipment_id,$equipmentBorrowedByPlayer->player_id,$equipmentBorrowedByPlayer->amount,$equipmentBorrowedByPlayer->borrowedTime,$equipmentBorrowedByPlayer->dueTime,$equipmentBorrowedByPlayer->returnedTime,$equipmentBorrowedByPlayer->issueDetails, $equipmentBorrowedByPlayer->indexNumber,$equipmentBorrowedByPlayer->equipmentName);
         $stmt->fetch();
         $stmt->close();
         return $equipmentBorrowedByPlayer;
     }
-        public static function getAll()
+        
+    public static function getAll()
     {
         $con = Connection::getConnectionObject()->getConnection();
         // Check connection
@@ -126,9 +127,9 @@ class EquipmentBorrowedByPlayer
         }
 
         $equipmentBorrowedByPlayers = array(); //Make an empty array
-        $stmt = $con->prepare('SELECT equipment_borrowed_by_player.id,equipment_borrowed_by_player.equipment_id,equipment_borrowed_by_player.player_id,equipment_borrowed_by_player.amount,equipment_borrowed_by_player.borrowed_time,equipment_borrowed_by_player.due_time,equipment_borrowed_by_player.returned_time,equipment_borrowed_by_player.issue_details,player.index_number FROM equipment_borrowed_by_player,player WHERE equipment_borrowed_by_player.player_id=player.id ');
+        $stmt = $con->prepare('SELECT equipment_borrowed_by_player.id,equipment_borrowed_by_player.equipment_id,equipment_borrowed_by_player.player_id,equipment_borrowed_by_player.amount,equipment_borrowed_by_player.borrowed_time,equipment_borrowed_by_player.due_time,equipment_borrowed_by_player.returned_time,equipment_borrowed_by_player.issue_details,player.index_number,equipment.name FROM equipment_borrowed_by_player,player,equipment WHERE equipment_borrowed_by_player.player_id=player.id AND equipment_borrowed_by_player.equipment_id=equipment.id ');
         $stmt->execute();
-        $stmt->bind_result($id,$equipment_id,$player_id,$amount,$borrowedTime,$dueTime,$returnedTime,$issueDetails,$indexNumber);
+        $stmt->bind_result($id,$equipment_id,$player_id,$amount,$borrowedTime,$dueTime,$returnedTime,$issueDetails,$indexNumber,$equipmentName);
         while($stmt->fetch())
         {
             $equipmentBorrowedByPlayer = new EquipmentBorrowedByPlayer();
@@ -142,6 +143,7 @@ class EquipmentBorrowedByPlayer
             $equipmentBorrowedByPlayer->setReturnedTime($returnedTime);
             $equipmentBorrowedByPlayer->setIssueDetails($issueDetails);
             $equipmentBorrowedByPlayer->setIndexNumber($indexNumber);
+            $equipmentBorrowedByPlayer->equipmentName=$equipmentName;
 
             array_push($equipmentBorrowedByPlayers,$equipmentBorrowedByPlayer); //Push one by one
         }
