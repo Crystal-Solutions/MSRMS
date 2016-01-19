@@ -6,23 +6,10 @@ namespace AppBundle\Entity;
 
 class PhoneNumberPlayer
 {
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="number", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+
     private $number;
 
-    /**
-     * @var \AppBundle\Entity\Player
-     *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Player")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="player_id", referencedColumnName="id")
-     * })
-     */
+
     private $player;
 
 
