@@ -23,7 +23,7 @@ All Borrowed Equipments
 --------------------------------------------------------------------------------------------------------------------->
 <table width="100%">
 	<tr>
-		<th>Equipment ID</th>
+		<th>Equipment Name</th>
 		<th>Player Index Number</th>
 		<th>Amount</th>
 		<th>Borrowed Time</th>
@@ -36,7 +36,7 @@ All Borrowed Equipments
 
 	<tr>
 	<td>
-	<a href="{{url('equipmentBorrowedByPlayer_view',{'id':user.id})}}">{{ user.equipment_id|e }}</a>
+	<a href="{{url('equipmentBorrowedByPlayer_view',{'id':user.id})}}">{{ user.equipmentName|e }}</a>
 	</td>
 
 
