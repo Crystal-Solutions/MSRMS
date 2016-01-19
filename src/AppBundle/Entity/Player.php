@@ -186,7 +186,41 @@ class Player
         return $playerSports;
 
 }
+// under construction -----------------------------------------------------------------------------------
+    public static function getPlayerAchievements($player_id)
+    {
+        $con = Connection::getConnectionObject()->getConnection();
+        // Check connection
+        if (mysqli_connect_errno())
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
 
+        $playerAchievements = array(); //Make an empty array - don't mind the name
+        $stmt = $con->prepare('SELECT achievement.id,achievement.title, achievement.description, achievement.achieved_date, achievement.player_involved_in_sport_id FROM achievement,player,player_involved_in_sport WHERE player.id = ? AND player.id=player_involved_in_sport.player_id AND player_involved_in_sport.id=achievement.player_involved_in_sport_id');
+        $stmt->bind_param("s",$player_id);
+        $stmt->execute();
+
+        $stmt->bind_result($id,$title,$description,$achievedDate,$playerInvolvedInSportId);
+        while($stmt->fetch())
+        {
+            $achievement = new Achievement();
+            $achievement->id=$id;
+            //check here k
+            $achievement->setTitle($title);
+            $achievement->setDescription($description);
+            $achievement->setAchievedDate($achievedDate);
+            $achievement->setPlayerInvolvedInSportId($playerInvolvedInSportId);
+          
+          
+
+            array_push($playerAchievements,$achievement); //Push one by one
+        }
+        $stmt->close();
+        
+        return $playerAchievements;
+
+    }
 
     /**
      * @return mixed

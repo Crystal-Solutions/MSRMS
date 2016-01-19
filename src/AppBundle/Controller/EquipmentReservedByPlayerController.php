@@ -81,4 +81,15 @@ class EquipmentReservedByPlayerController extends Controller
         $equips = EquipmentReservedByPlayer::getAll();
         return $this->render('equipmentReservedByPlayer/viewall.html.twig', array('equips' => $equips));
     }
+
+     /**
+     * @Route("/equipmmentreservedbyplayer/delete/{id}", name="reservation_delete")
+     */
+    public function deleteAction($id, Request $request)
+    {
+        EquipmentReservedByPlayer::delete($id);
+        return $this->redirectToRoute('reservation_viewall');
+
+    }
+
 }

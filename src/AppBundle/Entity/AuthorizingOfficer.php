@@ -133,10 +133,14 @@ class AuthorizingOfficer implements UserInterface, \Serializable
          }
 
        if (in_array($this->username,$userNames)) $this->errorMessage= 'username already assigned';
+ 
+       if (  strlen($this->password)<6 )
+            $this->errorMessage = "Password must be atleast 6 characters long";
+
        
-        $bloodTypes = array('A+','A-','B+', 'B-', 'AB+', 'AB-', 'O+', 'O-');
+    /*    $bloodTypes = array('A+','A-','B+', 'B-', 'AB+', 'AB-', 'O+', 'O-');
         if(!in_array($this->bloodType, $bloodTypes))
-            $this->errorMessage = 'Blood Type is not valid';
+            $this->errorMessage = 'Blood Type is not valid'; */
 
         //Return true if error message is "" (no eror)
         //Else return false
