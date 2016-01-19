@@ -108,15 +108,6 @@ class EquipmentReservedByPlayer
             while ( $stmt->fetch() ) {
                 $eq = new EquipmentReservedByPlayer();
                 $eq->id = $id;
-                /*$eq->equipment_id = $equipment_id;
-                $eq->player_id = $player_id;
-                $eq->start = $start;
-                $eq->end = $end;
-                $eq->amount = $amount;
-                $eq->authorizing_officer_id = $authorizing_officer_id;
-                $eq->eqName = $eqName;
-                $eq->playerName = $playerName;
-                $eq->authOfficerName = $authOfficerName;*/
 
                 $eq->setEquipmentID($equipment_id);
                 $eq->setPlayerID($player_id);
