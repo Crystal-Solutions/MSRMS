@@ -87,6 +87,41 @@ use AppBundle\Controller\Connection;
         return false;     
     }
 
+////////////////////// get involved players ////////////////////////////////////
+public static function getInvolvedPlayers($sport_id)
+
+    {
+        $con = Connection::getConnectionObject()->getConnection();
+        // Check connection
+        if (mysqli_connect_errno())
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
+
+        $involvedPlayers = array(); //Make an empty array - don't mind the name
+        $stmt = $con->prepare('SELECT player.id,player.name, player.index_number FROM player,player_involved_in_sport,sport WHERE sport.id = ? AND sport.id=player_involved_in_sport.sport_id AND player_involved_in_sport.player_id=player.id');
+        $stmt->bind_param("s",$player_id);
+        $stmt->execute();
+
+        $stmt->bind_result($id,$name,$indexNumber);
+        while($stmt->fetch())
+        {
+            $player = new Player();
+            $player->id=$id;
+            $player->setName($name);
+            $player->setIndexNumber($indexNumber);
+        
+        
+          
+          
+
+            array_push($involvedPlayers,$player); //Push one by one
+        }
+        $stmt->close();
+        
+        return $involvedPlayers;
+
+    }
 
 
 
