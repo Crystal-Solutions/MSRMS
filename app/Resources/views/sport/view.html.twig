@@ -3,20 +3,41 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    Player Details
+ Sport Details
 {% endblock %}
 
 {% block body %}
 
-    <ul>
 
-       <li>{{sport.name}}</li>
-       <li> {{sport.description}} </li>
+<table style="width:100%">
+
+  <tr>
+    <th></th>
+    <th></th>
+  </tr>
+  <tr>
+    <td><b>Sport Name:</td>
+    <td>{{sport.name}}</td>
+  </tr>
+  <tr>
+    <td><b>Description:</td>
+    <td>{{sport.description}}</td>
+  </tr>
+
+  <tr>
+  <td><b>Involved Players:</td>
+{%for p in players %}
+ <td>{{p.name}}
+ <a href="{{url('player_view',{'id':p.id})}}">{{ p.name|e }}</a>
+ </td>
+{% endfor %}
+  </tr>
 
 
-    </ul>
 
-    {#Add players here#}
-    <span style="color: red;">Add a list of Players details here</span>
 
+
+
+
+</table>
 {% endblock %}
