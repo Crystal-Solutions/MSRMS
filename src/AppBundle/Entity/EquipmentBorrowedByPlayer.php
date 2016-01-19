@@ -8,23 +8,18 @@ use AppBundle\Entity\Player;
 class EquipmentBorrowedByPlayer
 {
 
+   
     private $amount;
-
 
     private $borrowedTime;
 
-
     private $dueTime;
-
 
     private $returnedTime;
 
-
     private $issueDetails;
 
-
     private $id;
-
 
     private $player;
 
@@ -156,6 +151,22 @@ class EquipmentBorrowedByPlayer
         
         return $equipmentBorrowedByPlayers;
 
+    }
+
+    public static function delete($id)
+    {
+        $con = Connection::getConnectionObject()->getConnection();
+        // Check connection
+        if (mysqli_connect_errno())
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
+
+        $stmt = $con->prepare('DELETE FROM equipment_borrowed_by_player WHERE id=?');
+        $stmt->bind_param("s",$id);
+        $stmt->execute();
+        $stmt->close();
+         
     }
 
     /**

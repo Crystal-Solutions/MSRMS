@@ -8,23 +8,18 @@ use AppBundle\Controller\Connection;
 class EquipmentReservedByPlayer
 {
 
+    
     private $start;
-
 
     private $end;
 
-
     private $amount;
-
 
     private $id;
 
-
     private $authorizingOfficer;
 
-
     private $player;
-
 
     private $equipment;
 
@@ -141,6 +136,22 @@ class EquipmentReservedByPlayer
         }
         $stmt->close();
         return false;     
+    }
+
+    public static function delete($id)
+    {
+        $con = Connection::getConnectionObject()->getConnection();
+        // Check connection
+        if (mysqli_connect_errno())
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
+
+        $stmt = $con->prepare('DELETE FROM equipment_reserved_by_player WHERE id=?');
+        $stmt->bind_param("s",$id);
+        $stmt->execute();
+        $stmt->close();
+         
     }
 
     /**
