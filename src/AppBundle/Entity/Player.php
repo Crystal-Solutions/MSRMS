@@ -186,7 +186,7 @@ class Player
         return $playerSports;
 
 }
-// under construction -----------------------------------------------------------------------------------
+
     public static function getPlayerAchievements($player_id)
     {
         $con = Connection::getConnectionObject()->getConnection();
@@ -219,6 +219,80 @@ class Player
         $stmt->close();
         
         return $playerAchievements;
+
+    }
+    //////////////// borrowed equipments for player ///////////////////////////////////
+
+    public static function getBorrowedEquipments($player_id)
+
+    {
+        $con = Connection::getConnectionObject()->getConnection();
+        // Check connection
+        if (mysqli_connect_errno())
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
+
+        $borrowedEquipments = array(); //Make an empty array - don't mind the name
+        $stmt = $con->prepare('SELECT equipment.id,equipment.name, equipment.description, equipment.amount FROM equipment,player,equipment_borrowed_by_player WHERE player.id = ? AND player.id=equipment_borrowed_by_player.player_id AND equipment_borrowed_by_player.equipment_id=equipment.id');
+        $stmt->bind_param("s",$player_id);
+        $stmt->execute();
+
+        $stmt->bind_result($id,$name,$description,$amount);
+        while($stmt->fetch())
+        {
+            $equipment = new Equipment();
+            $equipment->id=$id;
+            $equipment->setName($name);
+            $equipment->setDescription($description);
+            $equipment->setAmount($amount);
+        
+          
+          
+
+            array_push($borrowedEquipments,$equipment); //Push one by one
+        }
+        $stmt->close();
+        
+        return $borrowedEquipments;
+
+    }
+
+
+//////////////////// get reserved equipments ////////////////////////////////
+
+        public static function getReservedEquipments($player_id)
+
+    {
+        $con = Connection::getConnectionObject()->getConnection();
+        // Check connection
+        if (mysqli_connect_errno())
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
+
+        $reservedEquipments = array(); //Make an empty array - don't mind the name
+        $stmt = $con->prepare('SELECT equipment.id,equipment.name, equipment.description, equipment.amount FROM equipment,player,equipment_reserved_by_player WHERE player.id = ? AND player.id=equipment_reserved_by_player.player_id AND equipment_reserved_by_player.equipment_id=equipment.id');
+        $stmt->bind_param("s",$player_id);
+        $stmt->execute();
+
+        $stmt->bind_result($id,$name,$description,$amount);
+        while($stmt->fetch())
+        {
+            $equipment = new Equipment();
+            $equipment->id=$id;
+            $equipment->setName($name);
+            $equipment->setDescription($description);
+            $equipment->setAmount($amount);
+        
+          
+          
+
+            array_push($reservedEquipments,$equipment); //Push one by one
+        }
+        $stmt->close();
+        
+        return $reservedEquipments;
 
     }
 

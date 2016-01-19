@@ -141,7 +141,9 @@ class PlayerController extends Controller
 
         $sports=$player->getInvolvedSports($id);
         $achievements = $player->getPlayerAchievements($id);
-        return $this->render('player/view.html.twig', array('player' =>$player, 'achievements'=>$achievements,'sports'=>$sports));  
+        $borrowedEquipments = $player->getBorrowedEquipments($id);
+        $reservedEquipments = $player -> getReservedEquipments($id);
+        return $this->render('player/view.html.twig', array('player' =>$player, 'achievements'=>$achievements,'sports'=>$sports, 'borrowedEquipments'=>$borrowedEquipments, 'reservedEquipments'=>$reservedEquipments));  
 
     }
 

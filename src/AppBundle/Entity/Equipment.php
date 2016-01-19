@@ -17,7 +17,7 @@ class Equipment
     private $amount;
 
 
-    private $id;
+    public $id;
 
     public function save()
     {
