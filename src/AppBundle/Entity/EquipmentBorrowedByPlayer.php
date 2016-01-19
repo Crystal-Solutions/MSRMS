@@ -7,68 +7,28 @@ use AppBundle\Entity\Player;
 
 class EquipmentBorrowedByPlayer
 {
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="amount", type="integer", nullable=true)
-     */
+
     private $amount;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="borrowed_time", type="datetime", nullable=true)
-     */
+
     private $borrowedTime;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="due_time", type="datetime", nullable=true)
-     */
+
     private $dueTime;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="returned_time", type="datetime", nullable=true)
-     */
+
     private $returnedTime;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="issue_details", type="string", length=850, nullable=true)
-     */
+
     private $issueDetails;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+
     private $id;
 
-    /**
-     * @var \AppBundle\Entity\Player
-     *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Player")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="player_id", referencedColumnName="id")
-     * })
-     */
+
     private $player;
 
-    /**
-     * @var \AppBundle\Entity\Equipment
-     *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Equipment")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="equipment_id", referencedColumnName="id")
-     * })
-     */
+
     private $equipment;
 
     public $equipment_id;
@@ -119,32 +79,29 @@ class EquipmentBorrowedByPlayer
     
     public function save()
     {
-
-
         $this->borrowedTime = $this->borrowedTime?$this->borrowedTime->format('Y-m-d H-i-s'):null;
         $this->dueTime = $this->dueTime?$this->dueTime->format('Y-m-d H-i-s'):null;
         $this->returnedTime = $this->returnedTime?$this->returnedTime->format('Y-m-d H-i-s'):null;
 
         if($this->id ==null)
         {
-           
-        $con = Connection::getConnectionObject()->getConnection();
-        $stmt = $con->prepare('INSERT INTO `equipment_borrowed_by_player` (`equipment_id`,`player_id`,`amount`, `borrowed_time`, `due_time`, `returned_time`, `issue_details`) VALUES (?,?,?,?,?,?,?)');  
-        $stmt->bind_param("iiissss",$this->equipment_id,$this->player_id,$this->amount,$this->borrowedTime,$this->dueTime,$this->returnedTime,$this->issueDetails);  
-        $stmt->execute();  
-        $stmt->close();
+            $con = Connection::getConnectionObject()->getConnection();
+            $stmt = $con->prepare('INSERT INTO `equipment_borrowed_by_player` (`equipment_id`,`player_id`,`amount`, `borrowed_time`, `due_time`, `returned_time`, `issue_details`) VALUES (?,?,?,?,?,?,?)');  
+            $stmt->bind_param("iiissss",$this->equipment_id,$this->player_id,$this->amount,$this->borrowedTime,$this->dueTime,$this->returnedTime,$this->issueDetails);  
+            $stmt->execute();  
+            $stmt->close();
         }
         else
         {
-        $con = Connection::getConnectionObject()->getConnection();
-        $stmt = $con->prepare('UPDATE equipment_borrowed_by_player SET equipment_id =?,player_id=?,amount=?,borrowed_time=?,due_time=?,returned_time=?,issue_details=? WHERE id = ?');  
-        $stmt->bind_param("iiissss",$this->equipment_id,$this->player_id,$this->amount,$this->borrowedTime,$this->dueTime,$this->returnedTime,$this->issueDetails,$this->id);  
-        $stmt->execute();  
-        $stmt->close();   
+            $con = Connection::getConnectionObject()->getConnection();
+            $stmt = $con->prepare('UPDATE equipment_borrowed_by_player SET equipment_id =?,player_id=?,amount=?,borrowed_time=?,due_time=?,returned_time=?,issue_details=? WHERE id = ?');  
+            $stmt->bind_param("iiissssi",$this->equipment_id,$this->player_id,$this->amount,$this->borrowedTime,$this->dueTime,$this->returnedTime,$this->issueDetails,$this->id);  
+            $stmt->execute();  
+            $stmt->close();   
         }
     }
 
-        public static function getOne($id)
+    public static function getOne($id)
     {
         $con = Connection::getConnectionObject()->getConnection();
         // Check connection
@@ -163,7 +120,8 @@ class EquipmentBorrowedByPlayer
         $stmt->close();
         return $equipmentBorrowedByPlayer;
     }
-        public static function getAll()
+        
+    public static function getAll()
     {
         $con = Connection::getConnectionObject()->getConnection();
         // Check connection
