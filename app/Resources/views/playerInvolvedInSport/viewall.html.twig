@@ -45,7 +45,7 @@ Player Involvements
 
             <td>
             <div class="btn-group" >
-            <a href="{{url('playerInvolvedInSport_delete',{'id':inv.id})}}"> <button type="button" class="btn btn-xs btn-warning">Finish</button></a>
+            <a onclick="if(confirm('Are you sure that you want to finish involvement?')) window.location.assign('{{url('playerInvolvedInSport_delete',{'id':inv.id})}}')"> <button type="button" class="btn btn-xs btn-warning">Finish</button></a>
             </div>
             </td>
 
