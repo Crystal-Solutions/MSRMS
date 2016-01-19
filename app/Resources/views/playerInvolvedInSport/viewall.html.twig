@@ -2,14 +2,41 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-All Involved Players in Sports
+Equipment reserved by Players
 {% endblock %}
+
+{% block links %}
+    <div class="btn-group" >
+       <a href="{{url('involve_home')}}"> <button type="button" class="btn btn-xs btn-success">Involve Player</button></a>
+    </div>
+{% endblock %}
+
+
 {% block body %}
-<ul>
-    {% for user in playerInvolvedInSport %}
-        <li>
-        	<a href="{{url('player_view',{'id':user.id})}}">{{ user.playerID|e }} - {{ user.sportId|e }}- {{ user.startedDate|e }}- {{ user.endDate|e }}- {{ user.position|e }}</a>
-        </li>
+<table width="100%">
+	<tr>
+		<th>Player Name</th>
+        <th>Sport Name</th>
+        <th>Started Date</th>
+		<th>Position</th>
+	</tr>
+
+    {% for inv in playerInvolvedInSport %}
+        <tr>
+
+        <td>{{ inv.playerName|e}}
+        </td>
+
+		<td>{{ inv.sportName|e }}
+        </td>
+
+
+        <td>{{ inv.startedDate|e }}
+        </td>
+
+        <td>{{ inv.position|e }}
+        </td>
+
     {% endfor %}
 </ul>
 

@@ -6,43 +6,14 @@ use AppBundle\Controller\Connection;
 
 class SportHasEquipment
 {
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+   
     private $id;
 
-    /**
-     * @var \AppBundle\Entity\AuthorizingOfficer
-     *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\AuthorizingOfficer")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="authorizing_officer_id", referencedColumnName="id")
-     * })
-     */
     private $authorizingOfficer;
 
-    /**
-     * @var \AppBundle\Entity\Sport
-     *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Sport")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="sport_id", referencedColumnName="id")
-     * })
-     */
     private $sport;
 
-    /**
-     * @var \AppBundle\Entity\Equipment
-     *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Equipment")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="equipment_id", referencedColumnName="id")
-     * })
-     */
+   
     private $equipment;
 
     private $equipmentId;
@@ -88,10 +59,11 @@ class SportHasEquipment
 
 
         $sportHasEquipment = new SportHasEquipment();
-        $stmt = $con->prepare('SELECT sport_has_equipment.equipment_id,sport_has_equipment.sport_id,sport_has_equipment.authorizing_officer_id,equipment.name,sport.name,authorizing_officer.name FROM sport_has_equipment,equipment,sport,authorizing_officer WHERE sport_has_equipment.equipment_id = equipment.id and sport_has_equipment.sport_id = sport.id and sport_has_equipment.authorizing_officer_id = authorizing_officer.id and id=?');
+        $stmt = $con->prepare('SELECT sport_has_equipment.equipment_id,sport_has_equipment.sport_id,sport_has_equipment.authorizing_officer_id,equipment.name,sport.name,authorizing_officer.name FROM sport_has_equipment,equipment,sport,authorizing_officer WHERE sport_has_equipment.equipment_id = equipment.id and sport_has_equipment.sport_id = sport.id and sport_has_equipment.authorizing_officer_id = authorizing_officer.id and sport_has_equipment.id=?');
         $stmt->bind_param("s",$id);
         $stmt->execute();
 
+        $sportHasEquipment->id = $id;
         $stmt->bind_result($sportHasEquipment->equipmentId,$sportHasEquipment->sportId,$sportHasEquipment->authorizingOfficerId,$sportHasEquipment->equipmentName,$sportHasEquipment->sportName,$sportHasEquipment->authorizingOfficerName);
         $stmt->fetch();
         $stmt->close();
@@ -126,6 +98,23 @@ class SportHasEquipment
             $stmt->close();
             return $sportHasEquipments;      
         }
+
+    public static function delete($id)
+    {
+        $con = Connection::getConnectionObject()->getConnection();
+        // Check connection
+        if (mysqli_connect_errno())
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
+
+        $stmt = $con->prepare('DELETE FROM sport_has_equipment WHERE id=?');
+        $stmt->bind_param("s",$id);
+        $stmt->execute();
+        $stmt->close();
+         
+    }
+
 
     /**
      * Get id
