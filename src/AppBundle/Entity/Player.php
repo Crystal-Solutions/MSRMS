@@ -25,7 +25,7 @@ class Player
 
 
 
-    private $id;
+    public $id;
 
 
     private $department;

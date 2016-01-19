@@ -99,22 +99,30 @@ public static function getInvolvedPlayers($sport_id)
         }
 
         $involvedPlayers = array(); //Make an empty array - don't mind the name
-        $stmt = $con->prepare('SELECT player.id,player.name, player.index_number FROM player,player_involved_in_sport,sport WHERE sport.id = ? AND sport.id=player_involved_in_sport.sport_id AND player_involved_in_sport.player_id=player.id');
-        $stmt->bind_param("s",$player_id);
+        $stmt = $con->prepare('SELECT player.id,player.name, player.index_number, player.year,player.date_of_birth, player.address, player.blood_type, player.department_id  FROM player,player_involved_in_sport,sport WHERE sport.id = ? AND sport.id=player_involved_in_sport.sport_id AND player_involved_in_sport.player_id=player.id');
+        $stmt->bind_param("s",$sport_id);
         $stmt->execute();
 
-        $stmt->bind_result($id,$name,$indexNumber);
+        $stmt->bind_result($id,$name,$indexNumber,$year,$dateOfBirth,$address, $bloodType, $departmentId);
         while($stmt->fetch())
         {
             $player = new Player();
             $player->id=$id;
             $player->setName($name);
             $player->setIndexNumber($indexNumber);
-        
-        
-          
-          
 
+            $player->setYear($year);
+            $player->setDateOfBirth($dateOfBirth);
+            $player->setAddress($address);
+            $player->setBloodType($bloodType);
+            $player->setDepartmentId($departmentId);
+    
+
+            //sending a DateTime object to the form
+            $player->setDateOfBirth(new \DateTime($player->getDateOfBirth()));
+
+        
+        
             array_push($involvedPlayers,$player); //Push one by one
         }
         $stmt->close();
