@@ -169,6 +169,8 @@ class EquipmentBorrowedByPlayer
          
     }
 
+    
+
     /**
      * Set amount
      *

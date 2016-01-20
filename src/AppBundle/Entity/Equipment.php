@@ -36,7 +36,7 @@ class Equipment
         else
         {
         $con = Connection::getConnectionObject()->getConnection();
-        $stmt = $con->prepare('UPDATE player SET name =?,description=?,amount=? WHERE equipment.id = id');  
+        $stmt = $con->prepare('UPDATE player SET name =?,description=?,amount=? WHERE equipment.id = id=?');  
         $stmt->bind_param("ssi",$this->name,$this->description,$this->amount);    
         $stmt->execute();  
         $stmt->close();   
