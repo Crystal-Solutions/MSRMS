@@ -68,7 +68,7 @@ class EquipmentBorrowedByPlayer
         $equipment = Equipment::getOne($this->equipment_id);
         $available = $equipment->getAvailableAmount();
 
-        if($this->amount > $available) $this->errorMessage="This much amount of equipment is not available in stocks";
+        if($this->amount > $available) $this->errorMessage="Rquired amount of equipments are not available in stocks";
 
         //Return true if error message is "" (no eror)
         //Else return false

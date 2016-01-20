@@ -6,6 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\SportHasEquipment;
+use AppBundle\Entity\TimeSlotEquipment;
 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -61,9 +62,10 @@ class SportHasEquipmentController extends Controller
     public function viewAction($id, Request $request)
     {
         $sportHasEquipment =  SportHasEquipment::getOne($id);
-        return $this->render('sportHasEquipment/view.html.twig', array('sportHasEquipment' =>$sportHasEquipment));  
+        $slots = $sportHasEquipment->getTimeSlots();
+        return $this->render('sportHasEquipment/view.html.twig', array('sportHasEquipment' =>$sportHasEquipment, 'slots'=>$slots));  
     }
-
+    
     /**
      * @Route("/sportHasEquipment/view", name="sportHasEquipment_viewAll")
      */
@@ -84,6 +86,15 @@ class SportHasEquipmentController extends Controller
 
     }
     
+    /**
+     * @Route("/sportHasEquipment/delete/timeslot/{id}", name="sportHasEquipment_deleteTimeslot")
+     */
+    public function deleteTimeslotAction($id, Request $request)
+    {
+        TimeSlotEquipment::delete($id);
+        return $this->redirect($request->headers->get('referer'));
+        //return $this->redirectToRoute('sportHasResource_viewAll');
 
+    }
  
 }

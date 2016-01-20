@@ -59,7 +59,7 @@ class BorrowController extends Controller
             'label'=>'Equipment'
                 ))   
 
-            ->add('amount',IntegerType::class)
+            ->add('amount',IntegerType::class,array('attr'=>(array('min'=>1))))
             ->add('borrowedTime',DateTimeType::class,array(
                 'years'=>range(date('Y'),date('Y')),'months'=>range(date('m'),date('m')),'days'=>range(date('d')-1,date('d'))
                 ))

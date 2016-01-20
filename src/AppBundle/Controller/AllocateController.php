@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\TimeSlotResource;
+use AppBundle\Entity\TimeSlotEquipment;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -100,8 +101,7 @@ class AllocateController extends Controller
     }
 
 
-
-//    Time Slot
+    //Time Slot Resource
     /**
      * @Route("/allocate/resource/addtimeslot/{id}", name="allocate_resource_addtimeslot")
      */
@@ -145,6 +145,49 @@ class AllocateController extends Controller
         return $this->render('sportHasResource/create.html.twig', array('form' => $form->createView(),'sport'=> $sport->getName(), 'resource'=> $resource->getName(), 'error'=>$timeSlot->errorMessage ));
     }
 
-    
+    //Time Slot Equipment
+    /**
+     * @Route("/allocate/equipment/addtimeslot/{id}", name="allocate_equipment_addtimeslot")
+     */
+    public function addTimeSlotEquipment($id, Request $request)
+    {
+        $sportHasEquipment = sportHasEquipment::getOne($id);
+
+        $sport = Sport::getOne($sportHasEquipment->getSportId());
+        $resource = Resource::getOne($sportHasEquipment->getResourceId());
+
+        $timeSlot = new TimeSlotEquipment();
+
+        $form = $this->createFormBuilder($timeSlot)
+            ->add('startTime',TimeType::class ,
+                array('input'  => 'string'))
+            ->add('endTime',TimeType::class, array('input'  => 'string'))
+            ->add('day',ChoiceType::class, array(
+                'choices'=>array('Sunday'=>'Sunday',
+                    'Monday'=>'Monday',
+                    'Tuesday'=>'Tuesday',
+                    'Wednesday'=>'Wednesday',
+                    'Thursday'=>'Thursday',
+                    'Friday'=>'Friday',
+                    'Saturday'=>'Saturday')
+            ))
+            ->add('save', SubmitType::class, array('label' => 'Add Time Slot'))
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid() && $timeSlot->validate()) {
+            // ... perform some action, such as saving the task to the database
+
+            $timeSlot->setSportHasEquipmentId($id);
+            $timeSlot->save();
+
+            return $this->redirectToRoute('sportHasEquipment_view',array('id'=>$id));
+        }
+
+        // replace this example code with whatever you need
+        return $this->render('sportHasEquipment/create.html.twig', array('form' => $form->createView(),'sport'=> $sport->getName(), 'resource'=> $resource->getName(), 'error'=>$timeSlot->errorMessage ));
+    }    
  
 }
+
