@@ -123,7 +123,7 @@ class PlayerController extends Controller
 
             $player->save();
 
-            return $this->redirectToRoute('player_viewall');
+            return $this->redirectToRoute('player_viewAll');
         }
 
         // replace this example code with whatever you need
