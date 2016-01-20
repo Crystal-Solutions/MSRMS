@@ -85,9 +85,12 @@ Player Details
 <td>
 <table style="width:100%">
 {%for sport in sports %}
+
+
  <tr>
  <td>
   <a href="{{url('sport_view',{'id':sport.id})}}">{{ sport.name|e }}</a>
+ {%if sport.endDate !=null %} <b>(Involvement Finished){% endif %}
  </td>
  </tr>
 {% endfor %}
@@ -105,6 +108,7 @@ Player Details
  <tr>
  <td>
  <a href="{{url('equipment_view',{'id':eq.id})}}">{{ eq.name|e }}</a>
+  {%if eq.returnedTime !=null %} <b>(Equipment Returned){% endif %}
  </td>
  </tr>
 {% endfor %}

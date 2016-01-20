@@ -15,7 +15,7 @@ class Equipment
 
 
     private $amount;
-
+    public $returnedTime;
 
     public $id;
 
@@ -171,5 +171,32 @@ class Equipment
     public function getId()
     {
         return $this->id;
+    }
+
+    public function getAvailableAmount()
+    {
+        $con = Connection::getConnectionObject()->getConnection();
+        // Check connection
+        if (mysqli_connect_errno())
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
+
+        $borrowedAmount = 0;
+        $reservedAmount = 0;
+        $stmt = $con->prepare('SELECT SUM(amount) FROM equipment_borrowed_by_player WHERE equipment_id=? AND  returned_time is NULL ;');
+        $stmt->bind_param("s",$this->id); $stmt->execute();
+        $stmt->bind_result($borrowedAmount);
+        $stmt->fetch();
+        $stmt->close();
+
+        $stmt2 = $con->prepare('SELECT SUM(amount) FROM equipment_reserved_by_player WHERE equipment_id=?  ;');
+        $stmt2->bind_param("s",$this->id); $stmt2->execute();
+        $stmt2->bind_result($reservedAmount);
+        $stmt2->fetch();
+        $stmt2->close();
+
+
+        return $this->amount - ($borrowedAmount+$reservedAmount);
     }
 }
