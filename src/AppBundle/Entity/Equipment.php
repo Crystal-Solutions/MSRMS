@@ -15,7 +15,7 @@ class Equipment
 
 
     private $amount;
-
+    public $returnedTime;
 
     public $id;
 

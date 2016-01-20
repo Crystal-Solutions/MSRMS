@@ -35,6 +35,7 @@ class Player
     private $achievement;
     private $achievementId;
 
+
     //Generated Attributes
     private $departmentName;
     private $facultyName;
@@ -152,6 +153,20 @@ class Player
         return $players;
 
     }
+ 
+public function getInvolved($player)
+{
+
+}
+
+public function gotReturnedDate()
+{
+
+
+}
+
+
+
  public  function getInvolvedSports($playerId)
 {
  $con = Connection::getConnectionObject()->getConnection();
@@ -162,12 +177,12 @@ class Player
         }
 
         $playerSports = array(); //Make an empty array - don't mind the name
-        $stmt = $con->prepare('SELECT sport.id,sport.name, sport.description FROM sport,player_involved_in_sport,player WHERE  player.id=? AND player.id=player_involved_in_sport.player_id AND player_involved_in_sport.sport_id = sport.id ');
+        $stmt = $con->prepare('SELECT sport.id,sport.name, sport.description,player_involved_in_sport.end_date FROM sport,player_involved_in_sport,player WHERE  player.id=? AND player.id=player_involved_in_sport.player_id AND player_involved_in_sport.sport_id = sport.id ');
        
         $stmt->bind_param("s",$playerId);
         $stmt->execute();
 
-        $stmt->bind_result($id,$name,$description);
+        $stmt->bind_result($id,$name,$description,$endDate);
         while($stmt->fetch())
         {
             $sport = new Sport();
@@ -175,6 +190,7 @@ class Player
             //check here k
             $sport->setName($name);
             $sport->setDescription($description);
+            $sport ->endDate=$endDate;
       
           
           
@@ -211,6 +227,7 @@ class Player
             $achievement->setDescription($description);
             $achievement->setAchievedDate($achievedDate);
             $achievement->setPlayerInvolvedInSportId($playerInvolvedInSportId);
+            
           
           
 
@@ -234,11 +251,11 @@ class Player
         }
 
         $borrowedEquipments = array(); //Make an empty array - don't mind the name
-        $stmt = $con->prepare('SELECT equipment.id,equipment.name, equipment.description, equipment.amount FROM equipment,player,equipment_borrowed_by_player WHERE player.id = ? AND player.id=equipment_borrowed_by_player.player_id AND equipment_borrowed_by_player.equipment_id=equipment.id');
+        $stmt = $con->prepare('SELECT equipment.id,equipment.name, equipment.description, equipment.amount,equipment_borrowed_by_player.returned_time FROM equipment,player,equipment_borrowed_by_player WHERE player.id = ? AND player.id=equipment_borrowed_by_player.player_id AND equipment_borrowed_by_player.equipment_id=equipment.id');
         $stmt->bind_param("s",$player_id);
         $stmt->execute();
 
-        $stmt->bind_result($id,$name,$description,$amount);
+        $stmt->bind_result($id,$name,$description,$amount,$returnedTime);
         while($stmt->fetch())
         {
             $equipment = new Equipment();
@@ -246,7 +263,7 @@ class Player
             $equipment->setName($name);
             $equipment->setDescription($description);
             $equipment->setAmount($amount);
-        
+            $equipment->returnedTime=$returnedTime;
           
           
 
