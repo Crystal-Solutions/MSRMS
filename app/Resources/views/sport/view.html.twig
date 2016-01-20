@@ -26,18 +26,12 @@
 
   <tr>
   <td><b>Involved Players:</td>
-{%for p in players %}
- <td>{{p.name}}
- <a href="{{url('player_view',{'id':p.id})}}">{{ p.name|e }}</a>
- </td>
-{% endfor %}
+  {%for p in players%}
+  <td>
+   <a href="{{url('player_view',{'id':p.id})}}">{{ p.name|e }}</a>
+  </td>
+  {% endfor %}
   </tr>
-
-
-
-
-
-
 
 </table>
 {% endblock %}
