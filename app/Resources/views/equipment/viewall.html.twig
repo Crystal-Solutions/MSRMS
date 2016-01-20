@@ -19,6 +19,7 @@ All Equipment
 		<th>ID</th>
 		<th>Description</th>
 		<th>Amount</th>
+        <th>Available</th>
     </tr>
 
     {% for eq in equipments %}
@@ -35,6 +36,8 @@ All Equipment
 
         <td>{{ eq.amount|e }}
         </td>
+            <td>{{ eq.availableAmount|e }}
+            </td>
         </tr>
     {% endfor %}
 </table>
