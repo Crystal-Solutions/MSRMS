@@ -24,20 +24,22 @@
     <td>{{sport.description}}</td>
   </tr>
 
+
+
   <tr>
-  <td><b>Involved Players:</td>
+<td><b>Involved Players:</td>
+<td>
+<table style="width:100%">
 {%for p in players %}
- <td>{{p.name}}
- <a href="{{url('player_view',{'id':p.id})}}">{{ p.name|e }}</a>
+ <tr>
+ <td>
+<a href="{{url('player_view',{'id':p.id})}}">{{ p.name|e }}</a>
  </td>
+ </tr>
 {% endfor %}
-  </tr>
-
-
-
-
-
-
+</table>
+</td>
+</tr>
 
 </table>
 {% endblock %}

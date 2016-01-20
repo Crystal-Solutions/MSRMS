@@ -42,7 +42,7 @@
    <!-- <li class='last'><a href='#'><span>Contact</span></a></li> -->
 
 
-    <li><a href='{{url('logout')}}'><span>Logout</span></a></li>
+    <li><a href='{{url('logout')}}'><span>Logout ( {{ app.user.username }} )</span></a></li>
     {% endif %}
 
     {% if not is_granted('ROLE_ADMIN') %}
@@ -50,6 +50,8 @@
         <li><a href='{{url('login_route')}}'><span>Login</span></a></li>
         <li><a href='{{url('signup')}}'><span>Sign Up</span></a></li>
     {% endif %}
+
+
 </ul>
 </div>
 

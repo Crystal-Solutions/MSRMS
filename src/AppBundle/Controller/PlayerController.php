@@ -123,7 +123,7 @@ class PlayerController extends Controller
 
             $player->save();
 
-            return $this->redirectToRoute('player_viewall');
+            return $this->redirectToRoute('player_viewAll');
         }
 
         // replace this example code with whatever you need
@@ -143,6 +143,8 @@ class PlayerController extends Controller
         $achievements = $player->getPlayerAchievements($id);
         $borrowedEquipments = $player->getBorrowedEquipments($id);
         $reservedEquipments = $player -> getReservedEquipments($id);
+
+
         return $this->render('player/view.html.twig', array('player' =>$player, 'achievements'=>$achievements,'sports'=>$sports, 'borrowedEquipments'=>$borrowedEquipments, 'reservedEquipments'=>$reservedEquipments));  
 
     }
