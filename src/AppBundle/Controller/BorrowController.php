@@ -65,7 +65,8 @@ class BorrowController extends Controller
                 ))
             ->add('dueTime',DateTimeType::class,array(
                 'years'=>range(date('Y'),date('Y')+2)
-                ))                
+                ))   
+            ->add('issueDetails',TextType::class)                
             ->add('save', SubmitType::class, array('label' => 'Borrow Equipment'))
             ->getForm();
 
