@@ -126,3 +126,8 @@ form
     border-radius: 0px;
     /*margin-bottom: 20px;*/
 }
+
+
+#cssmenu ul li a {
+    text-transform: none;
+}

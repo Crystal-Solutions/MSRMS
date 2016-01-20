@@ -18,7 +18,6 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 
-
 class AllocateController extends Controller
 {
     /**
@@ -51,7 +50,11 @@ class AllocateController extends Controller
             $authorizingOfficerIds[$authorizingOfficer->getName()]= $authorizingOfficer->getId();
         }
         //------------------------------------------------------------------------
-        
+
+
+//      set current user as auth
+
+
         //Set the default borrowed time to current time
         // $sportHasResource->setBorrowedTime(new \DateTime('now'));
 
@@ -65,12 +68,14 @@ class AllocateController extends Controller
             'choices'  => $resourceIds,
             'choices_as_values' => true,
             'label'=>'Resource'
-                )) 
-            ->add('authorizing_officer_id',ChoiceType::class, array(
-            'choices'  => $authorizingOfficerIds,
-            'choices_as_values' => true,
-            'label'=>'Authorizing Officer'
-                ))    
+                ))
+
+//            Auth officer will be added as current user
+//            ->add('authorizing_officer_id',ChoiceType::class, array(
+//            'choices'  => $authorizingOfficerIds,
+//            'choices_as_values' => true,
+//            'label'=>'Authorizing Officer'
+//                ))
 
             ->add('save', SubmitType::class, array('label' => 'Allocate Resource'))
             ->getForm();
@@ -78,6 +83,10 @@ class AllocateController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            //Set current user as auth officer
+            $sportHasResource->setAuthorizingOfficerId($this->getUser()->getId());
+
             // ... perform some action, such as saving the task to the database
             $sportHasResource->save();
 
