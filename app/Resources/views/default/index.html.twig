@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}
+Welcome to the MoraSpirit Resource Management System
+{% endblock %}
+
 {% block body %}
     <div class="head">
       <div class="container">
@@ -95,18 +99,23 @@
         <div class="row">
           <div class="col-md-4">
             <h3>Equipment Management</h3>
-            <p>From apartments and rooms to treehouses and boats: stay in unique spaces in 192 countries.</p>
-            <p><a href="#">Equipments Store</a></p>
+            <p>See the Equipment available now on the Mora Spirit Stocks</p>
+            <p><a href="/msrms/web/app_dev.php/equipment/view">Equipments Store</a></p>
           </div>
           <div class="col-md-4">
-            <h3>Practices Management</h3>
-            <p>Renting out your unused space could pay your bills or fund your next vacation.</p>
-            <p><a href="#">Practice Schedules</a></p>
+            <h3>Resource Management</h3>
+            <p>See how the sports use and manage the available limited number of resources</p>
+            <p><a href="/msrms/web/app_dev.php/resource/view">Available Resources</a></p>
           </div>
           <div class="col-md-4">
             <h3>Player Information Management</h3>
-            <p>From Verified ID to our worldwide customer support team, we've got your back.</p>
-            <p><a href="#">Player Information</a></p>
+            <p>See who are involved in sports, the sports they are involved in and their positions</p>
+            <p><a href="/msrms/web/app_dev.php/player/view">Player Information</a></p>
+          </div>
+          <div class="col-md-4">
+            <h3>Sports Management</h3>
+            <p>See the sports that are currently there at University of Moratuwa</p>
+            <p><a href="/msrms/web/app_dev.php/sport/view">Sports List</a></p>
           </div>
         </div>
       </div>
