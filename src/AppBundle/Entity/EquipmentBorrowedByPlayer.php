@@ -31,6 +31,7 @@ class EquipmentBorrowedByPlayer
     public $indexNumber;
     public $equipmentName;
 
+
 // get index from id
     public function setIndexNumber($id)
     {
@@ -168,6 +169,8 @@ class EquipmentBorrowedByPlayer
         $stmt->close();
          
     }
+
+    
 
     /**
      * Set amount

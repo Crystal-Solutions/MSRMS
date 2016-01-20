@@ -15,15 +15,12 @@ class Equipment
 
 
     private $amount;
-
+    public $returnedTime;
 
     public $id;
 
     public function save()
     {
-
-      
-
         if($this->id ==null)
         {
            
@@ -36,8 +33,8 @@ class Equipment
         else
         {
         $con = Connection::getConnectionObject()->getConnection();
-        $stmt = $con->prepare('UPDATE player SET name =?,description=?,amount=? WHERE equipment.id = id');  
-        $stmt->bind_param("ssi",$this->name,$this->description,$this->amount);    
+        $stmt = $con->prepare('UPDATE equipment SET name =?,description=?,amount=? WHERE id=?');  
+        $stmt->bind_param("ssii",$this->name,$this->description,$this->amount,$this->id);    
         $stmt->execute();  
         $stmt->close();   
         }

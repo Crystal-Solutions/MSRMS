@@ -42,8 +42,27 @@ class PlayerInvolvedInSportController extends Controller
          $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            
             // ... perform some action, such as saving the task to the database
             $playerInvolvedInSport->save();
+
+            $con = Connection::getConnectionObject()->getConnection();
+            // Check connection
+            if (mysqli_connect_errno())
+            {
+                echo "Failed to connect to MySQL: " . mysqli_connect_error();
+            }
+
+            $stmt = $con->prepare('SELECT amount from equipmnt WHERE equippment.name=?');
+            $stmt->bind_param("s",$id);
+            $stmt->execute();
+
+            $stmt->bind_result($this->newAmount);
+            $stmt->fetch();
+            $stmt->close();
+            return $playerInvolvedInSport;
+
 
             return $this->redirectToRoute('task_success');
         }

@@ -75,5 +75,34 @@ class EquipmentController extends Controller
 
     }
 
+    /**
+     * @Route("/equipment/update/{id}", name="equipment_update")
+     */
+    public function updateAction( $id,Request $request)
+    {
+       
+        $equipment = Equipment::getOne($id); 
+
+        $form = $this->createFormBuilder($equipment)
+            ->add('name', TextType::class)
+            ->add('description', TextType::class)
+            ->add('amount',IntegerType::class)
+            ->add('save', SubmitType::class, array('label' => 'Update Equipment'))
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // ... perform some action, such as saving the task to the database
+            $equipment->save();
+
+            return $this->redirectToRoute('equipment_viewall');
+        }
+
+        // replace this example code with whatever you need
+        return $this->render('equipment/update.html.twig', array('form' => $form->createView()));
+
+    }
+
  
 }

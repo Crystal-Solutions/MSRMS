@@ -1,6 +1,18 @@
 {# app/Resources/views/default/new.html.twig #}
 {% extends 'base.html.twig' %}
 
+{% block title %}
+Equipment Details
+{% endblock %}
+
+{% block links %}
+    <div class="btn-group" >
+       <a href="{{url('equipment_update',{'id':equipment.id})}}"> <button type="button" class="btn btn-xs btn-warning">Update Equipment
+       </button></a>
+    </div>
+{% endblock %}
+
+
 {% block body %}
 <head>
 <style>

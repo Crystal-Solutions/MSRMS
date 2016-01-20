@@ -15,6 +15,7 @@ use AppBundle\Controller\Connection;
 
 
     public $id;
+    public $endDate;
 
     public function save()
     {
