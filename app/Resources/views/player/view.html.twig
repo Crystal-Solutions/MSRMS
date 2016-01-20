@@ -62,12 +62,28 @@ Player Details
 
   <tr>
   <td><b>Achievements:</td>
+<td>
+
+<table style="width:100%">
+
 {%for ach in achievements %}
+ <tr>
  <td>
  <a href="{{url('achievement_view',{'id':ach.id})}}">{{ ach.title|e }}</a>
  </td>
+ </tr>
+
 {% endfor %}
-  <tr>
+
+
+</table>
+
+</td>
+  </tr>
+
+
+
+
 
   <tr>
     <td><b>Involved Sports:</td>
