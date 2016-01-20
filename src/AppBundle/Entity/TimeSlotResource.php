@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 
 
+use AppBundle\Controller\Connection;
 class TimeSlotResource
 {
 
@@ -19,23 +20,24 @@ class TimeSlotResource
     private $id;
 
 
-    private $sportHasResource;
+    private $sportHasResourceId;
 
 
     public function save()
     {
-        $this->startTime = $this->startTime?$this->startTime->format('H-i'):null;
-        $this->endTime = $this->endTime?$this->endTime->format('H-i'):null;
+        $startTime = $this->startTime?$this->startTime->format('H-i'):null;
+        $endTime = $this->endTime?$this->endTime->format('H-i'):null;
+
 
         $con = Connection::getConnectionObject()->getConnection();
         if ($this->id == null) {
-            $stmt = $con->prepare('INSERT INTO time_slot_resource (sport_has_resource_id,start_time,end_time,day) VALUES (?,?,?.?)');  
-            $stmt->bind_param("isss",$this->sportHasResource,$this->startTime,$this->endTime,$this->day);  
+            $stmt = $con->prepare('INSERT INTO time_slot_resource (sport_has_resource_id,start_time,end_time,`day`) VALUES (?,?,?,?)');
+            $stmt->bind_param("isss",$this->sportHasResourceId,$startTime,$endTime,$this->day);
             $stmt->execute();  
             $stmt->close();
         }else{
-            $stmt = $con->prepare('UPDATE time_slot_resource SET (sport_has_resource_id,start_time,end_time,day) VALUES (?,?,?.?)');  
-            $stmt->bind_param("isss",$this->sportHasResource,$this->startTime,$this->endTime,$this->day);  
+            $stmt = $con->prepare('UPDATE time_slot_resource SET (sport_has_resource_id,start_time,end_time,`day`) VALUES (?,?,?,?)');
+            $stmt->bind_param("isss",$this->sportHasResourceId,$startTime,$endTime,$this->day);
             $stmt->execute();  
             $stmt->close();
         }
@@ -60,7 +62,7 @@ class TimeSlotResource
 
         $t = new TimeSlotResource();
 
-        $stmt->bind_result($t->sportHasResource,$t->startTime,$t->endTime,$t->day);
+        $stmt->bind_result($t->sportHasResourceId,$t->startTime,$t->endTime,$t->day);
         $stmt->fetch();
         $stmt->close();
         return $slot;
@@ -83,7 +85,7 @@ class TimeSlotResource
             while ( $stmt->fetch() ) {
                 $slot = new TimeSlotResource();
                 $slot->id = $id;
-                $slot->sportHasResource = $sportHasResource;
+                $slot->sportHasResourceId = $sportHasResource;
                 $slot->startTime = $startTime;
                 $slot->endTime = $endTime;
                 $slot->day = $day;
@@ -97,13 +99,6 @@ class TimeSlotResource
         return false;     
     }
 
-    /**
-     * Set startTime
-     *
-     * @param \DateTime $startTime
-     *
-     * @return TimeSlotResource
-     */
     public function setStartTime($startTime)
     {
         $this->startTime = $startTime;
@@ -111,23 +106,11 @@ class TimeSlotResource
         return $this;
     }
 
-    /**
-     * Get startTime
-     *
-     * @return \DateTime
-     */
     public function getStartTime()
     {
         return $this->startTime;
     }
 
-    /**
-     * Set endTime
-     *
-     * @param \DateTime $endTime
-     *
-     * @return TimeSlotResource
-     */
     public function setEndTime($endTime)
     {
         $this->endTime = $endTime;
@@ -135,23 +118,13 @@ class TimeSlotResource
         return $this;
     }
 
-    /**
-     * Get endTime
-     *
-     * @return \DateTime
-     */
+
     public function getEndTime()
     {
         return $this->endTime;
     }
 
-    /**
-     * Set day
-     *
-     * @param string $day
-     *
-     * @return TimeSlotResource
-     */
+
     public function setDay($day)
     {
         $this->day = $day;
@@ -159,47 +132,29 @@ class TimeSlotResource
         return $this;
     }
 
-    /**
-     * Get day
-     *
-     * @return string
-     */
+
     public function getDay()
     {
         return $this->day;
     }
 
-    /**
-     * Get id
-     *
-     * @return integer
-     */
+
     public function getId()
     {
         return $this->id;
     }
 
-    /**
-     * Set sportHasResource
-     *
-     * @param \AppBundle\Entity\SportHasResource $sportHasResource
-     *
-     * @return TimeSlotResource
-     */
-    public function setSportHasResource(\AppBundle\Entity\SportHasResource $sportHasResource = null)
+
+    public function setSportHasResourceId( $sportHasResourceId )
     {
-        $this->sportHasResource = $sportHasResource;
+        $this->sportHasResourceId = $sportHasResourceId;
 
         return $this;
     }
 
-    /**
-     * Get sportHasResource
-     *
-     * @return \AppBundle\Entity\SportHasResource
-     */
-    public function getSportHasResource()
+
+    public function getSportHasResourceId()
     {
-        return $this->sportHasResource;
+        return $this->sportHasResourceId;
     }
 }

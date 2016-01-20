@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\TimeSlotResource;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,6 +13,7 @@ use AppBundle\Entity\AuthorizingOfficer;
 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -21,9 +23,9 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 class AllocateController extends Controller
 {
     /**
-     * @Route("/allocate/", name="allocate_home")
+     * @Route("/allocate/resource/", name="allocate_resource")
      */
-    public function indexAction(Request $request)
+    public function allocateResourceAction(Request $request)
     {
         $sportHasResource = new SportHasResource(); 
 
@@ -95,6 +97,51 @@ class AllocateController extends Controller
 
         // replace this example code with whatever you need
         return $this->render('usecases/allocate_home.html.twig', array('form' => $form->createView()));
+    }
+
+
+
+//    Time Slot
+    /**
+     * @Route("/allocate/resource/addtimeslot/{id}", name="allocate_resource_addtimeslot")
+     */
+    public function addTimeSlotResource($id, Request $request)
+    {
+        $sportHasResource = SportHasResource::getOne($id);
+
+        $sport = Sport::getOne($sportHasResource->getSportId());
+        $resource = Resource::getOne($sportHasResource->getResourceId());
+
+        $timeSlot = new TimeSlotResource();
+
+        $form = $this->createFormBuilder($timeSlot)
+            ->add('startTime',TimeType::class)
+            ->add('endTime',TimeType::class)
+            ->add('day',ChoiceType::class, array(
+                'choices'=>array('Sunday'=>'Sunday',
+                    'Monday'=>'Monday',
+                    'Tuesday'=>'Tuesday',
+                    'Wednesday'=>'Wednesday',
+                    'Thursday'=>'Thursday',
+                    'Friday'=>'Friday',
+                    'Saturday'=>'Saturday')
+            ))
+            ->add('save', SubmitType::class, array('label' => 'Allocate Resource'))
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // ... perform some action, such as saving the task to the database
+
+            $timeSlot->setSportHasResourceId($id);
+            $timeSlot->save();
+
+            return $this->redirectToRoute('task_success');
+        }
+
+        // replace this example code with whatever you need
+        return $this->render('sportHasResource/create.html.twig', array('form' => $form->createView(),'sport'=> $sport->getName(), 'resource'=> $resource->getName() ));
     }
 
     

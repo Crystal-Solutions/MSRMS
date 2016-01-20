@@ -123,7 +123,7 @@ class AuthorizingOfficer implements UserInterface, \Serializable
     public function validate()
     {
         $this->errorMessage = "";
-        if ( ( (!preg_match("/([\d]{10}/", $this->contactNu)) && strlen($this->contactNu)!=10 ) )
+        if ( ( (!preg_match("/([\d]{10})/", $this->contactNu)) && strlen($this->contactNu)!=10 ) )
             $this->errorMessage = "Contact Number is not valid";
 
        $authOfficers = AuthorizingOfficer::getAll();
