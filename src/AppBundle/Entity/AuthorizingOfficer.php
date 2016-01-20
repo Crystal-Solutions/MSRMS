@@ -221,6 +221,7 @@ class AuthorizingOfficer implements UserInterface, \Serializable
         return false;     
     }
 
+
     /**
      * Set name
      *

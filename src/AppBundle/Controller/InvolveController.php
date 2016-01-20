@@ -68,7 +68,7 @@ class InvolveController extends Controller
             // ... perform some action, such as saving the task to the database
             $playerInvolvedInSport->save();
 
-            return $this->redirectToRoute('task_success');
+            return $this->redirectToRoute('playerInvolvedInSport_viewAll');
         }
 
         // replace this example code with whatever you need
