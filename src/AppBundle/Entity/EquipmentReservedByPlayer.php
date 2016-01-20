@@ -46,7 +46,13 @@ class EquipmentReservedByPlayer
 
             $this->errorMessage = "End date should be higher than the start date";
 
+        $equipment = Equipment::getOne($this->equipment_id);
+        $available = $equipment->getAvailableAmount();
+
+        if($this->amount > $available) $this->errorMessage="This much amount of equipment is not available in stocks";
+
         return $this->errorMessage == "";
+
     }
 
     public function save()
@@ -144,6 +150,7 @@ class EquipmentReservedByPlayer
         $stmt->close();
          
     }
+
 
     /**
      * @return mixed

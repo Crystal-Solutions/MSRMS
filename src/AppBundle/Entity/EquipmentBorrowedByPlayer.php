@@ -63,9 +63,12 @@ class EquipmentBorrowedByPlayer
         if(strtotime($this->dueTime->format('Y-m-d H-i-s')) > strtotime("+0 YEAR","+0 MONTH","-1 DAY") || strtotime($this->dueTime->format('Y-m-d H-i-s')) < strtotime("+0 YEAR","+0 MONTH","+0 DAY"))
             $this->errorMessage = "Due Time is not valid";**/
 
-        if(($this->borrowedTime) > ($this->dueTime))$this->errorMessage="Due Time should be a date after Borrowed Time";
+        if(($this->borrowedTime) > ($this->dueTime)) $this->errorMessage="Due Time should be a date after Borrowed Time";
        
+        $equipment = Equipment::getOne($this->equipment_id);
+        $available = $equipment->getAvailableAmount();
 
+        if($this->amount > $available) $this->errorMessage="This much amount of equipment is not available in stocks";
 
         //Return true if error message is "" (no eror)
         //Else return false

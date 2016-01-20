@@ -50,7 +50,7 @@ class EquipmentReservedByPlayerController extends Controller
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid() &&  $equipmentReservedByPlayer->validate()) {
             // ... perform some action, such as saving the task to the database
 
             $equipmentReservedByPlayer->save();

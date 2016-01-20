@@ -53,6 +53,7 @@ class ReserveController extends Controller
         
         //Set the default reserved time to current time
         $equipmentReservedByPlayer->SetStart(new \DateTime('now'));
+        $equipmentReservedByPlayer->SetEnd(new \DateTime('now'));
 
         $form = $this->createFormBuilder($equipmentReservedByPlayer)
             ->add('equipment_id',ChoiceType::class, array(
