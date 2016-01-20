@@ -135,4 +135,6 @@ form
 
 #cssmenu ul li a {
     text-transform: none;
+    padding: 15px 20px 15px 1px;
+
 }

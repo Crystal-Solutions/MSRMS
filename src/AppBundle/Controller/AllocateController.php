@@ -115,8 +115,9 @@ class AllocateController extends Controller
         $timeSlot = new TimeSlotResource();
 
         $form = $this->createFormBuilder($timeSlot)
-            ->add('startTime',TimeType::class)
-            ->add('endTime',TimeType::class)
+            ->add('startTime',TimeType::class ,
+                array('input'  => 'string'))
+            ->add('endTime',TimeType::class, array('input'  => 'string'))
             ->add('day',ChoiceType::class, array(
                 'choices'=>array('Sunday'=>'Sunday',
                     'Monday'=>'Monday',
@@ -126,22 +127,22 @@ class AllocateController extends Controller
                     'Friday'=>'Friday',
                     'Saturday'=>'Saturday')
             ))
-            ->add('save', SubmitType::class, array('label' => 'Allocate Resource'))
+            ->add('save', SubmitType::class, array('label' => 'Add Time Slot'))
             ->getForm();
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid() && $timeSlot->validate()) {
             // ... perform some action, such as saving the task to the database
 
             $timeSlot->setSportHasResourceId($id);
             $timeSlot->save();
 
-            return $this->redirectToRoute('task_success');
+            return $this->redirectToRoute('sportHasResource_view',array('id'=>$id));
         }
 
         // replace this example code with whatever you need
-        return $this->render('sportHasResource/create.html.twig', array('form' => $form->createView(),'sport'=> $sport->getName(), 'resource'=> $resource->getName() ));
+        return $this->render('sportHasResource/create.html.twig', array('form' => $form->createView(),'sport'=> $sport->getName(), 'resource'=> $resource->getName(), 'error'=>$timeSlot->errorMessage ));
     }
 
     

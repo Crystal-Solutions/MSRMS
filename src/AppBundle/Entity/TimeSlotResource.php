@@ -8,25 +8,26 @@ use AppBundle\Controller\Connection;
 class TimeSlotResource
 {
 
-    private $startTime;
+    public $startTime;
 
 
-    private $endTime;
+    public $endTime;
 
 
-    private $day;
+    public $day;
 
 
-    private $id;
+    public $id;
 
 
-    private $sportHasResourceId;
+    public $sportHasResourceId;
 
+    public $errorMessage;
 
     public function save()
     {
-        $startTime = $this->startTime?$this->startTime->format('H-i'):null;
-        $endTime = $this->endTime?$this->endTime->format('H-i'):null;
+        $startTime = $this->startTime;
+        $endTime = $this->endTime;
 
 
         $con = Connection::getConnectionObject()->getConnection();
@@ -42,6 +43,15 @@ class TimeSlotResource
             $stmt->close();
         }
         $con->close();
+    }
+
+    public function validate()
+    {
+        $this->errorMessage = "";
+        if(strtotime($this->endTime)<=strtotime($this->startTime))
+            $this->errorMessage = "Start time should be less than end time";
+
+        return $this->errorMessage=="";
     }
 
     public static function getOne($id){
@@ -65,6 +75,8 @@ class TimeSlotResource
         $stmt->bind_result($t->sportHasResourceId,$t->startTime,$t->endTime,$t->day);
         $stmt->fetch();
         $stmt->close();
+
+
         return $slot;
     }
 
@@ -97,6 +109,21 @@ class TimeSlotResource
         }
         $stmt->close();
         return false;     
+    }
+
+    public static function delete($id)
+    {
+        $con = Connection::getConnectionObject()->getConnection();
+        // Check connection
+        if (mysqli_connect_errno()) {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
+
+
+        $stmt = $con->prepare('DELETE  FROM time_slot_resource WHERE id=?');
+        $stmt->bind_param("s", $id);
+        $stmt->execute();
+        $stmt->close();
     }
 
     public function setStartTime($startTime)

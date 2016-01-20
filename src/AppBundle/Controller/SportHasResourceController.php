@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\TimeSlotResource;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -61,7 +62,8 @@ class SportHasResourceController extends Controller
     public function viewAction($id, Request $request)
     {
         $sportHasResource =  SportHasResource::getOne($id);
-        return $this->render('sportHasResource/view.html.twig', array('sportHasResource' =>$sportHasResource));  
+        $slots = $sportHasResource->getTimeSlots();
+        return $this->render('sportHasResource/view.html.twig', array('sportHasResource' =>$sportHasResource, 'slots'=>$slots));
     }
 
     /**
@@ -83,6 +85,18 @@ class SportHasResourceController extends Controller
     {
         SportHasResource::delete($id);
         return $this->redirectToRoute('sportHasResource_viewAll');
+
+    }
+
+
+    /**
+     * @Route("/sportHasResource/delete/timeslot/{id}", name="sportHasResource_deleteTimeslot")
+     */
+    public function deleteTimeslotAction($id, Request $request)
+    {
+        TimeSlotResource::delete($id);
+        return $this->redirect($request->headers->get('referer'));
+        //return $this->redirectToRoute('sportHasResource_viewAll');
 
     }
 

@@ -7,10 +7,67 @@ Allocated Equipment details
 
 {% block body %}
 
-{{sportHasResource.id}}<br>
-{{sportHasResource.sportName}}<br>
-{{sportHasResource.resourceName}}<br>
-{{sportHasResource.authorizingOfficerName}}<br>
 
+
+
+
+<table style="width:100%">
+
+
+<tr>
+    <td>
+       <b>Sport</b>
+    </td>
+    <td>
+        {{ sportHasResource.sportName }}
+    </td>
+</tr>
+
+    <tr>
+        <td>
+            <b>Resource</b>
+        </td>
+        <td>
+            {{ sportHasResource.resourceName }}
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <b>Authorized by</b>
+        </td>
+        <td>
+            {{ sportHasResource.authorizingOfficerName }}
+        </td>
+    </tr>
+
+
+
+    <tr>
+        <td>
+            <b>Time Slots</b>
+        </td>
+        <td>
+                <ul>
+                    {%for slot in slots %}
+
+
+                        <li>
+
+                            {{ slot.day }} from <small>{{  slot.startTime }}</small> to <small>{{ slot.endTime }}</small>. <a style="color: red;" href="{{ url('sportHasResource_deleteTimeslot',{id:slot.id}) }}">remove</a>
+
+                        </li>
+                    {% endfor %}
+
+                    <li>
+                        <a href="{{ url('allocate_resource_addtimeslot',{id:sportHasResource.id}) }}">add more</a>
+                    </li>
+                </ul>
+        </td>
+    </tr>
+
+
+
+</table>
 {% endblock %}
 

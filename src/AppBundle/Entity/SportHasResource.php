@@ -128,6 +128,42 @@ class SportHasResource
          
     }
 
+    public function getTimeSlots()
+    {
+        $con = Connection::getConnectionObject()->getConnection();
+        // Check connection
+        if (mysqli_connect_errno())
+        {
+            echo "Failed to connect to MySQL: " . mysqli_connect_error();
+        }
+
+        $stmt = $con->prepare('SELECT id,sport_has_resource_id,start_time,end_time,day FROM time_slot_resource where sport_has_resource_id=?');
+        $stmt->bind_param("i",$this->id);
+        $slots = array();
+
+        if ($stmt->execute()) {
+            $stmt->bind_result($id,$sportHasResource,$startTime,$endTime,$day);
+
+            while ( $stmt->fetch() ) {
+                $slot = new TimeSlotResource();
+                $slot->id = $id;
+                $slot->sportHasResourceId = $sportHasResource;
+                $slot->startTime = $startTime;
+                $slot->endTime = $endTime;
+                $slot->day = $day;
+
+                $slots[] = $slot;
+            }
+            $stmt->close();
+            return $slots;
+
+        }
+        $stmt->close();
+        return false;
+
+
+    }
+
     /**
      * Get id
      *
