@@ -85,6 +85,7 @@ class SportHasResourceController extends Controller
         return $this->redirectToRoute('sportHasResource_viewAll');
 
     }
-    
+
+
  
 }

@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -69,7 +70,7 @@ class SecurityController extends Controller
 
         $form = $this->createFormBuilder($authorizingOfficer)
             ->add('name', TextType::class)
-            ->add('contactNu', TextType::class)
+            ->add('contactNu', TextType::class,array('label' => 'Contact Number'))
             ->add('username', TextType::class)
             ->add('password', RepeatedType::class, array(
                 'type' => PasswordType::class,
@@ -79,13 +80,13 @@ class SecurityController extends Controller
                 'first_options'  => array('label' => 'Password'),
                 'second_options' => array('label' => 'Repeat Password'),
             ))
-            ->add('email', TextType::class)
+            ->add('email', EmailType::class)
             ->add('save', SubmitType::class, array('label' => 'Sign Up'))
             ->getForm();
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid() && $authorizingOfficer->validate()) {
             // ... perform some action, such as saving the task to the database
 
             $factory = $this->get('security.encoder_factory');
@@ -103,7 +104,8 @@ class SecurityController extends Controller
         }
 
 
-        $error = ""; //Set a valid error
+        $error = $authorizingOfficer->getError(); //Set a valid error
+
 
         // replace this example code with whatever you need
         return $this->render('security/signup.html.twig', array('form' => $form->createView(),'error'         => $error,));
