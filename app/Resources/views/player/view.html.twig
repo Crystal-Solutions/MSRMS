@@ -63,21 +63,15 @@ Player Details
   <tr>
   <td><b>Achievements:</td>
 <td>
-
 <table style="width:100%">
-
 {%for ach in achievements %}
  <tr>
  <td>
  <a href="{{url('achievement_view',{'id':ach.id})}}">{{ ach.title|e }}</a>
  </td>
  </tr>
-
 {% endfor %}
-
-
 </table>
-
 </td>
   </tr>
 
@@ -85,32 +79,55 @@ Player Details
 
 
 
+
   <tr>
-    <td><b>Involved Sports:</td>
+  <td><b>Involved Sports:</td>
+<td>
+<table style="width:100%">
 {%for sport in sports %}
+ <tr>
  <td>
- <a href="{{url('sport_view',{'id':sport.id})}}">{{ sport.name|e }}</a>
+  <a href="{{url('sport_view',{'id':sport.id})}}">{{ sport.name|e }}</a>
  </td>
+ </tr>
 {% endfor %}
+</table>
+</td>
   </tr>
 
-  <tr>
-  <td><b>Borrowed Equipments:</td>
+
+
+<tr>
+<td><b>Borrowed Equipments</td>
+<td>
+<table style="width:100%">
 {%for eq in borrowedEquipments %}
+ <tr>
  <td>
  <a href="{{url('equipment_view',{'id':eq.id})}}">{{ eq.name|e }}</a>
  </td>
+ </tr>
 {% endfor %}
-  </tr>
+</table>
+</td>
+</tr>
 
-  <tr>
-  <td><b>Reserved Equipments:</td>
-{%for eq in reservedEquipments %}
+
+
+<tr>
+<td><b>Reserved Equipments:</td>
+<td>
+<table style="width:100%">
+{%for eq in reservedEquipments  %}
+ <tr>
  <td>
  <a href="{{url('equipment_view',{'id':eq.id})}}">{{ eq.name|e }}</a>
  </td>
+ </tr>
 {% endfor %}
-  </tr>
+</table>
+</td>
+</tr>
 
 
 
