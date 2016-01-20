@@ -18,6 +18,7 @@ Allocated resources to sports
 		<th>Resource Name</th>
         <th>Sport Name</th>
         <th>Auth. Officer Name</th>
+        <th>Actions</th>
 	</tr>
 
     {% for shs in sportHasResources %}
@@ -25,7 +26,8 @@ Allocated resources to sports
         <td>{{ shs.resourceName|e}}
         </td>
         
-        <td>{{ shs.sportName|e}}
+        <td>
+            <a href="{{ url('sportHasResource_view', {'id':shs.id}) }}">{{ shs.sportName|e}}</a>
         </td>
 
 		<td>{{ shs.authorizingOfficerName|e }}
@@ -33,7 +35,11 @@ Allocated resources to sports
 
         <td>
         <div class="btn-group" >
-        <a onclick="if(confirm('Are you sure you want to delete?')) window.location.assign('{{url('sportHasResource_delete',{'id':shs.id})}}')"> <button type="button" class="btn btn-xs btn-danger">Delete</button></a>
+            <a href="{{ url('allocate_resource_addtimeslot', {'id':shs.id}) }}"><button type="button" class="btn btn-xs btn-primary">Add Time Slots</button></a>
+
+            <a onclick="if(confirm('Are you sure you want to delete?')) window.location.assign('{{url('sportHasResource_delete',{'id':shs.id})}}')"> <button type="button" class="btn btn-xs btn-danger">Delete</button></a>
+
+
         </div>
         </td>
 

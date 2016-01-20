@@ -83,18 +83,18 @@ Player Details
   <tr>
   <td><b>Involved Sports:</td>
 <td>
-<table style="width:100%">
+<ul>
 {%for sport in sports %}
 
 
- <tr>
- <td>
+ <li>
+
   <a href="{{url('sport_view',{'id':sport.id})}}">{{ sport.name|e }}</a>
- {%if sport.endDate !=null %} <b>(Involvement Finished){% endif %}
- </td>
- </tr>
+ {%if sport.endDate !=null %} <b>(Involvement Finished)</b>{% endif %}
+
+ </li>
 {% endfor %}
-</table>
+</ul>
 </td>
   </tr>
 
@@ -103,16 +103,15 @@ Player Details
 <tr>
 <td><b>Borrowed Equipments</td>
 <td>
-<table style="width:100%">
+<ul>
 {%for eq in borrowedEquipments %}
- <tr>
- <td>
+ <li>
  <a href="{{url('equipment_view',{'id':eq.id})}}">{{ eq.name|e }}</a>
   {%if eq.returnedTime !=null %} <b>(Equipment Returned){% endif %}
- </td>
- </tr>
+
+ </li>
 {% endfor %}
-</table>
+</ul>
 </td>
 </tr>
 
@@ -121,15 +120,19 @@ Player Details
 <tr>
 <td><b>Reserved Equipments:</td>
 <td>
-<table style="width:100%">
+
+
+<ul style="width:100%">
 {%for eq in reservedEquipments  %}
- <tr>
- <td>
+
+ <li>
  <a href="{{url('equipment_view',{'id':eq.id})}}">{{ eq.name|e }}</a>
- </td>
- </tr>
+ </li>
+
 {% endfor %}
-</table>
+</ul>
+
+
 </td>
 </tr>
 

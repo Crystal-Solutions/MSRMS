@@ -115,8 +115,9 @@ class AllocateController extends Controller
         $timeSlot = new TimeSlotResource();
 
         $form = $this->createFormBuilder($timeSlot)
-            ->add('startTime',TimeType::class)
-            ->add('endTime',TimeType::class)
+            ->add('startTime',TimeType::class ,
+                array('input'  => 'string'))
+            ->add('endTime',TimeType::class, array('input'  => 'string'))
             ->add('day',ChoiceType::class, array(
                 'choices'=>array('Sunday'=>'Sunday',
                     'Monday'=>'Monday',
@@ -126,7 +127,7 @@ class AllocateController extends Controller
                     'Friday'=>'Friday',
                     'Saturday'=>'Saturday')
             ))
-            ->add('save', SubmitType::class, array('label' => 'Allocate Resource'))
+            ->add('save', SubmitType::class, array('label' => 'Add Time Slot'))
             ->getForm();
 
         $form->handleRequest($request);
@@ -137,7 +138,7 @@ class AllocateController extends Controller
             $timeSlot->setSportHasResourceId($id);
             $timeSlot->save();
 
-            return $this->redirectToRoute('task_success');
+            return $this->redirectToRoute('sportHasResource_view',array('id'=>$id));
         }
 
         // replace this example code with whatever you need
