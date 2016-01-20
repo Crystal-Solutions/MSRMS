@@ -150,7 +150,7 @@ class PlayerController extends Controller
     }
 
     /**
-     * @Route("/player/view", name="player_viewall")
+     * @Route("/player/view", name="player_viewAll")
      */
     public function viewallAction( Request $request)
     {

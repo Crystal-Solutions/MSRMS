@@ -100,7 +100,7 @@ class EquipmentController extends Controller
         }
 
         // replace this example code with whatever you need
-        return $this->render('equipment/create.html.twig', array('form' => $form->createView()));
+        return $this->render('equipment/update.html.twig', array('form' => $form->createView()));
 
     }
 
