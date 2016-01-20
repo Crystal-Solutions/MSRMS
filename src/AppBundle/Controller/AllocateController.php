@@ -92,7 +92,7 @@ class AllocateController extends Controller
             // ... perform some action, such as saving the task to the database
             $sportHasResource->save();
 
-            return $this->redirectToRoute('task_success');
+            return $this->redirectToRoute('sportHasResource_viewAll');
         }
 
         // replace this example code with whatever you need

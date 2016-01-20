@@ -77,7 +77,7 @@ class BorrowController extends Controller
             // ... perform some action, such as saving the task to the database
             $equipmentBorrowedByPlayer->save();
 
-            return $this->redirectToRoute('task_success');
+            return $this->redirectToRoute('equipmentBorrowedByPlayer_viewAll');
         }
 
         // replace this example code with whatever you need
