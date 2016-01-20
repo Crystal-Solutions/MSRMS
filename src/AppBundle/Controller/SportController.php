@@ -51,7 +51,7 @@ class SportController extends Controller
             $em->persist($sport);
             $em->flush();*/
 
-            return $this->redirectToRoute('task_success');
+            return $this->redirectToRoute('sport_viewAll');
         }
 
 

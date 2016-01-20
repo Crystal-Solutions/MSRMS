@@ -27,7 +27,7 @@ Allocated resources to sports
         </td>
         
         <td>
-            <a href="{{ url('sportHasResource_view', {'id':shs.id}) }}">{{ shs.sportName|e}}</a>
+            {{ shs.sportName|e}}
         </td>
 
 		<td>{{ shs.authorizingOfficerName|e }}
@@ -35,6 +35,9 @@ Allocated resources to sports
 
         <td>
         <div class="btn-group" >
+
+            <a href="{{ url('sportHasResource_view', {'id':shs.id}) }}"><button type="button" class="btn btn-xs btn-success">View</button></a>
+
             <a href="{{ url('allocate_resource_addtimeslot', {'id':shs.id}) }}"><button type="button" class="btn btn-xs btn-primary">Add Time Slots</button></a>
 
             <a onclick="if(confirm('Are you sure you want to delete?')) window.location.assign('{{url('sportHasResource_delete',{'id':shs.id})}}')"> <button type="button" class="btn btn-xs btn-danger">Delete</button></a>
