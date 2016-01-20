@@ -132,7 +132,7 @@ class AllocateController extends Controller
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid() && $timeSlot->validate()) {
             // ... perform some action, such as saving the task to the database
 
             $timeSlot->setSportHasResourceId($id);
@@ -142,7 +142,7 @@ class AllocateController extends Controller
         }
 
         // replace this example code with whatever you need
-        return $this->render('sportHasResource/create.html.twig', array('form' => $form->createView(),'sport'=> $sport->getName(), 'resource'=> $resource->getName() ));
+        return $this->render('sportHasResource/create.html.twig', array('form' => $form->createView(),'sport'=> $sport->getName(), 'resource'=> $resource->getName(), 'error'=>$timeSlot->errorMessage ));
     }
 
     

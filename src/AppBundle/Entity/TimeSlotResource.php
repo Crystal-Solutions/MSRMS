@@ -22,11 +22,12 @@ class TimeSlotResource
 
     public $sportHasResourceId;
 
+    public $errorMessage;
 
     public function save()
     {
-        $startTime = $this->startTime?$this->startTime:null;
-        $endTime = $this->endTime?$this->endTime:null;
+        $startTime = $this->startTime;
+        $endTime = $this->endTime;
 
 
         $con = Connection::getConnectionObject()->getConnection();
@@ -46,7 +47,11 @@ class TimeSlotResource
 
     public function validate()
     {
+        $this->errorMessage = "";
+        if(strtotime($this->endTime)<=strtotime($this->startTime))
+            $this->errorMessage = "Start time should be less than end time";
 
+        return $this->errorMessage=="";
     }
 
     public static function getOne($id){

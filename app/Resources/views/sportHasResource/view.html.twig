@@ -54,7 +54,7 @@ Allocated Equipment details
 
                         <li>
 
-                            {{ slot.day }} from <small>{{  slot.startTime }}</small> to <small>{{ slot.endTime }}</small> <a style="color: red;" href="{{ url('sportHasResource_deleteTimeslot',{id:slot.id}) }}">remove</a>
+                            {{ slot.day }} from <small>{{  slot.startTime }}</small> to <small>{{ slot.endTime }}</small>. <a style="color: red;" href="{{ url('sportHasResource_deleteTimeslot',{id:slot.id}) }}">remove</a>
 
                         </li>
                     {% endfor %}

@@ -6,6 +6,7 @@ Add a time slot for resource allocation ( {{ resource }} -> {{ sport }} )
 {% endblock %}
 
 {% block body %}
+    <span style="color: red;">{{ error }}</span>
 {{ form_start(form) }}
 {{ form_widget(form) }}
 {{ form_end(form) }}    
