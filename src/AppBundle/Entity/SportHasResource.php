@@ -115,6 +115,12 @@ class SportHasResource
             echo "Failed to connect to MySQL: " . mysqli_connect_error();
         }
 
+
+        $stmt = $con->prepare('DELETE  FROM time_slot_resource WHERE sport_has_resource_id=?');
+        $stmt->bind_param("s",$id);
+        $stmt->execute();
+        $stmt->close();
+
         $stmt = $con->prepare('DELETE FROM sport_has_resource WHERE id=?');
         $stmt->bind_param("s",$id);
         $stmt->execute();
