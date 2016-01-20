@@ -70,7 +70,7 @@ class ReserveController extends Controller
 
             ->add('start',DateTimeType::class)
             ->add('end',DateTimeType::class)
-            ->add('amount',IntegerType::class)
+            ->add('amount',IntegerType::class,array('attr'=>(array('min'=>1))))
 
             ->add('authorizing_officer_id',ChoiceType::class, array(
             'choices'  => $authIds,
