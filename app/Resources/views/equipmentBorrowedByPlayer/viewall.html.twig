@@ -53,11 +53,19 @@ All Borrowed Equipments
 	<td>{{ user.dueTime|e }}
 	</td>
 
-	<td>{{ user.returnedTime|e }}
+	<td>
+		{%if user.returnedTime ==null %}
+			<a href="{{url('equipmentBorrowedByPlayer_return',{'id':user.id})}}"> <button type="button" class="btn btn-xs btn-danger">Return</button></a>
+
+		{% else %}
+			{{ user.returnedTime|e }}
+		{% endif %}
 	</td>
 
 	<td>{{ user.issueDetails|e }}
 	</td>
+
+
 	</tr>
 
 <!-------------------------------------------commented out--------------------------------------------------------

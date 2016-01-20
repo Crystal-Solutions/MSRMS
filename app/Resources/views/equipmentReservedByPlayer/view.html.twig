@@ -9,12 +9,34 @@ Reserved Equipment Details
 
 {% block body %}
 
-{{equip.id}}<br>
-{{equip.eqName}}<br>
-{{equip.playerName}}<br>
-{{equip.start}}<br>
-{{equip.end}}<br>
-{{equip.amount}}<br>
-{{equip.authOfficerName}}<br>
+    <table width="100%">
+
+        <tr>
+            <td>Equipment</td>
+            <td>{{equip.eqName}}</td>
+        </tr>
+
+        <tr>
+            <td>Player</td>
+            <td>{{ equip.playerName }}</td>
+        </tr>
+        <tr>
+            <td>From</td>
+            <td>{{equip.start}}</td>
+        </tr>
+        <tr>
+            <td>To</td>
+            <td>{{equip.end}}</td>
+        </tr>
+        <tr>
+            <td>Amount</td>
+            <td>{{equip.amount}}</td>
+        </tr>
+        <tr>
+            <td>Authorized by</td>
+            <td>{{equip.authOfficerName}}</td>
+        </tr>
+    </table>
+
 
 {% endblock %}

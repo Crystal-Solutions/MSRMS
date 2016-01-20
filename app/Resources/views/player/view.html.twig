@@ -22,10 +22,7 @@ Player Details
 
 <table style="width:100%">
 
-  <tr>
-    <th></th>
-    <th></th>
-  </tr>
+
   <tr>
     <td><b>Index Number:</td>
     <td>{{player.indexNumber}}</td>
@@ -63,15 +60,14 @@ Player Details
   <tr>
   <td><b>Achievements:</td>
 <td>
-<table style="width:100%">
+<ul >
 {%for ach in achievements %}
- <tr>
- <td>
+ <li>
  <a href="{{url('achievement_view',{'id':ach.id})}}">{{ ach.title|e }}</a>
- </td>
- </tr>
+
+ </li>
 {% endfor %}
-</table>
+</ul>
 </td>
   </tr>
 
@@ -107,7 +103,7 @@ Player Details
 {%for eq in borrowedEquipments %}
  <li>
  <a href="{{url('equipment_view',{'id':eq.id})}}">{{ eq.name|e }}</a>
-  {%if eq.returnedTime !=null %} <b>(Equipment Returned){% endif %}
+  {%if eq.returnedTime !=null %} <b>(Equipment Returned)</b>{% endif %}
 
  </li>
 {% endfor %}
